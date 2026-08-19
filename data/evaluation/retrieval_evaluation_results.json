@@ -1,0 +1,4040 @@
+{
+  "config": {
+    "embedding_model": "BAAI/bge-small-en-v1.5",
+    "reranker_model": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+    "alpha": 0.7,
+    "semantic_weight": 0.7,
+    "bm25_weight": 0.3,
+    "candidate_k": 10,
+    "final_top_k": 5,
+    "num_questions": 32
+  },
+  "averages": {
+    "semantic": {
+      "precision_at_5": 0.3375,
+      "recall_at_5": 0.8697916666666666,
+      "hit_at_5": 0.9375,
+      "mrr_at_5": 0.8604166666666667
+    },
+    "bm25": {
+      "precision_at_5": 0.325,
+      "recall_at_5": 0.8619791666666666,
+      "hit_at_5": 0.90625,
+      "mrr_at_5": 0.8385416666666666
+    },
+    "hybrid": {
+      "precision_at_5": 0.35625,
+      "recall_at_5": 0.921875,
+      "hit_at_5": 0.96875,
+      "mrr_at_5": 0.890625
+    },
+    "hybrid_rerank": {
+      "precision_at_5": 0.34375,
+      "recall_at_5": 0.890625,
+      "hit_at_5": 0.9375,
+      "mrr_at_5": 0.875
+    }
+  },
+  "per_question_results": [
+    {
+      "question": "In what specific clinical scenario should sputum cytology be used for investigating suspected lung cancer?",
+      "ground_truth_ids": [
+        "core_0013",
+        "core_0014"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0014_521a2862",
+            "core_0013_951683c3",
+            "core_0050_53c8cece",
+            "core_0021_bb6a228c",
+            "core_0033_b292c734"
+          ],
+          "retrieved_base_ids": [
+            "core_0014",
+            "core_0013",
+            "core_0050",
+            "core_0021",
+            "core_0033"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0013_951683c3",
+            "core_0050_53c8cece",
+            "core_0049_126d544b",
+            "core_0014_521a2862",
+            "core_0010_93a6d354"
+          ],
+          "retrieved_base_ids": [
+            "core_0013",
+            "core_0050",
+            "core_0049",
+            "core_0014",
+            "core_0010"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            true,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0013_951683c3",
+            "core_0014_521a2862",
+            "core_0050_53c8cece",
+            "core_0049_126d544b",
+            "core_0033_b292c734"
+          ],
+          "retrieved_base_ids": [
+            "core_0013",
+            "core_0014",
+            "core_0050",
+            "core_0049",
+            "core_0033"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0013_951683c3",
+            "core_0014_521a2862",
+            "core_0050_53c8cece",
+            "core_0049_126d544b",
+            "core_0029_5520abcd"
+          ],
+          "retrieved_base_ids": [
+            "core_0013",
+            "core_0014",
+            "core_0050",
+            "core_0049",
+            "core_0029"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "What should be included in the contrast-enhanced chest CT scan offered to people with known or suspected lung cancer, and what precaution applies to people with renal impairment?",
+      "ground_truth_ids": [
+        "core_0014",
+        "core_0015"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0014_521a2862",
+            "core_0015_03568bf1",
+            "core_0040_c8e3ba61",
+            "core_0041_7d1312a2",
+            "core_0032_d3e4cf31"
+          ],
+          "retrieved_base_ids": [
+            "core_0014",
+            "core_0015",
+            "core_0040",
+            "core_0041",
+            "core_0032"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0014_521a2862",
+            "core_0015_03568bf1",
+            "core_0039_c7113332",
+            "core_0040_c8e3ba61",
+            "core_0180_f452023c"
+          ],
+          "retrieved_base_ids": [
+            "core_0014",
+            "core_0015",
+            "core_0039",
+            "core_0040",
+            "core_0180"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0014_521a2862",
+            "core_0015_03568bf1",
+            "core_0040_c8e3ba61",
+            "core_0039_c7113332",
+            "core_0041_7d1312a2"
+          ],
+          "retrieved_base_ids": [
+            "core_0014",
+            "core_0015",
+            "core_0040",
+            "core_0039",
+            "core_0041"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0014_521a2862",
+            "core_0015_03568bf1",
+            "core_0032_d3e4cf31",
+            "core_0040_c8e3ba61",
+            "core_0041_7d1312a2"
+          ],
+          "retrieved_base_ids": [
+            "core_0014",
+            "core_0015",
+            "core_0032",
+            "core_0040",
+            "core_0041"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "Who should be offered PET-CT scanning before treatment for lung cancer?",
+      "ground_truth_ids": [
+        "core_0014",
+        "core_0015"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0032_d3e4cf31",
+            "core_0015_03568bf1",
+            "core_0014_521a2862",
+            "core_0031_54662c45",
+            "core_0033_b292c734"
+          ],
+          "retrieved_base_ids": [
+            "core_0032",
+            "core_0015",
+            "core_0014",
+            "core_0031",
+            "core_0033"
+          ],
+          "relevant_flags": [
+            false,
+            true,
+            true,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 2,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 0.5
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0015_03568bf1",
+            "core_0016_dadc2897",
+            "core_0014_521a2862",
+            "core_0032_d3e4cf31",
+            "core_0063_0f5cc250"
+          ],
+          "retrieved_base_ids": [
+            "core_0015",
+            "core_0016",
+            "core_0014",
+            "core_0032",
+            "core_0063"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            true,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0015_03568bf1",
+            "core_0032_d3e4cf31",
+            "core_0016_dadc2897",
+            "core_0014_521a2862",
+            "core_0031_54662c45"
+          ],
+          "retrieved_base_ids": [
+            "core_0015",
+            "core_0032",
+            "core_0016",
+            "core_0014",
+            "core_0031"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            true,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0015_03568bf1",
+            "core_0032_d3e4cf31",
+            "core_0016_dadc2897",
+            "core_0031_54662c45",
+            "core_0014_521a2862"
+          ],
+          "retrieved_base_ids": [
+            "core_0015",
+            "core_0032",
+            "core_0016",
+            "core_0031",
+            "core_0014"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            true
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "Should MRI be routinely used to assess the T-stage of the primary tumour in NSCLC, and when is MRI specifically indicated instead?",
+      "ground_truth_ids": [
+        "core_0016",
+        "core_0017"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0016_dadc2897",
+            "core_0017_ea45ee0b",
+            "core_0041_7d1312a2",
+            "core_0038_ead593b6",
+            "core_0040_c8e3ba61"
+          ],
+          "retrieved_base_ids": [
+            "core_0016",
+            "core_0017",
+            "core_0041",
+            "core_0038",
+            "core_0040"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0017_ea45ee0b",
+            "core_0016_dadc2897",
+            "core_0004_19bf56f0",
+            "core_0003_27e08b22",
+            "core_0150_727f11dd"
+          ],
+          "retrieved_base_ids": [
+            "core_0017",
+            "core_0016",
+            "core_0004",
+            "core_0003",
+            "core_0150"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0016_dadc2897",
+            "core_0017_ea45ee0b",
+            "core_0041_7d1312a2",
+            "core_0038_ead593b6",
+            "core_0040_c8e3ba61"
+          ],
+          "retrieved_base_ids": [
+            "core_0016",
+            "core_0017",
+            "core_0041",
+            "core_0038",
+            "core_0040"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0017_ea45ee0b",
+            "core_0016_dadc2897",
+            "core_0038_ead593b6",
+            "core_0041_7d1312a2",
+            "core_0040_c8e3ba61"
+          ],
+          "retrieved_base_ids": [
+            "core_0017",
+            "core_0016",
+            "core_0038",
+            "core_0041",
+            "core_0040"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "What is EBUS-TBNA used for in the diagnostic pathway for lung cancer, and why was clinical audit of EBUS-TBNA and EUS-FNA recommended by the committee?",
+      "ground_truth_ids": [
+        "core_0016",
+        "core_0017",
+        "core_0018"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0018_aa65136e",
+            "core_0019_7612200e",
+            "core_0036_a7dedd49",
+            "core_0022_03da0c63",
+            "core_0020_a4a9d752"
+          ],
+          "retrieved_base_ids": [
+            "core_0018",
+            "core_0019",
+            "core_0036",
+            "core_0022",
+            "core_0020"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 0.3333333333333333,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0019_7612200e",
+            "core_0034_aa5cdba1",
+            "core_0033_b292c734",
+            "core_0018_aa65136e",
+            "core_0022_03da0c63"
+          ],
+          "retrieved_base_ids": [
+            "core_0019",
+            "core_0034",
+            "core_0033",
+            "core_0018",
+            "core_0022"
+          ],
+          "relevant_flags": [
+            false,
+            false,
+            false,
+            true,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 4,
+          "precision_at_5": 0.2,
+          "recall_at_5": 0.3333333333333333,
+          "hit_at_5": 1,
+          "mrr_at_5": 0.25
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0018_aa65136e",
+            "core_0019_7612200e",
+            "core_0022_03da0c63",
+            "core_0034_aa5cdba1",
+            "core_0020_a4a9d752"
+          ],
+          "retrieved_base_ids": [
+            "core_0018",
+            "core_0019",
+            "core_0022",
+            "core_0034",
+            "core_0020"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 0.3333333333333333,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0019_7612200e",
+            "core_0018_aa65136e",
+            "core_0023_e938553a",
+            "core_0033_b292c734",
+            "core_0034_aa5cdba1"
+          ],
+          "retrieved_base_ids": [
+            "core_0019",
+            "core_0018",
+            "core_0023",
+            "core_0033",
+            "core_0034"
+          ],
+          "relevant_flags": [
+            false,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 2,
+          "precision_at_5": 0.2,
+          "recall_at_5": 0.3333333333333333,
+          "hit_at_5": 1,
+          "mrr_at_5": 0.5
+        }
+      }
+    },
+    {
+      "question": "What guidance should be followed for next-generation sequencing (NGS) panel testing to guide lung cancer treatment, and what quality requirement applies to tissue samples taken for pathological diagnosis?",
+      "ground_truth_ids": [
+        "core_0018",
+        "core_0019"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0019_7612200e",
+            "core_0208_6aff4da9",
+            "core_0209_941c8197",
+            "core_0006_e317e58f",
+            "core_0018_aa65136e"
+          ],
+          "retrieved_base_ids": [
+            "core_0019",
+            "core_0208",
+            "core_0209",
+            "core_0006",
+            "core_0018"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            true
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0019_7612200e",
+            "core_0018_aa65136e",
+            "core_0208_6aff4da9",
+            "core_0180_f452023c",
+            "core_0209_941c8197"
+          ],
+          "retrieved_base_ids": [
+            "core_0019",
+            "core_0018",
+            "core_0208",
+            "core_0180",
+            "core_0209"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0019_7612200e",
+            "core_0208_6aff4da9",
+            "core_0018_aa65136e",
+            "core_0209_941c8197",
+            "core_0180_f452023c"
+          ],
+          "retrieved_base_ids": [
+            "core_0019",
+            "core_0208",
+            "core_0018",
+            "core_0209",
+            "core_0180"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            true,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0019_7612200e",
+            "core_0018_aa65136e",
+            "core_0209_941c8197",
+            "core_0208_6aff4da9",
+            "core_0006_e317e58f"
+          ],
+          "retrieved_base_ids": [
+            "core_0019",
+            "core_0018",
+            "core_0209",
+            "core_0208",
+            "core_0006"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "When choosing which lesion to biopsy in a patient with a peripheral primary tumour, should enlarged intrathoracic nodes or the primary lesion be prioritised, and under what size threshold are nodes considered enlarged?",
+      "ground_truth_ids": [
+        "core_0029"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0029_5520abcd",
+            "core_0033_b292c734",
+            "core_0034_aa5cdba1",
+            "core_0031_54662c45",
+            "core_0030_4332363c"
+          ],
+          "retrieved_base_ids": [
+            "core_0029",
+            "core_0033",
+            "core_0034",
+            "core_0031",
+            "core_0030"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0029_5520abcd",
+            "core_0033_b292c734",
+            "core_0034_aa5cdba1",
+            "core_0032_d3e4cf31",
+            "core_0016_dadc2897"
+          ],
+          "retrieved_base_ids": [
+            "core_0029",
+            "core_0033",
+            "core_0034",
+            "core_0032",
+            "core_0016"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0029_5520abcd",
+            "core_0033_b292c734",
+            "core_0034_aa5cdba1",
+            "core_0032_d3e4cf31",
+            "core_0031_54662c45"
+          ],
+          "retrieved_base_ids": [
+            "core_0029",
+            "core_0033",
+            "core_0034",
+            "core_0032",
+            "core_0031"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0029_5520abcd",
+            "core_0017_ea45ee0b",
+            "core_0016_dadc2897",
+            "core_0030_4332363c",
+            "core_0034_aa5cdba1"
+          ],
+          "retrieved_base_ids": [
+            "core_0029",
+            "core_0017",
+            "core_0016",
+            "core_0030",
+            "core_0034"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "When is flexible bronchoscopy recommended for people with a central lung lesion on CT?",
+      "ground_truth_ids": [
+        "core_0030"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0030_4332363c",
+            "core_0014_521a2862",
+            "core_0023_e938553a",
+            "core_0026_41d07bc9",
+            "core_0032_d3e4cf31"
+          ],
+          "retrieved_base_ids": [
+            "core_0030",
+            "core_0014",
+            "core_0023",
+            "core_0026",
+            "core_0032"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0030_4332363c",
+            "core_0022_03da0c63",
+            "core_0029_5520abcd",
+            "core_0036_a7dedd49",
+            "core_0023_e938553a"
+          ],
+          "retrieved_base_ids": [
+            "core_0030",
+            "core_0022",
+            "core_0029",
+            "core_0036",
+            "core_0023"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0030_4332363c",
+            "core_0014_521a2862",
+            "core_0023_e938553a",
+            "core_0022_03da0c63",
+            "core_0029_5520abcd"
+          ],
+          "retrieved_base_ids": [
+            "core_0030",
+            "core_0014",
+            "core_0023",
+            "core_0022",
+            "core_0029"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0030_4332363c",
+            "core_0014_521a2862",
+            "core_0029_5520abcd",
+            "core_0016_dadc2897",
+            "core_0023_e938553a"
+          ],
+          "retrieved_base_ids": [
+            "core_0030",
+            "core_0014",
+            "core_0029",
+            "core_0016",
+            "core_0023"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "What is the recommended staging pathway for intrathoracic lymph nodes in patients with a low probability of nodal malignancy versus those with enlarged (≥10 mm) intrathoracic lymph nodes who could have curative-intent treatment?",
+      "ground_truth_ids": [
+        "core_0031",
+        "core_0032",
+        "core_0033"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0033_b292c734",
+            "core_0034_aa5cdba1",
+            "core_0031_54662c45",
+            "core_0032_d3e4cf31",
+            "core_0023_e938553a"
+          ],
+          "retrieved_base_ids": [
+            "core_0033",
+            "core_0034",
+            "core_0031",
+            "core_0032",
+            "core_0023"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            true,
+            true,
+            false
+          ],
+          "num_relevant_retrieved": 3,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.6,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0031_54662c45",
+            "core_0032_d3e4cf31",
+            "core_0033_b292c734",
+            "core_0034_aa5cdba1",
+            "core_0022_03da0c63"
+          ],
+          "retrieved_base_ids": [
+            "core_0031",
+            "core_0032",
+            "core_0033",
+            "core_0034",
+            "core_0022"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 3,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.6,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0033_b292c734",
+            "core_0031_54662c45",
+            "core_0032_d3e4cf31",
+            "core_0034_aa5cdba1",
+            "core_0022_03da0c63"
+          ],
+          "retrieved_base_ids": [
+            "core_0033",
+            "core_0031",
+            "core_0032",
+            "core_0034",
+            "core_0022"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 3,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.6,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0031_54662c45",
+            "core_0032_d3e4cf31",
+            "core_0023_e938553a",
+            "core_0034_aa5cdba1",
+            "core_0033_b292c734"
+          ],
+          "retrieved_base_ids": [
+            "core_0031",
+            "core_0032",
+            "core_0023",
+            "core_0034",
+            "core_0033"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            true
+          ],
+          "num_relevant_retrieved": 3,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.6,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "When should surgical mediastinal staging be considered after EBUS-TBNA or EUS-FNA results?",
+      "ground_truth_ids": [
+        "core_0033",
+        "core_0034"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0022_03da0c63",
+            "core_0036_a7dedd49",
+            "core_0018_aa65136e",
+            "core_0023_e938553a",
+            "core_0035_e8d9c077"
+          ],
+          "retrieved_base_ids": [
+            "core_0022",
+            "core_0036",
+            "core_0018",
+            "core_0023",
+            "core_0035"
+          ],
+          "relevant_flags": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 0,
+          "first_relevant_rank": null,
+          "precision_at_5": 0.0,
+          "recall_at_5": 0.0,
+          "hit_at_5": 0,
+          "mrr_at_5": 0.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0034_aa5cdba1",
+            "core_0023_e938553a",
+            "core_0022_03da0c63",
+            "core_0033_b292c734",
+            "core_0035_e8d9c077"
+          ],
+          "retrieved_base_ids": [
+            "core_0034",
+            "core_0023",
+            "core_0022",
+            "core_0033",
+            "core_0035"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            true,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0022_03da0c63",
+            "core_0034_aa5cdba1",
+            "core_0023_e938553a",
+            "core_0033_b292c734",
+            "core_0035_e8d9c077"
+          ],
+          "retrieved_base_ids": [
+            "core_0022",
+            "core_0034",
+            "core_0023",
+            "core_0033",
+            "core_0035"
+          ],
+          "relevant_flags": [
+            false,
+            true,
+            false,
+            true,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 2,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 0.5
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0023_e938553a",
+            "core_0034_aa5cdba1",
+            "core_0022_03da0c63",
+            "core_0033_b292c734",
+            "core_0026_41d07bc9"
+          ],
+          "retrieved_base_ids": [
+            "core_0023",
+            "core_0034",
+            "core_0022",
+            "core_0033",
+            "core_0026"
+          ],
+          "relevant_flags": [
+            false,
+            true,
+            false,
+            true,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 2,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 0.5
+        }
+      }
+    },
+    {
+      "question": "What brain imaging is recommended for people with clinical stage 1, stage 2, and stage 3 NSCLC who are being considered for curative-intent treatment?",
+      "ground_truth_ids": [
+        "core_0038",
+        "core_0039",
+        "core_0040",
+        "core_0041"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0039_c7113332",
+            "core_0038_ead593b6",
+            "core_0040_c8e3ba61",
+            "core_0043_4796207f",
+            "core_0041_7d1312a2"
+          ],
+          "retrieved_base_ids": [
+            "core_0039",
+            "core_0038",
+            "core_0040",
+            "core_0043",
+            "core_0041"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "num_relevant_retrieved": 4,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.8,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0039_c7113332",
+            "core_0040_c8e3ba61",
+            "core_0043_4796207f",
+            "core_0038_ead593b6",
+            "core_0085_8bf59acf"
+          ],
+          "retrieved_base_ids": [
+            "core_0039",
+            "core_0040",
+            "core_0043",
+            "core_0038",
+            "core_0085"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            true,
+            false
+          ],
+          "num_relevant_retrieved": 3,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.6,
+          "recall_at_5": 0.75,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0039_c7113332",
+            "core_0038_ead593b6",
+            "core_0040_c8e3ba61",
+            "core_0043_4796207f",
+            "core_0041_7d1312a2"
+          ],
+          "retrieved_base_ids": [
+            "core_0039",
+            "core_0038",
+            "core_0040",
+            "core_0043",
+            "core_0041"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "num_relevant_retrieved": 4,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.8,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0040_c8e3ba61",
+            "core_0039_c7113332",
+            "core_0041_7d1312a2",
+            "core_0043_4796207f",
+            "core_0038_ead593b6"
+          ],
+          "retrieved_base_ids": [
+            "core_0040",
+            "core_0039",
+            "core_0041",
+            "core_0043",
+            "core_0038"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "num_relevant_retrieved": 4,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.8,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "What is the recommended first-line imaging test for a patient with localised signs or symptoms of bone metastasis, and what should be done if the result is negative or inconclusive?",
+      "ground_truth_ids": [
+        "core_0041",
+        "core_0042"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0042_49d9307c",
+            "core_0041_7d1312a2",
+            "core_0171_2afc8cad",
+            "core_0038_ead593b6",
+            "core_0037_56480a04"
+          ],
+          "retrieved_base_ids": [
+            "core_0042",
+            "core_0041",
+            "core_0171",
+            "core_0038",
+            "core_0037"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0042_49d9307c",
+            "core_0041_7d1312a2",
+            "core_0186_44d6cc2c",
+            "core_0043_4796207f",
+            "core_0183_ba8e7ec2"
+          ],
+          "retrieved_base_ids": [
+            "core_0042",
+            "core_0041",
+            "core_0186",
+            "core_0043",
+            "core_0183"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0042_49d9307c",
+            "core_0041_7d1312a2",
+            "core_0038_ead593b6",
+            "core_0043_4796207f",
+            "core_0172_13d70c5a"
+          ],
+          "retrieved_base_ids": [
+            "core_0042",
+            "core_0041",
+            "core_0038",
+            "core_0043",
+            "core_0172"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0042_49d9307c",
+            "core_0041_7d1312a2",
+            "core_0172_13d70c5a",
+            "core_0171_2afc8cad",
+            "core_0043_4796207f"
+          ],
+          "retrieved_base_ids": [
+            "core_0042",
+            "core_0041",
+            "core_0172",
+            "core_0171",
+            "core_0043"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "In what circumstances should bone scintigraphy be avoided in lung cancer staging?",
+      "ground_truth_ids": [
+        "core_0041",
+        "core_0042"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0042_49d9307c",
+            "core_0015_03568bf1",
+            "core_0022_03da0c63",
+            "core_0023_e938553a",
+            "core_0014_521a2862"
+          ],
+          "retrieved_base_ids": [
+            "core_0042",
+            "core_0015",
+            "core_0022",
+            "core_0023",
+            "core_0014"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 0.5,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0042_49d9307c",
+            "core_0041_7d1312a2",
+            "core_0172_13d70c5a",
+            "core_0187_02ff205b",
+            "core_0003_27e08b22"
+          ],
+          "retrieved_base_ids": [
+            "core_0042",
+            "core_0041",
+            "core_0172",
+            "core_0187",
+            "core_0003"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0042_49d9307c",
+            "core_0041_7d1312a2",
+            "core_0015_03568bf1",
+            "core_0014_521a2862",
+            "core_0022_03da0c63"
+          ],
+          "retrieved_base_ids": [
+            "core_0042",
+            "core_0041",
+            "core_0015",
+            "core_0014",
+            "core_0022"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0042_49d9307c",
+            "core_0023_e938553a",
+            "core_0041_7d1312a2",
+            "core_0022_03da0c63",
+            "core_0014_521a2862"
+          ],
+          "retrieved_base_ids": [
+            "core_0042",
+            "core_0023",
+            "core_0041",
+            "core_0022",
+            "core_0014"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            true,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "What cardiovascular assessment criteria determine whether a person with NSCLC can proceed to surgery without further cardiac investigation versus needing a cardiology review?",
+      "ground_truth_ids": [
+        "core_0058",
+        "core_0059"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0057_7bfbcd20",
+            "core_0071_135f5862",
+            "core_0070_99fab0d1",
+            "core_0065_94d16828",
+            "core_0059_3ca5c0c9"
+          ],
+          "retrieved_base_ids": [
+            "core_0057",
+            "core_0071",
+            "core_0070",
+            "core_0065",
+            "core_0059"
+          ],
+          "relevant_flags": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 5,
+          "precision_at_5": 0.2,
+          "recall_at_5": 0.5,
+          "hit_at_5": 1,
+          "mrr_at_5": 0.2
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0058_6dc8fb2a",
+            "core_0059_3ca5c0c9",
+            "core_0063_0f5cc250",
+            "core_0085_8bf59acf",
+            "core_0090_a64225ab"
+          ],
+          "retrieved_base_ids": [
+            "core_0058",
+            "core_0059",
+            "core_0063",
+            "core_0085",
+            "core_0090"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0058_6dc8fb2a",
+            "core_0059_3ca5c0c9",
+            "core_0057_7bfbcd20",
+            "core_0071_135f5862",
+            "core_0070_99fab0d1"
+          ],
+          "retrieved_base_ids": [
+            "core_0058",
+            "core_0059",
+            "core_0057",
+            "core_0071",
+            "core_0070"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0058_6dc8fb2a",
+            "core_0059_3ca5c0c9",
+            "core_0057_7bfbcd20",
+            "core_0071_135f5862",
+            "core_0085_8bf59acf"
+          ],
+          "retrieved_base_ids": [
+            "core_0058",
+            "core_0059",
+            "core_0057",
+            "core_0071",
+            "core_0085"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "What lung function tests should be performed before proceeding with curative-intent treatment for lung cancer, and what threshold is used for shuttle walk testing to assess fitness for surgery?",
+      "ground_truth_ids": [
+        "core_0062"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0062_1e2c646d",
+            "core_0070_99fab0d1",
+            "core_0071_135f5862",
+            "core_0063_0f5cc250",
+            "core_0050_53c8cece"
+          ],
+          "retrieved_base_ids": [
+            "core_0062",
+            "core_0070",
+            "core_0071",
+            "core_0063",
+            "core_0050"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0062_1e2c646d",
+            "core_0180_f452023c",
+            "core_0070_99fab0d1",
+            "core_0179_a76df681",
+            "core_0071_135f5862"
+          ],
+          "retrieved_base_ids": [
+            "core_0062",
+            "core_0180",
+            "core_0070",
+            "core_0179",
+            "core_0071"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0062_1e2c646d",
+            "core_0070_99fab0d1",
+            "core_0071_135f5862",
+            "core_0063_0f5cc250",
+            "core_0180_f452023c"
+          ],
+          "retrieved_base_ids": [
+            "core_0062",
+            "core_0070",
+            "core_0071",
+            "core_0063",
+            "core_0180"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0062_1e2c646d",
+            "core_0032_d3e4cf31",
+            "core_0070_99fab0d1",
+            "core_0071_135f5862",
+            "core_0063_0f5cc250"
+          ],
+          "retrieved_base_ids": [
+            "core_0062",
+            "core_0032",
+            "core_0070",
+            "core_0071",
+            "core_0063"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "What type of surgery should be offered to people with NSCLC who are well enough for curative-intent treatment, and when is more extensive surgery such as pneumonectomy indicated?",
+      "ground_truth_ids": [
+        "core_0065",
+        "core_0066"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0066_714d11d9",
+            "core_0065_94d16828",
+            "core_0067_c883989a",
+            "core_0085_8bf59acf",
+            "core_0084_632bad1a"
+          ],
+          "retrieved_base_ids": [
+            "core_0066",
+            "core_0065",
+            "core_0067",
+            "core_0085",
+            "core_0084"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0066_714d11d9",
+            "core_0084_632bad1a",
+            "core_0085_8bf59acf",
+            "core_0088_efade59f",
+            "core_0065_94d16828"
+          ],
+          "retrieved_base_ids": [
+            "core_0066",
+            "core_0084",
+            "core_0085",
+            "core_0088",
+            "core_0065"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            true
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0066_714d11d9",
+            "core_0065_94d16828",
+            "core_0084_632bad1a",
+            "core_0085_8bf59acf",
+            "core_0067_c883989a"
+          ],
+          "retrieved_base_ids": [
+            "core_0066",
+            "core_0065",
+            "core_0084",
+            "core_0085",
+            "core_0067"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0066_714d11d9",
+            "core_0065_94d16828",
+            "core_0084_632bad1a",
+            "core_0067_c883989a",
+            "core_0085_8bf59acf"
+          ],
+          "retrieved_base_ids": [
+            "core_0066",
+            "core_0065",
+            "core_0084",
+            "core_0067",
+            "core_0085"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "What treatment options are recommended for people with stage 1 to 2a NSCLC who decline lobectomy or in whom it is contraindicated?",
+      "ground_truth_ids": [
+        "core_0069"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0069_a488ec7f",
+            "core_0072_d4384cde",
+            "core_0076_de273908",
+            "core_0065_94d16828",
+            "core_0071_135f5862"
+          ],
+          "retrieved_base_ids": [
+            "core_0069",
+            "core_0072",
+            "core_0076",
+            "core_0065",
+            "core_0071"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0069_a488ec7f",
+            "core_0072_d4384cde",
+            "core_0076_de273908",
+            "core_0071_135f5862",
+            "core_0065_94d16828"
+          ],
+          "retrieved_base_ids": [
+            "core_0069",
+            "core_0072",
+            "core_0076",
+            "core_0071",
+            "core_0065"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0069_a488ec7f",
+            "core_0072_d4384cde",
+            "core_0076_de273908",
+            "core_0071_135f5862",
+            "core_0065_94d16828"
+          ],
+          "retrieved_base_ids": [
+            "core_0069",
+            "core_0072",
+            "core_0076",
+            "core_0071",
+            "core_0065"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0069_a488ec7f",
+            "core_0076_de273908",
+            "core_0072_d4384cde",
+            "core_0071_135f5862",
+            "core_0065_94d16828"
+          ],
+          "retrieved_base_ids": [
+            "core_0069",
+            "core_0076",
+            "core_0072",
+            "core_0071",
+            "core_0065"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "What are the two recommended conventionally fractionated radical radiotherapy dose regimens for NSCLC?",
+      "ground_truth_ids": [
+        "core_0074",
+        "core_0075"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0077_6014ed0c",
+            "core_0073_3aa78a83",
+            "core_0078_81a56140",
+            "core_0072_d4384cde",
+            "core_0071_135f5862"
+          ],
+          "retrieved_base_ids": [
+            "core_0077",
+            "core_0073",
+            "core_0078",
+            "core_0072",
+            "core_0071"
+          ],
+          "relevant_flags": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 0,
+          "first_relevant_rank": null,
+          "precision_at_5": 0.0,
+          "recall_at_5": 0.0,
+          "hit_at_5": 0,
+          "mrr_at_5": 0.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0077_6014ed0c",
+            "core_0078_81a56140",
+            "core_0076_de273908",
+            "core_0074_4a70f6df",
+            "core_0075_e4e5982f"
+          ],
+          "retrieved_base_ids": [
+            "core_0077",
+            "core_0078",
+            "core_0076",
+            "core_0074",
+            "core_0075"
+          ],
+          "relevant_flags": [
+            false,
+            false,
+            false,
+            true,
+            true
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 4,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 0.25
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0077_6014ed0c",
+            "core_0078_81a56140",
+            "core_0076_de273908",
+            "core_0075_e4e5982f",
+            "core_0074_4a70f6df"
+          ],
+          "retrieved_base_ids": [
+            "core_0077",
+            "core_0078",
+            "core_0076",
+            "core_0075",
+            "core_0074"
+          ],
+          "relevant_flags": [
+            false,
+            false,
+            false,
+            true,
+            true
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 4,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 0.25
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0077_6014ed0c",
+            "core_0076_de273908",
+            "core_0072_d4384cde",
+            "core_0078_81a56140",
+            "core_0071_135f5862"
+          ],
+          "retrieved_base_ids": [
+            "core_0077",
+            "core_0076",
+            "core_0072",
+            "core_0078",
+            "core_0071"
+          ],
+          "relevant_flags": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 0,
+          "first_relevant_rank": null,
+          "precision_at_5": 0.0,
+          "recall_at_5": 0.0,
+          "hit_at_5": 0,
+          "mrr_at_5": 0.0
+        }
+      }
+    },
+    {
+      "question": "For people with operable stage 3a N2 NSCLC having chemoradiotherapy and surgery, how long after completing chemoradiotherapy should surgery be scheduled, and what benefits should be discussed with the person before starting this combined treatment?",
+      "ground_truth_ids": [
+        "core_0085",
+        "core_0086"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0086_9bd1da9f",
+            "core_0085_8bf59acf",
+            "core_0089_b4667f4d",
+            "core_0090_a64225ab",
+            "core_0091_8a508f9f"
+          ],
+          "retrieved_base_ids": [
+            "core_0086",
+            "core_0085",
+            "core_0089",
+            "core_0090",
+            "core_0091"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0085_8bf59acf",
+            "core_0086_9bd1da9f",
+            "core_0089_b4667f4d",
+            "core_0090_a64225ab",
+            "core_0084_632bad1a"
+          ],
+          "retrieved_base_ids": [
+            "core_0085",
+            "core_0086",
+            "core_0089",
+            "core_0090",
+            "core_0084"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0085_8bf59acf",
+            "core_0086_9bd1da9f",
+            "core_0089_b4667f4d",
+            "core_0090_a64225ab",
+            "core_0091_8a508f9f"
+          ],
+          "retrieved_base_ids": [
+            "core_0085",
+            "core_0086",
+            "core_0089",
+            "core_0090",
+            "core_0091"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0085_8bf59acf",
+            "core_0086_9bd1da9f",
+            "core_0089_b4667f4d",
+            "core_0091_8a508f9f",
+            "core_0090_a64225ab"
+          ],
+          "retrieved_base_ids": [
+            "core_0085",
+            "core_0086",
+            "core_0089",
+            "core_0091",
+            "core_0090"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "For which patients with resectable NSCLC is nivolumab in combination with chemotherapy recommended as neoadjuvant treatment?",
+      "ground_truth_ids": [
+        "core_0093"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0093_1ae11002",
+            "core_0095_92f6ccb8",
+            "core_0094_839d1c36",
+            "core_0090_a64225ab",
+            "core_0180_f452023c"
+          ],
+          "retrieved_base_ids": [
+            "core_0093",
+            "core_0095",
+            "core_0094",
+            "core_0090",
+            "core_0180"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0093_1ae11002",
+            "core_0095_92f6ccb8",
+            "core_0094_839d1c36",
+            "core_0129_a4d37736",
+            "core_0098_84258d4f"
+          ],
+          "retrieved_base_ids": [
+            "core_0093",
+            "core_0095",
+            "core_0094",
+            "core_0129",
+            "core_0098"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0093_1ae11002",
+            "core_0095_92f6ccb8",
+            "core_0094_839d1c36",
+            "core_0129_a4d37736",
+            "core_0090_a64225ab"
+          ],
+          "retrieved_base_ids": [
+            "core_0093",
+            "core_0095",
+            "core_0094",
+            "core_0129",
+            "core_0090"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0093_1ae11002",
+            "core_0095_92f6ccb8",
+            "core_0094_839d1c36",
+            "core_0098_84258d4f",
+            "core_0129_a4d37736"
+          ],
+          "retrieved_base_ids": [
+            "core_0093",
+            "core_0095",
+            "core_0094",
+            "core_0098",
+            "core_0129"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "For which patients with resected NSCLC is osimertinib recommended as adjuvant treatment, and when should it be stopped?",
+      "ground_truth_ids": [
+        "core_0098",
+        "core_0099"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0099_41ed81be",
+            "core_0098_84258d4f",
+            "core_0100_093f35c0",
+            "core_0101_45880ae3",
+            "core_0093_1ae11002"
+          ],
+          "retrieved_base_ids": [
+            "core_0099",
+            "core_0098",
+            "core_0100",
+            "core_0101",
+            "core_0093"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0099_41ed81be",
+            "core_0098_84258d4f",
+            "core_0100_093f35c0",
+            "core_0101_45880ae3",
+            "core_0045_8bdece8a"
+          ],
+          "retrieved_base_ids": [
+            "core_0099",
+            "core_0098",
+            "core_0100",
+            "core_0101",
+            "core_0045"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0099_41ed81be",
+            "core_0098_84258d4f",
+            "core_0100_093f35c0",
+            "core_0101_45880ae3",
+            "core_0094_839d1c36"
+          ],
+          "retrieved_base_ids": [
+            "core_0099",
+            "core_0098",
+            "core_0100",
+            "core_0101",
+            "core_0094"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0099_41ed81be",
+            "core_0098_84258d4f",
+            "core_0100_093f35c0",
+            "core_0101_45880ae3",
+            "core_0095_92f6ccb8"
+          ],
+          "retrieved_base_ids": [
+            "core_0099",
+            "core_0098",
+            "core_0100",
+            "core_0101",
+            "core_0095"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "For which patients with resected NSCLC is alectinib recommended as adjuvant treatment?",
+      "ground_truth_ids": [
+        "core_0100",
+        "core_0101"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0101_45880ae3",
+            "core_0100_093f35c0",
+            "core_0095_92f6ccb8",
+            "core_0094_839d1c36",
+            "core_0099_41ed81be"
+          ],
+          "retrieved_base_ids": [
+            "core_0101",
+            "core_0100",
+            "core_0095",
+            "core_0094",
+            "core_0099"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0101_45880ae3",
+            "core_0100_093f35c0",
+            "core_0098_84258d4f",
+            "core_0099_41ed81be",
+            "core_0094_839d1c36"
+          ],
+          "retrieved_base_ids": [
+            "core_0101",
+            "core_0100",
+            "core_0098",
+            "core_0099",
+            "core_0094"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0101_45880ae3",
+            "core_0100_093f35c0",
+            "core_0098_84258d4f",
+            "core_0099_41ed81be",
+            "core_0094_839d1c36"
+          ],
+          "retrieved_base_ids": [
+            "core_0101",
+            "core_0100",
+            "core_0098",
+            "core_0099",
+            "core_0094"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0101_45880ae3",
+            "core_0100_093f35c0",
+            "core_0093_1ae11002",
+            "core_0099_41ed81be",
+            "core_0094_839d1c36"
+          ],
+          "retrieved_base_ids": [
+            "core_0101",
+            "core_0100",
+            "core_0093",
+            "core_0099",
+            "core_0094"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "What first-line chemotherapy regimen and radiotherapy schedule are recommended for people with limited-stage SCLC?",
+      "ground_truth_ids": [
+        "core_0135",
+        "core_0136"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0136_6ff95329",
+            "core_0138_79466cf9",
+            "core_0145_b3aec912",
+            "core_0141_cb15213c",
+            "core_0135_e2e3add5"
+          ],
+          "retrieved_base_ids": [
+            "core_0136",
+            "core_0138",
+            "core_0145",
+            "core_0141",
+            "core_0135"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            true
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0154_7f021fec",
+            "core_0141_cb15213c",
+            "core_0138_79466cf9",
+            "core_0155_9d865d8a",
+            "core_0139_944f97a6"
+          ],
+          "retrieved_base_ids": [
+            "core_0154",
+            "core_0141",
+            "core_0138",
+            "core_0155",
+            "core_0139"
+          ],
+          "relevant_flags": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 0,
+          "first_relevant_rank": null,
+          "precision_at_5": 0.0,
+          "recall_at_5": 0.0,
+          "hit_at_5": 0,
+          "mrr_at_5": 0.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0138_79466cf9",
+            "core_0154_7f021fec",
+            "core_0141_cb15213c",
+            "core_0139_944f97a6",
+            "core_0155_9d865d8a"
+          ],
+          "retrieved_base_ids": [
+            "core_0138",
+            "core_0154",
+            "core_0141",
+            "core_0139",
+            "core_0155"
+          ],
+          "relevant_flags": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 0,
+          "first_relevant_rank": null,
+          "precision_at_5": 0.0,
+          "recall_at_5": 0.0,
+          "hit_at_5": 0,
+          "mrr_at_5": 0.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0138_79466cf9",
+            "core_0141_cb15213c",
+            "core_0157_60455a4e",
+            "core_0139_944f97a6",
+            "core_0154_7f021fec"
+          ],
+          "retrieved_base_ids": [
+            "core_0138",
+            "core_0141",
+            "core_0157",
+            "core_0139",
+            "core_0154"
+          ],
+          "relevant_flags": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 0,
+          "first_relevant_rank": null,
+          "precision_at_5": 0.0,
+          "recall_at_5": 0.0,
+          "hit_at_5": 0,
+          "mrr_at_5": 0.0
+        }
+      }
+    },
+    {
+      "question": "What is the recommended dose and fractionation for prophylactic cranial irradiation in limited-stage SCLC, and under what condition should it be offered?",
+      "ground_truth_ids": [
+        "core_0138",
+        "core_0139"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0138_79466cf9",
+            "core_0139_944f97a6",
+            "core_0147_2a07204a",
+            "core_0189_3a2f8da9",
+            "core_0151_b1e670d0"
+          ],
+          "retrieved_base_ids": [
+            "core_0138",
+            "core_0139",
+            "core_0147",
+            "core_0189",
+            "core_0151"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0187_02ff205b",
+            "core_0188_3647c5e3",
+            "core_0189_3a2f8da9",
+            "core_0151_b1e670d0",
+            "core_0150_727f11dd"
+          ],
+          "retrieved_base_ids": [
+            "core_0187",
+            "core_0188",
+            "core_0189",
+            "core_0151",
+            "core_0150"
+          ],
+          "relevant_flags": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 0,
+          "first_relevant_rank": null,
+          "precision_at_5": 0.0,
+          "recall_at_5": 0.0,
+          "hit_at_5": 0,
+          "mrr_at_5": 0.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0139_944f97a6",
+            "core_0138_79466cf9",
+            "core_0189_3a2f8da9",
+            "core_0187_02ff205b",
+            "core_0151_b1e670d0"
+          ],
+          "retrieved_base_ids": [
+            "core_0139",
+            "core_0138",
+            "core_0189",
+            "core_0187",
+            "core_0151"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0139_944f97a6",
+            "core_0138_79466cf9",
+            "core_0147_2a07204a",
+            "core_0146_3e630596",
+            "core_0151_b1e670d0"
+          ],
+          "retrieved_base_ids": [
+            "core_0139",
+            "core_0138",
+            "core_0147",
+            "core_0146",
+            "core_0151"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "What chemotherapy is recommended as first-line treatment for extensive-stage SCLC, and what is the maximum number of cycles that should be offered?",
+      "ground_truth_ids": [
+        "core_0143",
+        "core_0144"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0145_b3aec912",
+            "core_0144_18ef5b67",
+            "core_0154_7f021fec",
+            "core_0155_9d865d8a",
+            "core_0146_3e630596"
+          ],
+          "retrieved_base_ids": [
+            "core_0145",
+            "core_0144",
+            "core_0154",
+            "core_0155",
+            "core_0146"
+          ],
+          "relevant_flags": [
+            false,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 2,
+          "precision_at_5": 0.2,
+          "recall_at_5": 0.5,
+          "hit_at_5": 1,
+          "mrr_at_5": 0.5
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0145_b3aec912",
+            "core_0151_b1e670d0",
+            "core_0144_18ef5b67",
+            "core_0188_3647c5e3",
+            "core_0187_02ff205b"
+          ],
+          "retrieved_base_ids": [
+            "core_0145",
+            "core_0151",
+            "core_0144",
+            "core_0188",
+            "core_0187"
+          ],
+          "relevant_flags": [
+            false,
+            false,
+            true,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 3,
+          "precision_at_5": 0.2,
+          "recall_at_5": 0.5,
+          "hit_at_5": 1,
+          "mrr_at_5": 0.3333333333333333
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0145_b3aec912",
+            "core_0144_18ef5b67",
+            "core_0154_7f021fec",
+            "core_0155_9d865d8a",
+            "core_0157_60455a4e"
+          ],
+          "retrieved_base_ids": [
+            "core_0145",
+            "core_0144",
+            "core_0154",
+            "core_0155",
+            "core_0157"
+          ],
+          "relevant_flags": [
+            false,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 2,
+          "precision_at_5": 0.2,
+          "recall_at_5": 0.5,
+          "hit_at_5": 1,
+          "mrr_at_5": 0.5
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0145_b3aec912",
+            "core_0144_18ef5b67",
+            "core_0155_9d865d8a",
+            "core_0154_7f021fec",
+            "core_0157_60455a4e"
+          ],
+          "retrieved_base_ids": [
+            "core_0145",
+            "core_0144",
+            "core_0155",
+            "core_0154",
+            "core_0157"
+          ],
+          "relevant_flags": [
+            false,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 2,
+          "precision_at_5": 0.2,
+          "recall_at_5": 0.5,
+          "hit_at_5": 1,
+          "mrr_at_5": 0.5
+        }
+      }
+    },
+    {
+      "question": "What treatment options are available for people with SCLC that has relapsed after first-line treatment, and what should patients be told if their disease did not respond to first-line treatment?",
+      "ground_truth_ids": [
+        "core_0154",
+        "core_0155",
+        "core_0156"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0152_6a81f7f9",
+            "core_0153_e6846c8b",
+            "core_0156_3e1ee7f3",
+            "core_0154_7f021fec",
+            "core_0155_9d865d8a"
+          ],
+          "retrieved_base_ids": [
+            "core_0152",
+            "core_0153",
+            "core_0156",
+            "core_0154",
+            "core_0155"
+          ],
+          "relevant_flags": [
+            false,
+            false,
+            true,
+            true,
+            true
+          ],
+          "num_relevant_retrieved": 3,
+          "first_relevant_rank": 3,
+          "precision_at_5": 0.6,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 0.3333333333333333
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0153_e6846c8b",
+            "core_0152_6a81f7f9",
+            "core_0157_60455a4e",
+            "core_0138_79466cf9",
+            "core_0139_944f97a6"
+          ],
+          "retrieved_base_ids": [
+            "core_0153",
+            "core_0152",
+            "core_0157",
+            "core_0138",
+            "core_0139"
+          ],
+          "relevant_flags": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 0,
+          "first_relevant_rank": null,
+          "precision_at_5": 0.0,
+          "recall_at_5": 0.0,
+          "hit_at_5": 0,
+          "mrr_at_5": 0.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0153_e6846c8b",
+            "core_0152_6a81f7f9",
+            "core_0157_60455a4e",
+            "core_0156_3e1ee7f3",
+            "core_0154_7f021fec"
+          ],
+          "retrieved_base_ids": [
+            "core_0153",
+            "core_0152",
+            "core_0157",
+            "core_0156",
+            "core_0154"
+          ],
+          "relevant_flags": [
+            false,
+            false,
+            false,
+            true,
+            true
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 4,
+          "precision_at_5": 0.4,
+          "recall_at_5": 0.6666666666666666,
+          "hit_at_5": 1,
+          "mrr_at_5": 0.25
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0157_60455a4e",
+            "core_0156_3e1ee7f3",
+            "core_0152_6a81f7f9",
+            "core_0153_e6846c8b",
+            "core_0154_7f021fec"
+          ],
+          "retrieved_base_ids": [
+            "core_0157",
+            "core_0156",
+            "core_0152",
+            "core_0153",
+            "core_0154"
+          ],
+          "relevant_flags": [
+            false,
+            true,
+            false,
+            false,
+            true
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 2,
+          "precision_at_5": 0.4,
+          "recall_at_5": 0.6666666666666666,
+          "hit_at_5": 1,
+          "mrr_at_5": 0.5
+        }
+      }
+    },
+    {
+      "question": "What interventions should be offered to people with lung cancer who have impending endobronchial obstruction?",
+      "ground_truth_ids": [
+        "core_0160",
+        "core_0161"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0161_17c883af",
+            "core_0160_f8f2909c",
+            "core_0053_a9ca2928",
+            "core_0056_1f6bffa0",
+            "core_0165_c695e51a"
+          ],
+          "retrieved_base_ids": [
+            "core_0161",
+            "core_0160",
+            "core_0053",
+            "core_0056",
+            "core_0165"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0161_17c883af",
+            "core_0160_f8f2909c",
+            "core_0164_7b58dfb0",
+            "core_0015_03568bf1",
+            "core_0165_c695e51a"
+          ],
+          "retrieved_base_ids": [
+            "core_0161",
+            "core_0160",
+            "core_0164",
+            "core_0015",
+            "core_0165"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0161_17c883af",
+            "core_0160_f8f2909c",
+            "core_0165_c695e51a",
+            "core_0014_521a2862",
+            "core_0056_1f6bffa0"
+          ],
+          "retrieved_base_ids": [
+            "core_0161",
+            "core_0160",
+            "core_0165",
+            "core_0014",
+            "core_0056"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0161_17c883af",
+            "core_0160_f8f2909c",
+            "core_0015_03568bf1",
+            "core_0014_521a2862",
+            "core_0056_1f6bffa0"
+          ],
+          "retrieved_base_ids": [
+            "core_0161",
+            "core_0160",
+            "core_0015",
+            "core_0014",
+            "core_0056"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "What treatment options are available for people presenting with superior vena cava obstruction due to lung cancer?",
+      "ground_truth_ids": [
+        "core_0167",
+        "core_0168"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0168_1825fa91",
+            "core_0167_46c9cb0f",
+            "core_0033_b292c734",
+            "core_0014_521a2862",
+            "core_0034_aa5cdba1"
+          ],
+          "retrieved_base_ids": [
+            "core_0168",
+            "core_0167",
+            "core_0033",
+            "core_0014",
+            "core_0034"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0168_1825fa91",
+            "core_0167_46c9cb0f",
+            "core_0160_f8f2909c",
+            "core_0166_72436b09",
+            "core_0016_dadc2897"
+          ],
+          "retrieved_base_ids": [
+            "core_0168",
+            "core_0167",
+            "core_0160",
+            "core_0166",
+            "core_0016"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0168_1825fa91",
+            "core_0167_46c9cb0f",
+            "core_0160_f8f2909c",
+            "core_0161_17c883af",
+            "core_0033_b292c734"
+          ],
+          "retrieved_base_ids": [
+            "core_0168",
+            "core_0167",
+            "core_0160",
+            "core_0161",
+            "core_0033"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0168_1825fa91",
+            "core_0167_46c9cb0f",
+            "core_0126_dfc51ccc",
+            "core_0161_17c883af",
+            "core_0125_ec7345fb"
+          ],
+          "retrieved_base_ids": [
+            "core_0168",
+            "core_0167",
+            "core_0126",
+            "core_0161",
+            "core_0125"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "What is the recommended management of dexamethasone dosing in people with symptomatic brain metastases from lung cancer?",
+      "ground_truth_ids": [
+        "core_0169",
+        "core_0170"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0169_5936b3b4",
+            "core_0170_84e6e6a3",
+            "core_0188_3647c5e3",
+            "core_0187_02ff205b",
+            "core_0145_b3aec912"
+          ],
+          "retrieved_base_ids": [
+            "core_0169",
+            "core_0170",
+            "core_0188",
+            "core_0187",
+            "core_0145"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0170_84e6e6a3",
+            "core_0169_5936b3b4",
+            "core_0043_4796207f",
+            "core_0188_3647c5e3",
+            "core_0187_02ff205b"
+          ],
+          "retrieved_base_ids": [
+            "core_0170",
+            "core_0169",
+            "core_0043",
+            "core_0188",
+            "core_0187"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0170_84e6e6a3",
+            "core_0169_5936b3b4",
+            "core_0188_3647c5e3",
+            "core_0043_4796207f",
+            "core_0187_02ff205b"
+          ],
+          "retrieved_base_ids": [
+            "core_0170",
+            "core_0169",
+            "core_0188",
+            "core_0043",
+            "core_0187"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0170_84e6e6a3",
+            "core_0169_5936b3b4",
+            "core_0172_13d70c5a",
+            "core_0188_3647c5e3",
+            "core_0043_4796207f"
+          ],
+          "retrieved_base_ids": [
+            "core_0170",
+            "core_0169",
+            "core_0172",
+            "core_0188",
+            "core_0043"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "When is denosumab recommended for preventing skeletal-related events in people with bone metastases from lung cancer?",
+      "ground_truth_ids": [
+        "core_0172",
+        "core_0173"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0173_27ddc885",
+            "core_0172_13d70c5a",
+            "core_0180_f452023c",
+            "core_0191_9c074c0d",
+            "core_0129_a4d37736"
+          ],
+          "retrieved_base_ids": [
+            "core_0173",
+            "core_0172",
+            "core_0180",
+            "core_0191",
+            "core_0129"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0172_13d70c5a",
+            "core_0173_27ddc885",
+            "core_0171_2afc8cad",
+            "core_0042_49d9307c",
+            "core_0041_7d1312a2"
+          ],
+          "retrieved_base_ids": [
+            "core_0172",
+            "core_0173",
+            "core_0171",
+            "core_0042",
+            "core_0041"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0173_27ddc885",
+            "core_0172_13d70c5a",
+            "core_0171_2afc8cad",
+            "core_0180_f452023c",
+            "core_0129_a4d37736"
+          ],
+          "retrieved_base_ids": [
+            "core_0173",
+            "core_0172",
+            "core_0171",
+            "core_0180",
+            "core_0129"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0173_27ddc885",
+            "core_0172_13d70c5a",
+            "core_0171_2afc8cad",
+            "core_0102_770af4a9",
+            "core_0140_f2c826cb"
+          ],
+          "retrieved_base_ids": [
+            "core_0173",
+            "core_0172",
+            "core_0171",
+            "core_0102",
+            "core_0140"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "Within how many weeks of completing treatment should people with lung cancer be offered an initial follow-up appointment, and who can lead protocol-driven follow-up?",
+      "ground_truth_ids": [
+        "core_0175",
+        "core_0176"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0175_4d081998",
+            "core_0176_dbd794e3",
+            "core_0177_105d6414",
+            "core_0053_a9ca2928",
+            "core_0131_5af2fc6e"
+          ],
+          "retrieved_base_ids": [
+            "core_0175",
+            "core_0176",
+            "core_0177",
+            "core_0053",
+            "core_0131"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0176_dbd794e3",
+            "core_0175_4d081998",
+            "core_0177_105d6414",
+            "core_0044_bdb15bf6",
+            "core_0015_03568bf1"
+          ],
+          "retrieved_base_ids": [
+            "core_0176",
+            "core_0175",
+            "core_0177",
+            "core_0044",
+            "core_0015"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0176_dbd794e3",
+            "core_0175_4d081998",
+            "core_0177_105d6414",
+            "core_0131_5af2fc6e",
+            "core_0053_a9ca2928"
+          ],
+          "retrieved_base_ids": [
+            "core_0176",
+            "core_0175",
+            "core_0177",
+            "core_0131",
+            "core_0053"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0176_dbd794e3",
+            "core_0175_4d081998",
+            "core_0177_105d6414",
+            "core_0131_5af2fc6e",
+            "core_0046_d3237c95"
+          ],
+          "retrieved_base_ids": [
+            "core_0176",
+            "core_0175",
+            "core_0177",
+            "core_0131",
+            "core_0046"
+          ],
+          "relevant_flags": [
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 2,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    },
+    {
+      "question": "Should surgery for lung cancer be postponed to allow a person time to stop smoking first?",
+      "ground_truth_ids": [
+        "core_0056"
+      ],
+      "configs": {
+        "semantic": {
+          "retrieved_chunk_ids": [
+            "core_0056_1f6bffa0",
+            "core_0055_05b5bf15",
+            "core_0054_4aed3385",
+            "core_0046_d3237c95",
+            "core_0079_8a143c4b"
+          ],
+          "retrieved_base_ids": [
+            "core_0056",
+            "core_0055",
+            "core_0054",
+            "core_0046",
+            "core_0079"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "bm25": {
+          "retrieved_chunk_ids": [
+            "core_0056_1f6bffa0",
+            "core_0055_05b5bf15",
+            "core_0054_4aed3385",
+            "core_0088_efade59f",
+            "core_0089_b4667f4d"
+          ],
+          "retrieved_base_ids": [
+            "core_0056",
+            "core_0055",
+            "core_0054",
+            "core_0088",
+            "core_0089"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid": {
+          "retrieved_chunk_ids": [
+            "core_0056_1f6bffa0",
+            "core_0055_05b5bf15",
+            "core_0054_4aed3385",
+            "core_0088_efade59f",
+            "core_0089_b4667f4d"
+          ],
+          "retrieved_base_ids": [
+            "core_0056",
+            "core_0055",
+            "core_0054",
+            "core_0088",
+            "core_0089"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        },
+        "hybrid_rerank": {
+          "retrieved_chunk_ids": [
+            "core_0056_1f6bffa0",
+            "core_0055_05b5bf15",
+            "core_0054_4aed3385",
+            "core_0046_d3237c95",
+            "core_0079_8a143c4b"
+          ],
+          "retrieved_base_ids": [
+            "core_0056",
+            "core_0055",
+            "core_0054",
+            "core_0046",
+            "core_0079"
+          ],
+          "relevant_flags": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "num_relevant_retrieved": 1,
+          "first_relevant_rank": 1,
+          "precision_at_5": 0.2,
+          "recall_at_5": 1.0,
+          "hit_at_5": 1,
+          "mrr_at_5": 1.0
+        }
+      }
+    }
+  ],
+  "elapsed_seconds": 31.681938886642456
+}
