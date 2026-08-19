@@ -1,0 +1,130 @@
+[
+  {
+    "question": "In what specific clinical scenario should sputum cytology be used for investigating suspected lung cancer?",
+    "relevant_chunk_ids": ["core_0013", "core_0014"]
+  },
+  {
+    "question": "What should be included in the contrast-enhanced chest CT scan offered to people with known or suspected lung cancer, and what precaution applies to people with renal impairment?",
+    "relevant_chunk_ids": ["core_0014", "core_0015"]
+  },
+  {
+    "question": "Who should be offered PET-CT scanning before treatment for lung cancer?",
+    "relevant_chunk_ids": ["core_0014", "core_0015"]
+  },
+  {
+    "question": "Should MRI be routinely used to assess the T-stage of the primary tumour in NSCLC, and when is MRI specifically indicated instead?",
+    "relevant_chunk_ids": ["core_0016", "core_0017"]
+  },
+  {
+    "question": "What is EBUS-TBNA used for in the diagnostic pathway for lung cancer, and why was clinical audit of EBUS-TBNA and EUS-FNA recommended by the committee?",
+    "relevant_chunk_ids": ["core_0016", "core_0017", "core_0018"]
+  },
+  {
+    "question": "What guidance should be followed for next-generation sequencing (NGS) panel testing to guide lung cancer treatment, and what quality requirement applies to tissue samples taken for pathological diagnosis?",
+    "relevant_chunk_ids": ["core_0018", "core_0019"]
+  },
+  {
+    "question": "When choosing which lesion to biopsy in a patient with a peripheral primary tumour, should enlarged intrathoracic nodes or the primary lesion be prioritised, and under what size threshold are nodes considered enlarged?",
+    "relevant_chunk_ids": ["core_0029"]
+  },
+  {
+    "question": "When is flexible bronchoscopy recommended for people with a central lung lesion on CT?",
+    "relevant_chunk_ids": ["core_0030"]
+  },
+  {
+    "question": "What is the recommended staging pathway for intrathoracic lymph nodes in patients with a low probability of nodal malignancy versus those with enlarged (≥10 mm) intrathoracic lymph nodes who could have curative-intent treatment?",
+    "relevant_chunk_ids": ["core_0031", "core_0032", "core_0033"]
+  },
+  {
+    "question": "When should surgical mediastinal staging be considered after EBUS-TBNA or EUS-FNA results?",
+    "relevant_chunk_ids": ["core_0033", "core_0034"]
+  },
+  {
+    "question": "What brain imaging is recommended for people with clinical stage 1, stage 2, and stage 3 NSCLC who are being considered for curative-intent treatment?",
+    "relevant_chunk_ids": ["core_0038", "core_0039", "core_0040", "core_0041"]
+  },
+  {
+    "question": "What is the recommended first-line imaging test for a patient with localised signs or symptoms of bone metastasis, and what should be done if the result is negative or inconclusive?",
+    "relevant_chunk_ids": ["core_0041", "core_0042"]
+  },
+  {
+    "question": "In what circumstances should bone scintigraphy be avoided in lung cancer staging?",
+    "relevant_chunk_ids": ["core_0041", "core_0042"]
+  },
+  {
+    "question": "What cardiovascular assessment criteria determine whether a person with NSCLC can proceed to surgery without further cardiac investigation versus needing a cardiology review?",
+    "relevant_chunk_ids": ["core_0058", "core_0059"]
+  },
+  {
+    "question": "What lung function tests should be performed before proceeding with curative-intent treatment for lung cancer, and what threshold is used for shuttle walk testing to assess fitness for surgery?",
+    "relevant_chunk_ids": ["core_0062"]
+  },
+  {
+    "question": "What type of surgery should be offered to people with NSCLC who are well enough for curative-intent treatment, and when is more extensive surgery such as pneumonectomy indicated?",
+    "relevant_chunk_ids": ["core_0065", "core_0066"]
+  },
+  {
+    "question": "What treatment options are recommended for people with stage 1 to 2a NSCLC who decline lobectomy or in whom it is contraindicated?",
+    "relevant_chunk_ids": ["core_0069"]
+  },
+  {
+    "question": "What are the two recommended conventionally fractionated radical radiotherapy dose regimens for NSCLC?",
+    "relevant_chunk_ids": ["core_0074", "core_0075"]
+  },
+  {
+    "question": "For people with operable stage 3a N2 NSCLC having chemoradiotherapy and surgery, how long after completing chemoradiotherapy should surgery be scheduled, and what benefits should be discussed with the person before starting this combined treatment?",
+    "relevant_chunk_ids": ["core_0085", "core_0086"]
+  },
+  {
+    "question": "For which patients with resectable NSCLC is nivolumab in combination with chemotherapy recommended as neoadjuvant treatment?",
+    "relevant_chunk_ids": ["core_0093"]
+  },
+  {
+    "question": "For which patients with resected NSCLC is osimertinib recommended as adjuvant treatment, and when should it be stopped?",
+    "relevant_chunk_ids": ["core_0098", "core_0099"]
+  },
+  {
+    "question": "For which patients with resected NSCLC is alectinib recommended as adjuvant treatment?",
+    "relevant_chunk_ids": ["core_0100", "core_0101"]
+  },
+  {
+    "question": "What first-line chemotherapy regimen and radiotherapy schedule are recommended for people with limited-stage SCLC?",
+    "relevant_chunk_ids": ["core_0135", "core_0136"]
+  },
+  {
+    "question": "What is the recommended dose and fractionation for prophylactic cranial irradiation in limited-stage SCLC, and under what condition should it be offered?",
+    "relevant_chunk_ids": ["core_0138", "core_0139"]
+  },
+  {
+    "question": "What chemotherapy is recommended as first-line treatment for extensive-stage SCLC, and what is the maximum number of cycles that should be offered?",
+    "relevant_chunk_ids": ["core_0143", "core_0144"]
+  },
+  {
+    "question": "What treatment options are available for people with SCLC that has relapsed after first-line treatment, and what should patients be told if their disease did not respond to first-line treatment?",
+    "relevant_chunk_ids": ["core_0154", "core_0155", "core_0156"]
+  },
+  {
+    "question": "What interventions should be offered to people with lung cancer who have impending endobronchial obstruction?",
+    "relevant_chunk_ids": ["core_0160", "core_0161"]
+  },
+  {
+    "question": "What treatment options are available for people presenting with superior vena cava obstruction due to lung cancer?",
+    "relevant_chunk_ids": ["core_0167", "core_0168"]
+  },
+  {
+    "question": "What is the recommended management of dexamethasone dosing in people with symptomatic brain metastases from lung cancer?",
+    "relevant_chunk_ids": ["core_0169", "core_0170"]
+  },
+  {
+    "question": "When is denosumab recommended for preventing skeletal-related events in people with bone metastases from lung cancer?",
+    "relevant_chunk_ids": ["core_0172", "core_0173"]
+  },
+  {
+    "question": "Within how many weeks of completing treatment should people with lung cancer be offered an initial follow-up appointment, and who can lead protocol-driven follow-up?",
+    "relevant_chunk_ids": ["core_0175", "core_0176"]
+  },
+  {
+    "question": "Should surgery for lung cancer be postponed to allow a person time to stop smoking first?",
+    "relevant_chunk_ids": ["core_0056"]
+  }
+]
