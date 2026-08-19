@@ -1,0 +1,370 @@
+{
+  "config": {
+    "embedding_model": "BAAI/bge-small-en-v1.5",
+    "alpha": 0.7,
+    "semantic_weight": 0.7,
+    "bm25_weight": 0.3,
+    "candidate_k": 10,
+    "final_top_k": 5,
+    "reranker": null,
+    "confidence_signal": "hybrid_score of rank-1 chunk"
+  },
+  "scored_items": [
+    {
+      "id": "r001",
+      "type": "in_kb",
+      "question": "In what specific clinical scenario should sputum cytology be used for investigating suspected lung cancer?",
+      "expected_decision": "accept",
+      "top_chunk_id": "core_0013_951683c3",
+      "hybrid_score": 0.969668819306066,
+      "latency_ms": 706.67
+    },
+    {
+      "id": "r002",
+      "type": "in_kb",
+      "question": "What should be included in the contrast-enhanced chest CT scan offered to people with known or suspected lung cancer?",
+      "expected_decision": "accept",
+      "top_chunk_id": "core_0014_521a2862",
+      "hybrid_score": 1.0,
+      "latency_ms": 68.05
+    },
+    {
+      "id": "r003",
+      "type": "in_kb",
+      "question": "Who should be offered PET-CT scanning before treatment for lung cancer?",
+      "expected_decision": "accept",
+      "top_chunk_id": "core_0015_03568bf1",
+      "hybrid_score": 0.9930215568890852,
+      "latency_ms": 43.0
+    },
+    {
+      "id": "r004",
+      "type": "in_kb",
+      "question": "What is EBUS-TBNA used for in the diagnostic pathway for lung cancer?",
+      "expected_decision": "accept",
+      "top_chunk_id": "core_0018_aa65136e",
+      "hybrid_score": 0.9260636809064078,
+      "latency_ms": 43.34
+    },
+    {
+      "id": "r005",
+      "type": "in_kb",
+      "question": "What guidance should be followed for next-generation sequencing (NGS) panel testing to guide lung cancer treatment?",
+      "expected_decision": "accept",
+      "top_chunk_id": "core_0019_7612200e",
+      "hybrid_score": 0.9861930859196326,
+      "latency_ms": 47.77
+    },
+    {
+      "id": "r006",
+      "type": "in_kb",
+      "question": "When is flexible bronchoscopy recommended for people with a central lung lesion on CT?",
+      "expected_decision": "accept",
+      "top_chunk_id": "core_0030_4332363c",
+      "hybrid_score": 1.0,
+      "latency_ms": 41.43
+    },
+    {
+      "id": "r007",
+      "type": "in_kb",
+      "question": "What brain imaging is recommended for people with clinical stage 1, stage 2, and stage 3 NSCLC who are being considered for curative-intent treatment?",
+      "expected_decision": "accept",
+      "top_chunk_id": "core_0039_c7113332",
+      "hybrid_score": 1.0,
+      "latency_ms": 47.64
+    },
+    {
+      "id": "r008",
+      "type": "in_kb",
+      "question": "What is the recommended first-line imaging test for a patient with localised signs or symptoms of bone metastasis?",
+      "expected_decision": "accept",
+      "top_chunk_id": "core_0042_49d9307c",
+      "hybrid_score": 1.0,
+      "latency_ms": 43.76
+    },
+    {
+      "id": "r009",
+      "type": "in_kb",
+      "question": "What cardiovascular assessment criteria determine whether a person with NSCLC can proceed to surgery without further cardiac investigation?",
+      "expected_decision": "accept",
+      "top_chunk_id": "core_0057_7bfbcd20",
+      "hybrid_score": 0.8106451818583851,
+      "latency_ms": 52.0
+    },
+    {
+      "id": "r010",
+      "type": "in_kb",
+      "question": "What lung function tests should be performed before proceeding with curative-intent treatment for lung cancer?",
+      "expected_decision": "accept",
+      "top_chunk_id": "core_0070_99fab0d1",
+      "hybrid_score": 1.0,
+      "latency_ms": 42.11
+    },
+    {
+      "id": "r011",
+      "type": "in_kb",
+      "question": "What are the two recommended conventionally fractionated radical radiotherapy dose regimens for NSCLC?",
+      "expected_decision": "accept",
+      "top_chunk_id": "core_0077_6014ed0c",
+      "hybrid_score": 1.0,
+      "latency_ms": 51.07
+    },
+    {
+      "id": "r012",
+      "type": "in_kb",
+      "question": "For which patients with resected NSCLC is osimertinib recommended as adjuvant treatment?",
+      "expected_decision": "accept",
+      "top_chunk_id": "core_0099_41ed81be",
+      "hybrid_score": 1.0,
+      "latency_ms": 55.13
+    },
+    {
+      "id": "r013",
+      "type": "in_kb",
+      "question": "What first-line chemotherapy regimen and radiotherapy schedule are recommended for people with limited-stage SCLC?",
+      "expected_decision": "accept",
+      "top_chunk_id": "core_0138_79466cf9",
+      "hybrid_score": 0.9851679584037838,
+      "latency_ms": 57.58
+    },
+    {
+      "id": "r014",
+      "type": "in_kb",
+      "question": "What is the recommended dose and fractionation for prophylactic cranial irradiation in limited-stage SCLC?",
+      "expected_decision": "accept",
+      "top_chunk_id": "core_0139_944f97a6",
+      "hybrid_score": 0.9835660201624895,
+      "latency_ms": 53.05
+    },
+    {
+      "id": "r015",
+      "type": "in_kb",
+      "question": "Within how many weeks of completing treatment should people with lung cancer be offered an initial follow-up appointment?",
+      "expected_decision": "accept",
+      "top_chunk_id": "core_0175_4d081998",
+      "hybrid_score": 1.0,
+      "latency_ms": 50.0
+    },
+    {
+      "id": "r016",
+      "type": "out_of_kb",
+      "question": "What is the recommended screening protocol for colorectal cancer?",
+      "expected_decision": "refuse",
+      "top_chunk_id": "core_0019_7612200e",
+      "hybrid_score": 0.834705916896415,
+      "latency_ms": 41.05
+    },
+    {
+      "id": "r017",
+      "type": "out_of_kb",
+      "question": "What is the recommended dosage of metformin for managing type 2 diabetes?",
+      "expected_decision": "refuse",
+      "top_chunk_id": "core_0169_5936b3b4",
+      "hybrid_score": 0.9080833708676015,
+      "latency_ms": 45.05
+    },
+    {
+      "id": "r018",
+      "type": "out_of_kb",
+      "question": "What are the NICE recommendations for diagnosing and managing mesothelioma?",
+      "expected_decision": "refuse",
+      "top_chunk_id": "core_0005_62d992ff",
+      "hybrid_score": 0.9514040120051527,
+      "latency_ms": 169.87
+    },
+    {
+      "id": "r019",
+      "type": "out_of_kb",
+      "question": "What is the five-year survival rate for pancreatic cancer in the UK?",
+      "expected_decision": "refuse",
+      "top_chunk_id": "core_0088_efade59f",
+      "hybrid_score": 0.8930094700604054,
+      "latency_ms": 43.52
+    },
+    {
+      "id": "r020",
+      "type": "out_of_kb",
+      "question": "How much does a PET-CT scan cost for a private patient in the UK?",
+      "expected_decision": "refuse",
+      "top_chunk_id": "core_0043_4796207f",
+      "hybrid_score": 0.9618077685091247,
+      "latency_ms": 36.63
+    },
+    {
+      "id": "r021",
+      "type": "out_of_kb",
+      "question": "What is a good recipe for chicken soup?",
+      "expected_decision": "refuse",
+      "top_chunk_id": "core_0166_72436b09",
+      "hybrid_score": 0.7612596082930092,
+      "latency_ms": 41.2
+    },
+    {
+      "id": "r022",
+      "type": "out_of_kb",
+      "question": "What is the capital of France?",
+      "expected_decision": "refuse",
+      "top_chunk_id": "core_0199_bfc9b20a",
+      "hybrid_score": 0.7771926325854139,
+      "latency_ms": 36.97
+    },
+    {
+      "id": "r023",
+      "type": "out_of_kb",
+      "question": "What is NICE's guidance on managing hypertension during pregnancy?",
+      "expected_decision": "refuse",
+      "top_chunk_id": "core_0010_93a6d354",
+      "hybrid_score": 0.8504027374719454,
+      "latency_ms": 36.62
+    },
+    {
+      "id": "r024",
+      "type": "out_of_kb",
+      "question": "What lung cancer screening programme does NICE recommend for asymptomatic high-risk smokers?",
+      "expected_decision": "refuse",
+      "top_chunk_id": "core_0001_1b01ecbf",
+      "hybrid_score": 0.8383534381539418,
+      "latency_ms": 48.09
+    },
+    {
+      "id": "r025",
+      "type": "out_of_kb",
+      "question": "What is the recommended first-line chemotherapy regimen for metastatic breast cancer?",
+      "expected_decision": "refuse",
+      "top_chunk_id": "core_0154_7f021fec",
+      "hybrid_score": 0.9757996935803583,
+      "latency_ms": 41.0
+    },
+    {
+      "id": "r026",
+      "type": "out_of_kb",
+      "question": "How should COVID-19 pneumonia be managed in immunocompromised cancer patients?",
+      "expected_decision": "refuse",
+      "top_chunk_id": "core_0089_b4667f4d",
+      "hybrid_score": 0.8694847847102377,
+      "latency_ms": 56.99
+    },
+    {
+      "id": "r027",
+      "type": "out_of_kb",
+      "question": "What are the visa and travel requirements for medical tourism in the UK?",
+      "expected_decision": "refuse",
+      "top_chunk_id": "core_0003_27e08b22",
+      "hybrid_score": 0.9811801904620893,
+      "latency_ms": 53.05
+    },
+    {
+      "id": "r028",
+      "type": "out_of_kb",
+      "question": "What NICE guidance exists for managing depression in cancer patients generally?",
+      "expected_decision": "refuse",
+      "top_chunk_id": "core_0174_40bc1235",
+      "hybrid_score": 0.9356329593491612,
+      "latency_ms": 55.27
+    },
+    {
+      "id": "r029",
+      "type": "out_of_kb",
+      "question": "What is the maximum recommended daily dose of paracetamol for a healthy adult?",
+      "expected_decision": "refuse",
+      "top_chunk_id": "core_0139_944f97a6",
+      "hybrid_score": 0.9872545774320999,
+      "latency_ms": 50.08
+    },
+    {
+      "id": "r030",
+      "type": "out_of_kb",
+      "question": "What is NICE's guidance on managing rheumatoid arthritis?",
+      "expected_decision": "refuse",
+      "top_chunk_id": "core_0010_93a6d354",
+      "hybrid_score": 0.8504027374719454,
+      "latency_ms": 42.29
+    }
+  ],
+  "threshold_results": [
+    {
+      "threshold": 0.5,
+      "accepted": 30,
+      "rejected": 0,
+      "correct_accept": 15,
+      "correct_refuse": 0,
+      "false_accept": 15,
+      "false_reject": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "accuracy": 0.5
+    },
+    {
+      "threshold": 0.55,
+      "accepted": 30,
+      "rejected": 0,
+      "correct_accept": 15,
+      "correct_refuse": 0,
+      "false_accept": 15,
+      "false_reject": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "accuracy": 0.5
+    },
+    {
+      "threshold": 0.6,
+      "accepted": 30,
+      "rejected": 0,
+      "correct_accept": 15,
+      "correct_refuse": 0,
+      "false_accept": 15,
+      "false_reject": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "accuracy": 0.5
+    },
+    {
+      "threshold": 0.65,
+      "accepted": 30,
+      "rejected": 0,
+      "correct_accept": 15,
+      "correct_refuse": 0,
+      "false_accept": 15,
+      "false_reject": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "accuracy": 0.5
+    },
+    {
+      "threshold": 0.7,
+      "accepted": 30,
+      "rejected": 0,
+      "correct_accept": 15,
+      "correct_refuse": 0,
+      "false_accept": 15,
+      "false_reject": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "accuracy": 0.5
+    },
+    {
+      "threshold": 0.75,
+      "accepted": 30,
+      "rejected": 0,
+      "correct_accept": 15,
+      "correct_refuse": 0,
+      "false_accept": 15,
+      "false_reject": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "accuracy": 0.5
+    },
+    {
+      "threshold": 0.8,
+      "accepted": 28,
+      "rejected": 2,
+      "correct_accept": 15,
+      "correct_refuse": 2,
+      "false_accept": 13,
+      "false_reject": 0,
+      "precision": 0.5357,
+      "recall": 1.0,
+      "accuracy": 0.5667
+    }
+  ]
+}
