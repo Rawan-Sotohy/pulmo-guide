@@ -1,0 +1,177 @@
+[
+  {
+    "text": "Cairo University Hospital - Pulmonary Function Laboratory",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "PULMONARY FUNCTION TEST REPORT (MOCK / SAMPLE DATA - NOT A REAL PATIENT)",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "Patient Name:",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "Mona Ahmed Farouk",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "Patient ID:",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "MRN-2026-08841",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "Test Date:",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "22-Aug-2026",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "Age / Sex:",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "58 / Female",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "Height:",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "162 cm",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "Weight:",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "68 kg",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "Referring Physician:",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "Dr. Hassan El-Sayed",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "Indication:",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "Pre-treatment assessment, NSCLC",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "SPIROMETRY",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "Parameter Predicted Measured (Pre) % Predicted\n     FVC (L)      3.10           2.55         82%\n    FEV1 (L)      2.45           1.86         76%\nFEV1/FVC (%)       79%            73%           -\n   PEF (L/s)      6.20           4.75         77%",
+    "type": "Table",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "DIFFUSION CAPACITY (TLCO)",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "Parameter Predicted Measured % Predicted\nTLCO (mL/min/mmHg)      22.1     16.8         76%\n               KCO      4.85     4.20         87%",
+    "type": "Table",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "INTERPRETATION",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "Mild restrictive ventilatory pattern with mildly reduced diffusion capacity (TLCO 76% predicted). FEV1 76% predicted and TLCO 76% predicted are both above the 30% threshold of concern for treatment-related respiratory complications. Findings do not preclude consideration of treatment with curative intent, though further functional assessment (e.g. shuttle walk test) may be considered given borderline-moderate risk of postoperative dyspnoea.",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  },
+  {
+    "text": "Performed by: Respiratory Technologist S. Adel | Reviewed by: Dr. Omar Fathy, Pulmonology This is a fictional, computer-generated sample document created for software testing purposes only.",
+    "type": "Text",
+    "page": 1,
+    "document": "pulmonary_function_report.pdf",
+    "source_type": "patient"
+  }
+]
