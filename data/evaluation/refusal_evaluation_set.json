@@ -1,0 +1,242 @@
+[
+  {
+    "id": "r001",
+    "type": "in_kb",
+    "question": "In what specific clinical scenario should sputum cytology be used for investigating suspected lung cancer?",
+    "relevant_chunk_ids": ["core_0013", "core_0014"],
+    "expected_decision": "accept",
+    "notes": "Directly from evaluation_set.json"
+  },
+  {
+    "id": "r002",
+    "type": "in_kb",
+    "question": "What should be included in the contrast-enhanced chest CT scan offered to people with known or suspected lung cancer?",
+    "relevant_chunk_ids": ["core_0014", "core_0015"],
+    "expected_decision": "accept",
+    "notes": "Directly from evaluation_set.json"
+  },
+  {
+    "id": "r003",
+    "type": "in_kb",
+    "question": "Who should be offered PET-CT scanning before treatment for lung cancer?",
+    "relevant_chunk_ids": ["core_0014", "core_0015"],
+    "expected_decision": "accept",
+    "notes": "Directly from evaluation_set.json"
+  },
+  {
+    "id": "r004",
+    "type": "in_kb",
+    "question": "What is EBUS-TBNA used for in the diagnostic pathway for lung cancer?",
+    "relevant_chunk_ids": ["core_0016", "core_0017", "core_0018"],
+    "expected_decision": "accept",
+    "notes": "Directly from evaluation_set.json"
+  },
+  {
+    "id": "r005",
+    "type": "in_kb",
+    "question": "What guidance should be followed for next-generation sequencing (NGS) panel testing to guide lung cancer treatment?",
+    "relevant_chunk_ids": ["core_0018", "core_0019"],
+    "expected_decision": "accept",
+    "notes": "Directly from evaluation_set.json"
+  },
+  {
+    "id": "r006",
+    "type": "in_kb",
+    "question": "When is flexible bronchoscopy recommended for people with a central lung lesion on CT?",
+    "relevant_chunk_ids": ["core_0030"],
+    "expected_decision": "accept",
+    "notes": "Directly from evaluation_set.json"
+  },
+  {
+    "id": "r007",
+    "type": "in_kb",
+    "question": "What brain imaging is recommended for people with clinical stage 1, stage 2, and stage 3 NSCLC who are being considered for curative-intent treatment?",
+    "relevant_chunk_ids": ["core_0038", "core_0039", "core_0040", "core_0041"],
+    "expected_decision": "accept",
+    "notes": "Same query family used in Day 2 retrieval test"
+  },
+  {
+    "id": "r008",
+    "type": "in_kb",
+    "question": "What is the recommended first-line imaging test for a patient with localised signs or symptoms of bone metastasis?",
+    "relevant_chunk_ids": ["core_0041", "core_0042"],
+    "expected_decision": "accept",
+    "notes": "Directly from evaluation_set.json"
+  },
+  {
+    "id": "r009",
+    "type": "in_kb",
+    "question": "What cardiovascular assessment criteria determine whether a person with NSCLC can proceed to surgery without further cardiac investigation?",
+    "relevant_chunk_ids": ["core_0058", "core_0059"],
+    "expected_decision": "accept",
+    "notes": "Directly from evaluation_set.json"
+  },
+  {
+    "id": "r010",
+    "type": "in_kb",
+    "question": "What lung function tests should be performed before proceeding with curative-intent treatment for lung cancer?",
+    "relevant_chunk_ids": ["core_0062"],
+    "expected_decision": "accept",
+    "notes": "Directly from evaluation_set.json"
+  },
+  {
+    "id": "r011",
+    "type": "in_kb",
+    "question": "What are the two recommended conventionally fractionated radical radiotherapy dose regimens for NSCLC?",
+    "relevant_chunk_ids": ["core_0074", "core_0075"],
+    "expected_decision": "accept",
+    "notes": "Directly from evaluation_set.json"
+  },
+  {
+    "id": "r012",
+    "type": "in_kb",
+    "question": "For which patients with resected NSCLC is osimertinib recommended as adjuvant treatment?",
+    "relevant_chunk_ids": ["core_0098", "core_0099"],
+    "expected_decision": "accept",
+    "notes": "Directly from evaluation_set.json"
+  },
+  {
+    "id": "r013",
+    "type": "in_kb",
+    "question": "What first-line chemotherapy regimen and radiotherapy schedule are recommended for people with limited-stage SCLC?",
+    "relevant_chunk_ids": ["core_0135", "core_0136"],
+    "expected_decision": "accept",
+    "notes": "Directly from evaluation_set.json"
+  },
+  {
+    "id": "r014",
+    "type": "in_kb",
+    "question": "What is the recommended dose and fractionation for prophylactic cranial irradiation in limited-stage SCLC?",
+    "relevant_chunk_ids": ["core_0138", "core_0139"],
+    "expected_decision": "accept",
+    "notes": "Directly from evaluation_set.json"
+  },
+  {
+    "id": "r015",
+    "type": "in_kb",
+    "question": "Within how many weeks of completing treatment should people with lung cancer be offered an initial follow-up appointment?",
+    "relevant_chunk_ids": ["core_0175", "core_0176"],
+    "expected_decision": "accept",
+    "notes": "Directly from evaluation_set.json"
+  },
+  {
+    "id": "r016",
+    "type": "out_of_kb",
+    "question": "What is the recommended screening protocol for colorectal cancer?",
+    "relevant_chunk_ids": [],
+    "expected_decision": "refuse",
+    "notes": "Different cancer type / different NICE guideline (not NG122)"
+  },
+  {
+    "id": "r017",
+    "type": "out_of_kb",
+    "question": "What is the recommended dosage of metformin for managing type 2 diabetes?",
+    "relevant_chunk_ids": [],
+    "expected_decision": "refuse",
+    "notes": "Unrelated disease area"
+  },
+  {
+    "id": "r018",
+    "type": "out_of_kb",
+    "question": "What are the NICE recommendations for diagnosing and managing mesothelioma?",
+    "relevant_chunk_ids": [],
+    "expected_decision": "refuse",
+    "notes": "NG122 covers lung cancer, not mesothelioma - close but out of scope"
+  },
+  {
+    "id": "r019",
+    "type": "out_of_kb",
+    "question": "What is the five-year survival rate for pancreatic cancer in the UK?",
+    "relevant_chunk_ids": [],
+    "expected_decision": "refuse",
+    "notes": "Different cancer type, statistical data not in guideline"
+  },
+  {
+    "id": "r020",
+    "type": "out_of_kb",
+    "question": "How much does a PET-CT scan cost for a private patient in the UK?",
+    "relevant_chunk_ids": [],
+    "expected_decision": "refuse",
+    "notes": "Cost/pricing information is not part of the clinical guideline"
+  },
+  {
+    "id": "r021",
+    "type": "out_of_kb",
+    "question": "What is a good recipe for chicken soup?",
+    "relevant_chunk_ids": [],
+    "expected_decision": "refuse",
+    "notes": "Completely unrelated sanity-check question"
+  },
+  {
+    "id": "r022",
+    "type": "out_of_kb",
+    "question": "What is the capital of France?",
+    "relevant_chunk_ids": [],
+    "expected_decision": "refuse",
+    "notes": "Completely unrelated sanity-check question"
+  },
+  {
+    "id": "r023",
+    "type": "out_of_kb",
+    "question": "What is NICE's guidance on managing hypertension during pregnancy?",
+    "relevant_chunk_ids": [],
+    "expected_decision": "refuse",
+    "notes": "Different NICE guideline entirely, unrelated to lung cancer"
+  },
+  {
+    "id": "r024",
+    "type": "out_of_kb",
+    "question": "What lung cancer screening programme does NICE recommend for asymptomatic high-risk smokers?",
+    "relevant_chunk_ids": [],
+    "expected_decision": "refuse",
+    "notes": "Edge case: same disease area, but NG122 covers diagnosis/management, not population screening - tests near-miss discrimination"
+  },
+  {
+    "id": "r025",
+    "type": "out_of_kb",
+    "question": "What is the recommended first-line chemotherapy regimen for metastatic breast cancer?",
+    "relevant_chunk_ids": [],
+    "expected_decision": "refuse",
+    "notes": "Different cancer type"
+  },
+  {
+    "id": "r026",
+    "type": "out_of_kb",
+    "question": "How should COVID-19 pneumonia be managed in immunocompromised cancer patients?",
+    "relevant_chunk_ids": [],
+    "expected_decision": "refuse",
+    "notes": "Different clinical topic not covered by NG122"
+  },
+  {
+    "id": "r027",
+    "type": "out_of_kb",
+    "question": "What are the visa and travel requirements for medical tourism in the UK?",
+    "relevant_chunk_ids": [],
+    "expected_decision": "refuse",
+    "notes": "Completely unrelated sanity-check question"
+  },
+  {
+    "id": "r028",
+    "type": "out_of_kb",
+    "question": "What NICE guidance exists for managing depression in cancer patients generally?",
+    "relevant_chunk_ids": [],
+    "expected_decision": "refuse",
+    "notes": "Covered by a different NICE guideline (e.g. NG161/CG91), not NG122"
+  },
+  {
+    "id": "r029",
+    "type": "out_of_kb",
+    "question": "What is the maximum recommended daily dose of paracetamol for a healthy adult?",
+    "relevant_chunk_ids": [],
+    "expected_decision": "refuse",
+    "notes": "Generic pharmacology fact, not part of the lung cancer guideline"
+  },
+  {
+    "id": "r030",
+    "type": "out_of_kb",
+    "question": "What is NICE's guidance on managing rheumatoid arthritis?",
+    "relevant_chunk_ids": [],
+    "expected_decision": "refuse",
+    "notes": "Unrelated disease area / different guideline"
+  }
+]
