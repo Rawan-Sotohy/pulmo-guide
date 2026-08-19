@@ -1,0 +1,3218 @@
+{
+  "configuration": {
+    "embedding_model": "BAAI/bge-small-en-v1.5",
+    "semantic_weight": 0.7,
+    "bm25_weight": 0.3,
+    "top_k": 5,
+    "reranker": null
+  },
+  "thresholds_tested": [
+    0.2,
+    0.25,
+    0.3,
+    0.35,
+    0.4,
+    0.45,
+    0.5,
+    0.55,
+    0.6,
+    0.65,
+    0.7
+  ],
+  "threshold_results": [
+    {
+      "threshold": 0.2,
+      "accepted": 32,
+      "rejected": 0,
+      "acceptance_rate": 1.0,
+      "correct_accepts": 31,
+      "false_accepts": 1,
+      "missed_relevant": 0,
+      "accept_precision": 0.96875,
+      "relevant_recall": 1.0
+    },
+    {
+      "threshold": 0.25,
+      "accepted": 32,
+      "rejected": 0,
+      "acceptance_rate": 1.0,
+      "correct_accepts": 31,
+      "false_accepts": 1,
+      "missed_relevant": 0,
+      "accept_precision": 0.96875,
+      "relevant_recall": 1.0
+    },
+    {
+      "threshold": 0.3,
+      "accepted": 32,
+      "rejected": 0,
+      "acceptance_rate": 1.0,
+      "correct_accepts": 31,
+      "false_accepts": 1,
+      "missed_relevant": 0,
+      "accept_precision": 0.96875,
+      "relevant_recall": 1.0
+    },
+    {
+      "threshold": 0.35,
+      "accepted": 32,
+      "rejected": 0,
+      "acceptance_rate": 1.0,
+      "correct_accepts": 31,
+      "false_accepts": 1,
+      "missed_relevant": 0,
+      "accept_precision": 0.96875,
+      "relevant_recall": 1.0
+    },
+    {
+      "threshold": 0.4,
+      "accepted": 32,
+      "rejected": 0,
+      "acceptance_rate": 1.0,
+      "correct_accepts": 31,
+      "false_accepts": 1,
+      "missed_relevant": 0,
+      "accept_precision": 0.96875,
+      "relevant_recall": 1.0
+    },
+    {
+      "threshold": 0.45,
+      "accepted": 32,
+      "rejected": 0,
+      "acceptance_rate": 1.0,
+      "correct_accepts": 31,
+      "false_accepts": 1,
+      "missed_relevant": 0,
+      "accept_precision": 0.96875,
+      "relevant_recall": 1.0
+    },
+    {
+      "threshold": 0.5,
+      "accepted": 32,
+      "rejected": 0,
+      "acceptance_rate": 1.0,
+      "correct_accepts": 31,
+      "false_accepts": 1,
+      "missed_relevant": 0,
+      "accept_precision": 0.96875,
+      "relevant_recall": 1.0
+    },
+    {
+      "threshold": 0.55,
+      "accepted": 32,
+      "rejected": 0,
+      "acceptance_rate": 1.0,
+      "correct_accepts": 31,
+      "false_accepts": 1,
+      "missed_relevant": 0,
+      "accept_precision": 0.96875,
+      "relevant_recall": 1.0
+    },
+    {
+      "threshold": 0.6,
+      "accepted": 32,
+      "rejected": 0,
+      "acceptance_rate": 1.0,
+      "correct_accepts": 31,
+      "false_accepts": 1,
+      "missed_relevant": 0,
+      "accept_precision": 0.96875,
+      "relevant_recall": 1.0
+    },
+    {
+      "threshold": 0.65,
+      "accepted": 32,
+      "rejected": 0,
+      "acceptance_rate": 1.0,
+      "correct_accepts": 31,
+      "false_accepts": 1,
+      "missed_relevant": 0,
+      "accept_precision": 0.96875,
+      "relevant_recall": 1.0
+    },
+    {
+      "threshold": 0.7,
+      "accepted": 32,
+      "rejected": 0,
+      "acceptance_rate": 1.0,
+      "correct_accepts": 31,
+      "false_accepts": 1,
+      "missed_relevant": 0,
+      "accept_precision": 0.96875,
+      "relevant_recall": 1.0
+    }
+  ],
+  "question_results": [
+    {
+      "question": "In what specific clinical scenario should sputum cytology be used for investigating suspected lung cancer?",
+      "ground_truth_ids": [
+        "core_0013",
+        "core_0014"
+      ],
+      "top_score": 0.969668819306066,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0013_951683c3",
+          "base_id": "core_0013",
+          "score": 0.969668819306066,
+          "semantic_score": 0.9566697418658084,
+          "bm25_score": 1.0,
+          "text": "Terminology used for cancer staging classification changes over time. The guideline recommendations were developed using the 7th edition of the American Joint Committee on Cancer (AJCC) staging system. 1.2.1 Only use sputum cytology for investigation in people with suspected lung cancer who have centrally placed nodules or masses and who decline or cannot tolerate bronchoscopy or other invasive tests. [2005]",
+          "metadata": {
+            "word_count": 60,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 8",
+            "page_start": 8,
+            "source_type": "core",
+            "page_end": 8
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0014_521a2862",
+          "base_id": "core_0014",
+          "score": 0.9226288319600792,
+          "semantic_score": 1.0,
+          "bm25_score": 0.7420961065335974,
+          "text": "1.2.1 Only use sputum cytology for investigation in people with suspected lung cancer who have centrally placed nodules or masses and who decline or cannot tolerate bronchoscopy or other invasive tests. [2005] 1.2.2 Offer people with known or suspected lung cancer a contrast-enhanced chest CT scan to further the diagnosis and stage the disease. Include the liver, adrenals and lower neck in the scan. Use contrast medium with caution in people with known renal impairment. [2005, amended 2019] 1.2.3 When assessing mediastinal and chest wall invasion: • be aware that CT alone may not be reliable • consider other techniques such as ultrasound if there is doubt • be aware that surgical assessment may be necessary if there are no contraindications to resection. [2005] 1.2.4 Ensure that all people with lung cancer who could potentially have treatment with curative intent are offered positron emission tomography CT (PET-CT) before treatment. [2011]",
+          "metadata": {
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "word_count": 150,
+            "page_end": 8,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 8",
+            "page_start": 8,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0050_53c8cece",
+          "base_id": "core_0050",
+          "score": 0.7862864681934333,
+          "semantic_score": 0.7893135876116713,
+          "bm25_score": 0.7792231895508783,
+          "text": "1.2.33 Provide fast track lung cancer clinics for investigating suspected lung cancer. [2005]",
+          "metadata": {
+            "page_end": 16,
+            "source_type": "core",
+            "page_start": 16,
+            "word_count": 13,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 16",
+            "section": "Fast track lung clinics"
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0049_126d544b",
+          "base_id": "core_0049",
+          "score": 0.7300535063562533,
+          "semantic_score": 0.7164800549642163,
+          "bm25_score": 0.7617248929376729,
+          "text": "Fast track lung clinics 1.2.33 Provide fast track lung cancer clinics for investigating suspected lung cancer.",
+          "metadata": {
+            "word_count": 16,
+            "source_type": "core",
+            "page_end": 16,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 16",
+            "section": "Fast track lung clinics",
+            "page_start": 16
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0033_b292c734",
+          "base_id": "core_0033",
+          "score": 0.5966531045519199,
+          "semantic_score": 0.7212018959611294,
+          "bm25_score": 0.3060392579304313,
+          "text": "[2011, amended 2019] 1.2.20 For people with suspected lung cancer who have enlarged intrathoracic lymph nodes (lymph nodes greater than or equal to 10 mm short axis on CT) and who could potentially have treatment with curative intent, offer PET-CT (if not already done), followed by EBUS-TBNA or EUS-FNA, or both. [2019] 1.2.21 If nodal status would affect the treatment plan, evaluate PET-CT-positive or enlarged intrathoracic nodes using a systematic approach (sampling any suspicious node on CT, PET or USS) with: • either EBUS-TBNA or EUS-FNA or • both EBUS-TBNA and EUS-FNA. [2019] 1.2.22 Consider surgical mediastinal staging for people with a negative EBUS-TBNA or EUS-FNA if clinical suspicion of nodal malignancy is high and nodal status would affect their treatment plan. [2019] We have produced an algorithm on intrathoracic nodal staging of NSCLC in patients being considered for radical treatment. Why the committee made the recommendations",
+          "metadata": {
+            "source_type": "core",
+            "page_start": 12,
+            "word_count": 147,
+            "section": "Intrathoracic lymph node assessment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 12, 13",
+            "page_end": 13
+          }
+        }
+      ]
+    },
+    {
+      "question": "What should be included in the contrast-enhanced chest CT scan offered to people with known or suspected lung cancer, and what precaution applies to people with renal impairment?",
+      "ground_truth_ids": [
+        "core_0014",
+        "core_0015"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0014_521a2862",
+          "base_id": "core_0014",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "1.2.1 Only use sputum cytology for investigation in people with suspected lung cancer who have centrally placed nodules or masses and who decline or cannot tolerate bronchoscopy or other invasive tests. [2005] 1.2.2 Offer people with known or suspected lung cancer a contrast-enhanced chest CT scan to further the diagnosis and stage the disease. Include the liver, adrenals and lower neck in the scan. Use contrast medium with caution in people with known renal impairment. [2005, amended 2019] 1.2.3 When assessing mediastinal and chest wall invasion: • be aware that CT alone may not be reliable • consider other techniques such as ultrasound if there is doubt • be aware that surgical assessment may be necessary if there are no contraindications to resection. [2005] 1.2.4 Ensure that all people with lung cancer who could potentially have treatment with curative intent are offered positron emission tomography CT (PET-CT) before treatment. [2011]",
+          "metadata": {
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "word_count": 150,
+            "page_end": 8,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 8",
+            "page_start": 8,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0015_03568bf1",
+          "base_id": "core_0015",
+          "score": 0.9032608466714696,
+          "semantic_score": 0.9699939778083982,
+          "bm25_score": 0.7475502073519693,
+          "text": "Include the liver, adrenals and lower neck in the scan. Use contrast medium with caution in people with known renal impairment. [2005, amended 2019] 1.2.3 When assessing mediastinal and chest wall invasion: • be aware that CT alone may not be reliable • consider other techniques such as ultrasound if there is doubt • be aware that surgical assessment may be necessary if there are no contraindications to resection. [2005] 1.2.4 Ensure that all people with lung cancer who could potentially have treatment with curative intent are offered positron emission tomography CT (PET-CT) before treatment. [2011] 1.2.5 Every cancer alliance should have a system of rapid access to PET-CT scanning for people who are eligible for this. [2005, amended 2019]",
+          "metadata": {
+            "word_count": 120,
+            "source_type": "core",
+            "page_end": 8,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 8",
+            "page_start": 8,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations"
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0040_c8e3ba61",
+          "base_id": "core_0040",
+          "score": 0.735290877488332,
+          "semantic_score": 0.8139129678071528,
+          "bm25_score": 0.5518393334110834,
+          "text": "[2019] 1.2.25 Offer contrast-enhanced brain CT to people with clinical stage 2 NSCLC who are having treatment with curative intent. If CT shows suspected brain metastases, offer contrast-enhanced brain MRI. [2019] 1.2.26 Offer contrast-enhanced brain MRI for people with stage 3 NSCLC who are having treatment with curative intent. [2019] 1.2.27 Offer people with clinical features suggestive of intracranial pathology CT of the head followed by MRI if normal, or MRI as an initial test. [2011]",
+          "metadata": {
+            "source_type": "core",
+            "word_count": 76,
+            "section": "Further staging",
+            "page_end": 14,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 14",
+            "page_start": 14
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0039_c7113332",
+          "base_id": "core_0039",
+          "score": 0.6957747497313657,
+          "semantic_score": 0.7516520364275695,
+          "bm25_score": 0.5653944141068898,
+          "text": "1.2.24 Do not offer dedicated brain imaging to people with clinical stage 1 NSCLC who have no neurological symptoms and are having treatment with curative intent. [2019] 1.2.25 Offer contrast-enhanced brain CT to people with clinical stage 2 NSCLC who are having treatment with curative intent. If CT shows suspected brain metastases, offer contrast-enhanced brain MRI. [2019]",
+          "metadata": {
+            "page_end": 14,
+            "section": "Further staging",
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 14",
+            "page_start": 14,
+            "word_count": 57
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0041_7d1312a2",
+          "base_id": "core_0041",
+          "score": 0.6644115807467119,
+          "semantic_score": 0.811118039789938,
+          "bm25_score": 0.3220965096458513,
+          "text": "1.2.26 Offer contrast-enhanced brain MRI for people with stage 3 NSCLC who are having treatment with curative intent. [2019] 1.2.27 Offer people with clinical features suggestive of intracranial pathology CT of the head followed by MRI if normal, or MRI as an initial test. [2011] 1.2.28 Perform an X-ray as the first test for people with localised signs or symptoms of bone metastasis. If the results are negative or inconclusive, offer bone scintigraphy or an MRI scan. [2005] 1.2.29 Avoid bone scintigraphy when PET-CT has not shown bone metastases. [2011]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 14",
+            "page_end": 14,
+            "source_type": "core",
+            "section": "Further staging",
+            "word_count": 90,
+            "page_start": 14
+          }
+        }
+      ]
+    },
+    {
+      "question": "Who should be offered PET-CT scanning before treatment for lung cancer?",
+      "ground_truth_ids": [
+        "core_0014",
+        "core_0015"
+      ],
+      "top_score": 0.9930215568890852,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0015_03568bf1",
+          "base_id": "core_0015",
+          "score": 0.9930215568890852,
+          "semantic_score": 0.9900307955558361,
+          "bm25_score": 1.0,
+          "text": "Include the liver, adrenals and lower neck in the scan. Use contrast medium with caution in people with known renal impairment. [2005, amended 2019] 1.2.3 When assessing mediastinal and chest wall invasion: • be aware that CT alone may not be reliable • consider other techniques such as ultrasound if there is doubt • be aware that surgical assessment may be necessary if there are no contraindications to resection. [2005] 1.2.4 Ensure that all people with lung cancer who could potentially have treatment with curative intent are offered positron emission tomography CT (PET-CT) before treatment. [2011] 1.2.5 Every cancer alliance should have a system of rapid access to PET-CT scanning for people who are eligible for this. [2005, amended 2019]",
+          "metadata": {
+            "word_count": 120,
+            "source_type": "core",
+            "page_end": 8,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 8",
+            "page_start": 8,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations"
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0032_d3e4cf31",
+          "base_id": "core_0032",
+          "score": 0.8457825346552655,
+          "semantic_score": 1.0,
+          "bm25_score": 0.4859417821842184,
+          "text": "1.2.19 For people with lung cancer who could potentially have treatment with curative intent and have a low probability of nodal malignancy (lymph nodes below 10 mm maximum short axis on CT), offer PET-CT as the preferred first test after CT. [2011, amended 2019] 1.2.20 For people with suspected lung cancer who have enlarged intrathoracic lymph nodes (lymph nodes greater than or equal to 10 mm short axis on CT) and who could potentially have treatment with curative intent, offer PET-CT (if not already done), followed by EBUS-TBNA or EUS-FNA, or both. [2019]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 12",
+            "section": "Intrathoracic lymph node assessment",
+            "word_count": 93,
+            "source_type": "core",
+            "page_end": 12,
+            "page_start": 12
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0016_dadc2897",
+          "base_id": "core_0016",
+          "score": 0.8268929291101239,
+          "semantic_score": 0.8638751188249982,
+          "bm25_score": 0.7406011531087504,
+          "text": "1.2.5 Every cancer alliance should have a system of rapid access to PET-CT scanning for people who are eligible for this. [2005, amended 2019] 1.2.6 Do not routinely use MRI to assess the stage of the primary tumour (T-stage) in non-small-cell lung cancer (NSCLC). [2005] 1.2.7 Use MRI when necessary to assess the extent of disease, for people with superior sulcus tumours. [2005] 1.2.8 Offer endobronchial ultrasound-guided transbronchial needle aspiration (EBUS- TBNA) for biopsy of paratracheal and peri-bronchial intra-parenchymal lung lesions. [2011]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 8, 9",
+            "word_count": 82,
+            "page_start": 8,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "page_end": 9,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0014_521a2862",
+          "base_id": "core_0014",
+          "score": 0.824378795390305,
+          "semantic_score": 0.9485855659706763,
+          "bm25_score": 0.5345629973694389,
+          "text": "1.2.1 Only use sputum cytology for investigation in people with suspected lung cancer who have centrally placed nodules or masses and who decline or cannot tolerate bronchoscopy or other invasive tests. [2005] 1.2.2 Offer people with known or suspected lung cancer a contrast-enhanced chest CT scan to further the diagnosis and stage the disease. Include the liver, adrenals and lower neck in the scan. Use contrast medium with caution in people with known renal impairment. [2005, amended 2019] 1.2.3 When assessing mediastinal and chest wall invasion: • be aware that CT alone may not be reliable • consider other techniques such as ultrasound if there is doubt • be aware that surgical assessment may be necessary if there are no contraindications to resection. [2005] 1.2.4 Ensure that all people with lung cancer who could potentially have treatment with curative intent are offered positron emission tomography CT (PET-CT) before treatment. [2011]",
+          "metadata": {
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "word_count": 150,
+            "page_end": 8,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 8",
+            "page_start": 8,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0031_54662c45",
+          "base_id": "core_0031",
+          "score": 0.7590970056621782,
+          "semantic_score": 0.8988344145005952,
+          "bm25_score": 0.43304305170587165,
+          "text": "Intrathoracic lymph node assessment 1.2.19 For people with lung cancer who could potentially have treatment with curative intent and have a low probability of nodal malignancy (lymph nodes below 10 mm maximum short axis on CT), offer PET-CT as the preferred first test after CT.",
+          "metadata": {
+            "page_end": 12,
+            "word_count": 45,
+            "page_start": 12,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 12",
+            "section": "Intrathoracic lymph node assessment"
+          }
+        }
+      ]
+    },
+    {
+      "question": "Should MRI be routinely used to assess the T-stage of the primary tumour in NSCLC, and when is MRI specifically indicated instead?",
+      "ground_truth_ids": [
+        "core_0016",
+        "core_0017"
+      ],
+      "top_score": 0.9999831346073051,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0016_dadc2897",
+          "base_id": "core_0016",
+          "score": 0.9999831346073051,
+          "semantic_score": 1.0,
+          "bm25_score": 0.9999437820243506,
+          "text": "1.2.5 Every cancer alliance should have a system of rapid access to PET-CT scanning for people who are eligible for this. [2005, amended 2019] 1.2.6 Do not routinely use MRI to assess the stage of the primary tumour (T-stage) in non-small-cell lung cancer (NSCLC). [2005] 1.2.7 Use MRI when necessary to assess the extent of disease, for people with superior sulcus tumours. [2005] 1.2.8 Offer endobronchial ultrasound-guided transbronchial needle aspiration (EBUS- TBNA) for biopsy of paratracheal and peri-bronchial intra-parenchymal lung lesions. [2011]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 8, 9",
+            "word_count": 82,
+            "page_start": 8,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "page_end": 9,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0017_ea45ee0b",
+          "base_id": "core_0017",
+          "score": 0.969906646282174,
+          "semantic_score": 0.9570094946888201,
+          "bm25_score": 1.0,
+          "text": "1.2.6 Do not routinely use MRI to assess the stage of the primary tumour (T-stage) in non-small-cell lung cancer (NSCLC). [2005] 1.2.7 Use MRI when necessary to assess the extent of disease, for people with superior sulcus tumours. [2005] 1.2.8 Offer endobronchial ultrasound-guided transbronchial needle aspiration (EBUS- TBNA) for biopsy of paratracheal and peri-bronchial intra-parenchymal lung lesions. [2011] 1.2.9 Every cancer alliance should have at least 1 centre with EBUS or endoscopic ultrasound (EUS), or both, to ensure timely access. [2011]",
+          "metadata": {
+            "word_count": 81,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 8, 9",
+            "page_start": 8,
+            "page_end": 9,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations"
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0041_7d1312a2",
+          "base_id": "core_0041",
+          "score": 0.6782420012474888,
+          "semantic_score": 0.7666018170762642,
+          "bm25_score": 0.4720690976470129,
+          "text": "1.2.26 Offer contrast-enhanced brain MRI for people with stage 3 NSCLC who are having treatment with curative intent. [2019] 1.2.27 Offer people with clinical features suggestive of intracranial pathology CT of the head followed by MRI if normal, or MRI as an initial test. [2011] 1.2.28 Perform an X-ray as the first test for people with localised signs or symptoms of bone metastasis. If the results are negative or inconclusive, offer bone scintigraphy or an MRI scan. [2005] 1.2.29 Avoid bone scintigraphy when PET-CT has not shown bone metastases. [2011]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 14",
+            "page_end": 14,
+            "source_type": "core",
+            "section": "Further staging",
+            "word_count": 90,
+            "page_start": 14
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0038_ead593b6",
+          "base_id": "core_0038",
+          "score": 0.6460873865204826,
+          "semantic_score": 0.7597538982787854,
+          "bm25_score": 0.3808655257511095,
+          "text": "1.2.23 Confirm the presence of isolated distant metastases or synchronous tumours by biopsy or further imaging (for example, MRI or PET-CT) in people for whom treatment with curative intent is an option. [2011] 1.2.24 Do not offer dedicated brain imaging to people with clinical stage 1 NSCLC who have no neurological symptoms and are having treatment with curative intent.",
+          "metadata": {
+            "page_end": 14,
+            "word_count": 59,
+            "page_start": 14,
+            "source_type": "core",
+            "section": "Further staging",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 14"
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0040_c8e3ba61",
+          "base_id": "core_0040",
+          "score": 0.6395936528131809,
+          "semantic_score": 0.7429704709542532,
+          "bm25_score": 0.398381077150679,
+          "text": "[2019] 1.2.25 Offer contrast-enhanced brain CT to people with clinical stage 2 NSCLC who are having treatment with curative intent. If CT shows suspected brain metastases, offer contrast-enhanced brain MRI. [2019] 1.2.26 Offer contrast-enhanced brain MRI for people with stage 3 NSCLC who are having treatment with curative intent. [2019] 1.2.27 Offer people with clinical features suggestive of intracranial pathology CT of the head followed by MRI if normal, or MRI as an initial test. [2011]",
+          "metadata": {
+            "source_type": "core",
+            "word_count": 76,
+            "section": "Further staging",
+            "page_end": 14,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 14",
+            "page_start": 14
+          }
+        }
+      ]
+    },
+    {
+      "question": "What is EBUS-TBNA used for in the diagnostic pathway for lung cancer, and why was clinical audit of EBUS-TBNA and EUS-FNA recommended by the committee?",
+      "ground_truth_ids": [
+        "core_0016",
+        "core_0017",
+        "core_0018"
+      ],
+      "top_score": 0.9567672565402621,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0018_aa65136e",
+          "base_id": "core_0018",
+          "score": 0.9567672565402621,
+          "semantic_score": 1.0,
+          "bm25_score": 0.8558908551342067,
+          "text": "1.2.9 Every cancer alliance should have at least 1 centre with EBUS or endoscopic ultrasound (EUS), or both, to ensure timely access. [2011] 1.2.10 Audit the local test performance of EBUS-TBNA and endoscopic ultrasound- guided fine-needle aspiration (EUS-FNA). [2011, amended 2019] 1.2.11 When taking samples, ensure they are adequate (without unacceptable risk to the person) to permit pathological diagnosis, including tumour subtyping and assessment of molecular markers. [2011, amended 2019] 1.2.12 See the National Genomics Test Directory for guidance on next-generation sequencing (NGS) panels to guide treatment. [2019, amended 2026] Why the committee made the recommendations Effectiveness of diagnostic and staging investigations Clinical audit is an important tool for maintaining high standards in the use of endobronchial ultrasound-guided transbronchial needle aspiration (EBUS-TBNA) and endoscopic ultrasound-guided fine-needle aspiration (EUS-FNA). This is consistent with the British Thoracic Society guideline and quality standards.",
+          "metadata": {
+            "word_count": 140,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 9, 10",
+            "source_type": "core",
+            "page_start": 9,
+            "page_end": 10
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0019_7612200e",
+          "base_id": "core_0019",
+          "score": 0.9468789471329403,
+          "semantic_score": 0.9241127816184861,
+          "bm25_score": 1.0,
+          "text": "1.2.11 When taking samples, ensure they are adequate (without unacceptable risk to the person) to permit pathological diagnosis, including tumour subtyping and assessment of molecular markers. [2011, amended 2019] 1.2.12 See the National Genomics Test Directory for guidance on next-generation sequencing (NGS) panels to guide treatment. [2019, amended 2026] Why the committee made the recommendations Effectiveness of diagnostic and staging investigations Clinical audit is an important tool for maintaining high standards in the use of endobronchial ultrasound-guided transbronchial needle aspiration (EBUS-TBNA) and endoscopic ultrasound-guided fine-needle aspiration (EUS-FNA). This is consistent with the British Thoracic Society guideline and quality standards. EBUS-TBNA and EUS-FNA",
+          "metadata": {
+            "source_type": "core",
+            "word_count": 102,
+            "page_start": 9,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 9, 10",
+            "page_end": 10,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations"
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0022_03da0c63",
+          "base_id": "core_0022",
+          "score": 0.8467943917673527,
+          "semantic_score": 0.854205301144477,
+          "bm25_score": 0.8295022698873962,
+          "text": "• initial invasive investigations for people with an intermediate probability of mediastinal malignancy • subsequent investigations for people with a high probability of mediastinal malignancy, when neck ultrasound and biopsy are negative. In these circumstances, when compared with alternative investigations, EBUS-TBNA and EUS-FNA: • produce a diagnosis and stage faster than bronchoscopy or CT-guided biopsy • are more acceptable to patients than surgery • reduce the need for further investigations and hospital visits compared with bronchoscopy. Surgical mediastinal staging There is evidence that surgical staging is useful when EBUS-TBNA and/or EUS-FNA are negative but clinical suspicion of mediastinal malignancy is high. While there are potential harms from the invasive nature of surgical staging, there is no evidence that these outweigh the benefits in this population. Procedures that were not recommended Transthoracic needle biopsy, bronchoscopy and non-ultrasound-guided TBNA are no longer recommended for staging lung cancer in intrathoracic lymph nodes because: • bronchoscopy and non-ultrasound-guided TBNA are unlikely to reach the minimum sensitivity required by the British Thoracic quality standards and",
+          "metadata": {
+            "page_start": 10,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 10, 11",
+            "source_type": "core",
+            "page_end": 11,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "word_count": 170
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0034_aa5cdba1",
+          "base_id": "core_0034",
+          "score": 0.8374888800755289,
+          "semantic_score": 0.7776136606301909,
+          "bm25_score": 0.9771977254479842,
+          "text": "1.2.21 If nodal status would affect the treatment plan, evaluate PET-CT-positive or enlarged intrathoracic nodes using a systematic approach (sampling any suspicious node on CT, PET or USS) with: • either EBUS-TBNA or EUS-FNA or • both EBUS-TBNA and EUS-FNA. [2019] 1.2.22 Consider surgical mediastinal staging for people with a negative EBUS-TBNA or EUS-FNA if clinical suspicion of nodal malignancy is high and nodal status would affect their treatment plan. [2019] We have produced an algorithm on intrathoracic nodal staging of NSCLC in patients being considered for radical treatment. Why the committee made the recommendations EBUS-TBNA and EUS-FNA",
+          "metadata": {
+            "page_end": 13,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 12, 13",
+            "word_count": 98,
+            "page_start": 12,
+            "source_type": "core",
+            "section": "Intrathoracic lymph node assessment"
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0020_a4a9d752",
+          "base_id": "core_0020",
+          "score": 0.8176723584393337,
+          "semantic_score": 0.8459235637578074,
+          "bm25_score": 0.7517528793628948,
+          "text": "EBUS-TBNA and EUS-FNA The recommendations cover:",
+          "metadata": {
+            "page_end": 10,
+            "word_count": 6,
+            "source_type": "core",
+            "page_start": 10,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 10",
+            "section": "1.2 Effectiveness of diagnostic and staging investigations"
+          }
+        }
+      ]
+    },
+    {
+      "question": "What guidance should be followed for next-generation sequencing (NGS) panel testing to guide lung cancer treatment, and what quality requirement applies to tissue samples taken for pathological diagnosis?",
+      "ground_truth_ids": [
+        "core_0018",
+        "core_0019"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0019_7612200e",
+          "base_id": "core_0019",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "1.2.11 When taking samples, ensure they are adequate (without unacceptable risk to the person) to permit pathological diagnosis, including tumour subtyping and assessment of molecular markers. [2011, amended 2019] 1.2.12 See the National Genomics Test Directory for guidance on next-generation sequencing (NGS) panels to guide treatment. [2019, amended 2026] Why the committee made the recommendations Effectiveness of diagnostic and staging investigations Clinical audit is an important tool for maintaining high standards in the use of endobronchial ultrasound-guided transbronchial needle aspiration (EBUS-TBNA) and endoscopic ultrasound-guided fine-needle aspiration (EUS-FNA). This is consistent with the British Thoracic Society guideline and quality standards. EBUS-TBNA and EUS-FNA",
+          "metadata": {
+            "source_type": "core",
+            "word_count": 102,
+            "page_start": 9,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 9, 10",
+            "page_end": 10,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations"
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0208_6aff4da9",
+          "base_id": "core_0208",
+          "score": 0.8076813955563453,
+          "semantic_score": 0.8503477459772543,
+          "bm25_score": 0.7081265779075576,
+          "text": "on management. Recommendation 1.2.12 has been amended to change from single mutation testing to current standard practice, which is comprehensive next generation sequencing (NGS) panels through genomic laboratory hubs.",
+          "metadata": {
+            "source_type": "core",
+            "page_start": 50,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 50",
+            "section": "Update information",
+            "word_count": 29,
+            "page_end": 50
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0018_aa65136e",
+          "base_id": "core_0018",
+          "score": 0.7956738691449234,
+          "semantic_score": 0.7387570330699893,
+          "bm25_score": 0.9284798199864363,
+          "text": "1.2.9 Every cancer alliance should have at least 1 centre with EBUS or endoscopic ultrasound (EUS), or both, to ensure timely access. [2011] 1.2.10 Audit the local test performance of EBUS-TBNA and endoscopic ultrasound- guided fine-needle aspiration (EUS-FNA). [2011, amended 2019] 1.2.11 When taking samples, ensure they are adequate (without unacceptable risk to the person) to permit pathological diagnosis, including tumour subtyping and assessment of molecular markers. [2011, amended 2019] 1.2.12 See the National Genomics Test Directory for guidance on next-generation sequencing (NGS) panels to guide treatment. [2019, amended 2026] Why the committee made the recommendations Effectiveness of diagnostic and staging investigations Clinical audit is an important tool for maintaining high standards in the use of endobronchial ultrasound-guided transbronchial needle aspiration (EBUS-TBNA) and endoscopic ultrasound-guided fine-needle aspiration (EUS-FNA). This is consistent with the British Thoracic Society guideline and quality standards.",
+          "metadata": {
+            "word_count": 140,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 9, 10",
+            "source_type": "core",
+            "page_start": 9,
+            "page_end": 10
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0209_941c8197",
+          "base_id": "core_0209",
+          "score": 0.7684572452818841,
+          "semantic_score": 0.8348690324888524,
+          "bm25_score": 0.613496408465625,
+          "text": "Recommendation 1.2.12 has been amended to change from single mutation testing to current standard practice, which is comprehensive next generation sequencing (NGS) panels through genomic laboratory hubs. We also simplified the guideline by removing recommendations on general principles of care that are covered in other NICE guidelines.",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 50",
+            "section": "Update information",
+            "word_count": 47,
+            "source_type": "core",
+            "page_start": 50,
+            "page_end": 50
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0180_f452023c",
+          "base_id": "core_0180",
+          "score": 0.6834988928572712,
+          "semantic_score": 0.7122207743094129,
+          "bm25_score": 0.6164811694689406,
+          "text": "What is the effectiveness and cost effectiveness of immunotherapy in people with stage 3a to N2 non-small-cell lung cancer (NSCLC) following multimodality treatment including surgery? Why the committee made the recommendation for research",
+          "metadata": {
+            "page_start": 45,
+            "section": "1 Immunotherapy after multimodality treatment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 45",
+            "word_count": 33,
+            "page_end": 45,
+            "source_type": "core"
+          }
+        }
+      ]
+    },
+    {
+      "question": "When choosing which lesion to biopsy in a patient with a peripheral primary tumour, should enlarged intrathoracic nodes or the primary lesion be prioritised, and under what size threshold are nodes considered enlarged?",
+      "ground_truth_ids": [
+        "core_0029"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0029_5520abcd",
+          "base_id": "core_0029",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "Peripheral primary tumour 1.2.15 When choosing diagnostic and staging investigations, take into account that some people with lung cancer will not be well enough for treatment with curative intent. [2011, amended 2019] 1.2.16 Offer image-guided biopsy to people with peripheral lung lesions when treatment can be planned based on this test. [2011, amended 2019] 1.2.17 Biopsy any enlarged intrathoracic nodes (10 mm or larger maximum short axis on CT) or other lesions in preference to the primary lesion if determination of nodal stage affects treatment. [2011, amended 2019]",
+          "metadata": {
+            "word_count": 88,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 12",
+            "section": "Peripheral primary tumour",
+            "page_start": 12,
+            "source_type": "core",
+            "page_end": 12
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0033_b292c734",
+          "base_id": "core_0033",
+          "score": 0.7423013738901307,
+          "semantic_score": 0.8568271494250623,
+          "bm25_score": 0.47507456430862366,
+          "text": "[2011, amended 2019] 1.2.20 For people with suspected lung cancer who have enlarged intrathoracic lymph nodes (lymph nodes greater than or equal to 10 mm short axis on CT) and who could potentially have treatment with curative intent, offer PET-CT (if not already done), followed by EBUS-TBNA or EUS-FNA, or both. [2019] 1.2.21 If nodal status would affect the treatment plan, evaluate PET-CT-positive or enlarged intrathoracic nodes using a systematic approach (sampling any suspicious node on CT, PET or USS) with: • either EBUS-TBNA or EUS-FNA or • both EBUS-TBNA and EUS-FNA. [2019] 1.2.22 Consider surgical mediastinal staging for people with a negative EBUS-TBNA or EUS-FNA if clinical suspicion of nodal malignancy is high and nodal status would affect their treatment plan. [2019] We have produced an algorithm on intrathoracic nodal staging of NSCLC in patients being considered for radical treatment. Why the committee made the recommendations",
+          "metadata": {
+            "source_type": "core",
+            "page_start": 12,
+            "word_count": 147,
+            "section": "Intrathoracic lymph node assessment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 12, 13",
+            "page_end": 13
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0034_aa5cdba1",
+          "base_id": "core_0034",
+          "score": 0.6924434906551641,
+          "semantic_score": 0.8134251909582109,
+          "bm25_score": 0.4101528566147216,
+          "text": "1.2.21 If nodal status would affect the treatment plan, evaluate PET-CT-positive or enlarged intrathoracic nodes using a systematic approach (sampling any suspicious node on CT, PET or USS) with: • either EBUS-TBNA or EUS-FNA or • both EBUS-TBNA and EUS-FNA. [2019] 1.2.22 Consider surgical mediastinal staging for people with a negative EBUS-TBNA or EUS-FNA if clinical suspicion of nodal malignancy is high and nodal status would affect their treatment plan. [2019] We have produced an algorithm on intrathoracic nodal staging of NSCLC in patients being considered for radical treatment. Why the committee made the recommendations EBUS-TBNA and EUS-FNA",
+          "metadata": {
+            "page_end": 13,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 12, 13",
+            "word_count": 98,
+            "page_start": 12,
+            "source_type": "core",
+            "section": "Intrathoracic lymph node assessment"
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0032_d3e4cf31",
+          "base_id": "core_0032",
+          "score": 0.6340298038595614,
+          "semantic_score": 0.7343556934989587,
+          "bm25_score": 0.3999360613676346,
+          "text": "1.2.19 For people with lung cancer who could potentially have treatment with curative intent and have a low probability of nodal malignancy (lymph nodes below 10 mm maximum short axis on CT), offer PET-CT as the preferred first test after CT. [2011, amended 2019] 1.2.20 For people with suspected lung cancer who have enlarged intrathoracic lymph nodes (lymph nodes greater than or equal to 10 mm short axis on CT) and who could potentially have treatment with curative intent, offer PET-CT (if not already done), followed by EBUS-TBNA or EUS-FNA, or both. [2019]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 12",
+            "section": "Intrathoracic lymph node assessment",
+            "word_count": 93,
+            "source_type": "core",
+            "page_end": 12,
+            "page_start": 12
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0031_54662c45",
+          "base_id": "core_0031",
+          "score": 0.6227152966224861,
+          "semantic_score": 0.7594123760222786,
+          "bm25_score": 0.30375544468963733,
+          "text": "Intrathoracic lymph node assessment 1.2.19 For people with lung cancer who could potentially have treatment with curative intent and have a low probability of nodal malignancy (lymph nodes below 10 mm maximum short axis on CT), offer PET-CT as the preferred first test after CT.",
+          "metadata": {
+            "page_end": 12,
+            "word_count": 45,
+            "page_start": 12,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 12",
+            "section": "Intrathoracic lymph node assessment"
+          }
+        }
+      ]
+    },
+    {
+      "question": "When is flexible bronchoscopy recommended for people with a central lung lesion on CT?",
+      "ground_truth_ids": [
+        "core_0030"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0030_4332363c",
+          "base_id": "core_0030",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "Central primary tumour 1.2.18 Offer flexible bronchoscopy to people with central lesions on CT if nodal staging does not influence treatment. [2011, amended 2019]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 12",
+            "source_type": "core",
+            "page_end": 12,
+            "page_start": 12,
+            "word_count": 24,
+            "section": "Central primary tumour"
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0014_521a2862",
+          "base_id": "core_0014",
+          "score": 0.5804308434609526,
+          "semantic_score": 0.6811203716347372,
+          "bm25_score": 0.3454886110554555,
+          "text": "1.2.1 Only use sputum cytology for investigation in people with suspected lung cancer who have centrally placed nodules or masses and who decline or cannot tolerate bronchoscopy or other invasive tests. [2005] 1.2.2 Offer people with known or suspected lung cancer a contrast-enhanced chest CT scan to further the diagnosis and stage the disease. Include the liver, adrenals and lower neck in the scan. Use contrast medium with caution in people with known renal impairment. [2005, amended 2019] 1.2.3 When assessing mediastinal and chest wall invasion: • be aware that CT alone may not be reliable • consider other techniques such as ultrasound if there is doubt • be aware that surgical assessment may be necessary if there are no contraindications to resection. [2005] 1.2.4 Ensure that all people with lung cancer who could potentially have treatment with curative intent are offered positron emission tomography CT (PET-CT) before treatment. [2011]",
+          "metadata": {
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "word_count": 150,
+            "page_end": 8,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 8",
+            "page_start": 8,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0023_e938553a",
+          "base_id": "core_0023",
+          "score": 0.578100190508869,
+          "semantic_score": 0.6463659938862257,
+          "bm25_score": 0.4188133159617032,
+          "text": "bronchoscopy. Surgical mediastinal staging There is evidence that surgical staging is useful when EBUS-TBNA and/or EUS-FNA are negative but clinical suspicion of mediastinal malignancy is high. While there are potential harms from the invasive nature of surgical staging, there is no evidence that these outweigh the benefits in this population. Procedures that were not recommended Transthoracic needle biopsy, bronchoscopy and non-ultrasound-guided TBNA are no longer recommended for staging lung cancer in intrathoracic lymph nodes because: • bronchoscopy and non-ultrasound-guided TBNA are unlikely to reach the minimum sensitivity required by the British Thoracic quality standards and • they may discourage people from having more effective procedures (such as",
+          "metadata": {
+            "page_end": 11,
+            "word_count": 107,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "page_start": 10,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 10, 11"
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0022_03da0c63",
+          "base_id": "core_0022",
+          "score": 0.5706902676434364,
+          "semantic_score": 0.5886678641810857,
+          "bm25_score": 0.5287425423889214,
+          "text": "• initial invasive investigations for people with an intermediate probability of mediastinal malignancy • subsequent investigations for people with a high probability of mediastinal malignancy, when neck ultrasound and biopsy are negative. In these circumstances, when compared with alternative investigations, EBUS-TBNA and EUS-FNA: • produce a diagnosis and stage faster than bronchoscopy or CT-guided biopsy • are more acceptable to patients than surgery • reduce the need for further investigations and hospital visits compared with bronchoscopy. Surgical mediastinal staging There is evidence that surgical staging is useful when EBUS-TBNA and/or EUS-FNA are negative but clinical suspicion of mediastinal malignancy is high. While there are potential harms from the invasive nature of surgical staging, there is no evidence that these outweigh the benefits in this population. Procedures that were not recommended Transthoracic needle biopsy, bronchoscopy and non-ultrasound-guided TBNA are no longer recommended for staging lung cancer in intrathoracic lymph nodes because: • bronchoscopy and non-ultrasound-guided TBNA are unlikely to reach the minimum sensitivity required by the British Thoracic quality standards and",
+          "metadata": {
+            "page_start": 10,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 10, 11",
+            "source_type": "core",
+            "page_end": 11,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "word_count": 170
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0029_5520abcd",
+          "base_id": "core_0029",
+          "score": 0.5566485331545559,
+          "semantic_score": 0.5825823580878929,
+          "bm25_score": 0.49613627497676926,
+          "text": "Peripheral primary tumour 1.2.15 When choosing diagnostic and staging investigations, take into account that some people with lung cancer will not be well enough for treatment with curative intent. [2011, amended 2019] 1.2.16 Offer image-guided biopsy to people with peripheral lung lesions when treatment can be planned based on this test. [2011, amended 2019] 1.2.17 Biopsy any enlarged intrathoracic nodes (10 mm or larger maximum short axis on CT) or other lesions in preference to the primary lesion if determination of nodal stage affects treatment. [2011, amended 2019]",
+          "metadata": {
+            "word_count": 88,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 12",
+            "section": "Peripheral primary tumour",
+            "page_start": 12,
+            "source_type": "core",
+            "page_end": 12
+          }
+        }
+      ]
+    },
+    {
+      "question": "What is the recommended staging pathway for intrathoracic lymph nodes in patients with a low probability of nodal malignancy versus those with enlarged (≥10 mm) intrathoracic lymph nodes who could have curative-intent treatment?",
+      "ground_truth_ids": [
+        "core_0031",
+        "core_0032",
+        "core_0033"
+      ],
+      "top_score": 0.9715393597535258,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0033_b292c734",
+          "base_id": "core_0033",
+          "score": 0.9715393597535258,
+          "semantic_score": 1.0,
+          "bm25_score": 0.9051311991784192,
+          "text": "[2011, amended 2019] 1.2.20 For people with suspected lung cancer who have enlarged intrathoracic lymph nodes (lymph nodes greater than or equal to 10 mm short axis on CT) and who could potentially have treatment with curative intent, offer PET-CT (if not already done), followed by EBUS-TBNA or EUS-FNA, or both. [2019] 1.2.21 If nodal status would affect the treatment plan, evaluate PET-CT-positive or enlarged intrathoracic nodes using a systematic approach (sampling any suspicious node on CT, PET or USS) with: • either EBUS-TBNA or EUS-FNA or • both EBUS-TBNA and EUS-FNA. [2019] 1.2.22 Consider surgical mediastinal staging for people with a negative EBUS-TBNA or EUS-FNA if clinical suspicion of nodal malignancy is high and nodal status would affect their treatment plan. [2019] We have produced an algorithm on intrathoracic nodal staging of NSCLC in patients being considered for radical treatment. Why the committee made the recommendations",
+          "metadata": {
+            "source_type": "core",
+            "page_start": 12,
+            "word_count": 147,
+            "section": "Intrathoracic lymph node assessment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 12, 13",
+            "page_end": 13
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0031_54662c45",
+          "base_id": "core_0031",
+          "score": 0.9407574972449745,
+          "semantic_score": 0.9153678532071065,
+          "bm25_score": 1.0,
+          "text": "Intrathoracic lymph node assessment 1.2.19 For people with lung cancer who could potentially have treatment with curative intent and have a low probability of nodal malignancy (lymph nodes below 10 mm maximum short axis on CT), offer PET-CT as the preferred first test after CT.",
+          "metadata": {
+            "page_end": 12,
+            "word_count": 45,
+            "page_start": 12,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 12",
+            "section": "Intrathoracic lymph node assessment"
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0032_d3e4cf31",
+          "base_id": "core_0032",
+          "score": 0.8847827622662738,
+          "semantic_score": 0.858834729640774,
+          "bm25_score": 0.9453281717257734,
+          "text": "1.2.19 For people with lung cancer who could potentially have treatment with curative intent and have a low probability of nodal malignancy (lymph nodes below 10 mm maximum short axis on CT), offer PET-CT as the preferred first test after CT. [2011, amended 2019] 1.2.20 For people with suspected lung cancer who have enlarged intrathoracic lymph nodes (lymph nodes greater than or equal to 10 mm short axis on CT) and who could potentially have treatment with curative intent, offer PET-CT (if not already done), followed by EBUS-TBNA or EUS-FNA, or both. [2019]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 12",
+            "section": "Intrathoracic lymph node assessment",
+            "word_count": 93,
+            "source_type": "core",
+            "page_end": 12,
+            "page_start": 12
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0034_aa5cdba1",
+          "base_id": "core_0034",
+          "score": 0.8628054169545994,
+          "semantic_score": 0.9221674945495418,
+          "bm25_score": 0.7242939025664007,
+          "text": "1.2.21 If nodal status would affect the treatment plan, evaluate PET-CT-positive or enlarged intrathoracic nodes using a systematic approach (sampling any suspicious node on CT, PET or USS) with: • either EBUS-TBNA or EUS-FNA or • both EBUS-TBNA and EUS-FNA. [2019] 1.2.22 Consider surgical mediastinal staging for people with a negative EBUS-TBNA or EUS-FNA if clinical suspicion of nodal malignancy is high and nodal status would affect their treatment plan. [2019] We have produced an algorithm on intrathoracic nodal staging of NSCLC in patients being considered for radical treatment. Why the committee made the recommendations EBUS-TBNA and EUS-FNA",
+          "metadata": {
+            "page_end": 13,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 12, 13",
+            "word_count": 98,
+            "page_start": 12,
+            "source_type": "core",
+            "section": "Intrathoracic lymph node assessment"
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0022_03da0c63",
+          "base_id": "core_0022",
+          "score": 0.7554263303521042,
+          "semantic_score": 0.8154719299114175,
+          "bm25_score": 0.6153199313803731,
+          "text": "• initial invasive investigations for people with an intermediate probability of mediastinal malignancy • subsequent investigations for people with a high probability of mediastinal malignancy, when neck ultrasound and biopsy are negative. In these circumstances, when compared with alternative investigations, EBUS-TBNA and EUS-FNA: • produce a diagnosis and stage faster than bronchoscopy or CT-guided biopsy • are more acceptable to patients than surgery • reduce the need for further investigations and hospital visits compared with bronchoscopy. Surgical mediastinal staging There is evidence that surgical staging is useful when EBUS-TBNA and/or EUS-FNA are negative but clinical suspicion of mediastinal malignancy is high. While there are potential harms from the invasive nature of surgical staging, there is no evidence that these outweigh the benefits in this population. Procedures that were not recommended Transthoracic needle biopsy, bronchoscopy and non-ultrasound-guided TBNA are no longer recommended for staging lung cancer in intrathoracic lymph nodes because: • bronchoscopy and non-ultrasound-guided TBNA are unlikely to reach the minimum sensitivity required by the British Thoracic quality standards and",
+          "metadata": {
+            "page_start": 10,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 10, 11",
+            "source_type": "core",
+            "page_end": 11,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "word_count": 170
+          }
+        }
+      ]
+    },
+    {
+      "question": "When should surgical mediastinal staging be considered after EBUS-TBNA or EUS-FNA results?",
+      "ground_truth_ids": [
+        "core_0033",
+        "core_0034"
+      ],
+      "top_score": 0.9414601109414606,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0022_03da0c63",
+          "base_id": "core_0022",
+          "score": 0.9414601109414606,
+          "semantic_score": 1.0,
+          "bm25_score": 0.8048670364715355,
+          "text": "• initial invasive investigations for people with an intermediate probability of mediastinal malignancy • subsequent investigations for people with a high probability of mediastinal malignancy, when neck ultrasound and biopsy are negative. In these circumstances, when compared with alternative investigations, EBUS-TBNA and EUS-FNA: • produce a diagnosis and stage faster than bronchoscopy or CT-guided biopsy • are more acceptable to patients than surgery • reduce the need for further investigations and hospital visits compared with bronchoscopy. Surgical mediastinal staging There is evidence that surgical staging is useful when EBUS-TBNA and/or EUS-FNA are negative but clinical suspicion of mediastinal malignancy is high. While there are potential harms from the invasive nature of surgical staging, there is no evidence that these outweigh the benefits in this population. Procedures that were not recommended Transthoracic needle biopsy, bronchoscopy and non-ultrasound-guided TBNA are no longer recommended for staging lung cancer in intrathoracic lymph nodes because: • bronchoscopy and non-ultrasound-guided TBNA are unlikely to reach the minimum sensitivity required by the British Thoracic quality standards and",
+          "metadata": {
+            "page_start": 10,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 10, 11",
+            "source_type": "core",
+            "page_end": 11,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "word_count": 170
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0034_aa5cdba1",
+          "base_id": "core_0034",
+          "score": 0.9196295405454966,
+          "semantic_score": 0.885185057922138,
+          "bm25_score": 1.0,
+          "text": "1.2.21 If nodal status would affect the treatment plan, evaluate PET-CT-positive or enlarged intrathoracic nodes using a systematic approach (sampling any suspicious node on CT, PET or USS) with: • either EBUS-TBNA or EUS-FNA or • both EBUS-TBNA and EUS-FNA. [2019] 1.2.22 Consider surgical mediastinal staging for people with a negative EBUS-TBNA or EUS-FNA if clinical suspicion of nodal malignancy is high and nodal status would affect their treatment plan. [2019] We have produced an algorithm on intrathoracic nodal staging of NSCLC in patients being considered for radical treatment. Why the committee made the recommendations EBUS-TBNA and EUS-FNA",
+          "metadata": {
+            "page_end": 13,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 12, 13",
+            "word_count": 98,
+            "page_start": 12,
+            "source_type": "core",
+            "section": "Intrathoracic lymph node assessment"
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0023_e938553a",
+          "base_id": "core_0023",
+          "score": 0.8870842589228226,
+          "semantic_score": 0.9203959886737904,
+          "bm25_score": 0.8093568895038978,
+          "text": "bronchoscopy. Surgical mediastinal staging There is evidence that surgical staging is useful when EBUS-TBNA and/or EUS-FNA are negative but clinical suspicion of mediastinal malignancy is high. While there are potential harms from the invasive nature of surgical staging, there is no evidence that these outweigh the benefits in this population. Procedures that were not recommended Transthoracic needle biopsy, bronchoscopy and non-ultrasound-guided TBNA are no longer recommended for staging lung cancer in intrathoracic lymph nodes because: • bronchoscopy and non-ultrasound-guided TBNA are unlikely to reach the minimum sensitivity required by the British Thoracic quality standards and • they may discourage people from having more effective procedures (such as",
+          "metadata": {
+            "page_end": 11,
+            "word_count": 107,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "page_start": 10,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 10, 11"
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0033_b292c734",
+          "base_id": "core_0033",
+          "score": 0.8544972524933936,
+          "semantic_score": 0.8812821900695283,
+          "bm25_score": 0.7919990648157459,
+          "text": "[2011, amended 2019] 1.2.20 For people with suspected lung cancer who have enlarged intrathoracic lymph nodes (lymph nodes greater than or equal to 10 mm short axis on CT) and who could potentially have treatment with curative intent, offer PET-CT (if not already done), followed by EBUS-TBNA or EUS-FNA, or both. [2019] 1.2.21 If nodal status would affect the treatment plan, evaluate PET-CT-positive or enlarged intrathoracic nodes using a systematic approach (sampling any suspicious node on CT, PET or USS) with: • either EBUS-TBNA or EUS-FNA or • both EBUS-TBNA and EUS-FNA. [2019] 1.2.22 Consider surgical mediastinal staging for people with a negative EBUS-TBNA or EUS-FNA if clinical suspicion of nodal malignancy is high and nodal status would affect their treatment plan. [2019] We have produced an algorithm on intrathoracic nodal staging of NSCLC in patients being considered for radical treatment. Why the committee made the recommendations",
+          "metadata": {
+            "source_type": "core",
+            "page_start": 12,
+            "word_count": 147,
+            "section": "Intrathoracic lymph node assessment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 12, 13",
+            "page_end": 13
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0035_e8d9c077",
+          "base_id": "core_0035",
+          "score": 0.8513744079052095,
+          "semantic_score": 0.9160408821325063,
+          "bm25_score": 0.7004859680415169,
+          "text": "EBUS-TBNA and EUS-FNA • initial invasive investigations for people with an intermediate probability of mediastinal malignancy • subsequent investigations for people with a high probability of mediastinal malignancy, when neck ultrasound and biopsy are negative.",
+          "metadata": {
+            "word_count": 35,
+            "source_type": "core",
+            "page_end": 13,
+            "section": "Intrathoracic lymph node assessment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 13",
+            "page_start": 13
+          }
+        }
+      ]
+    },
+    {
+      "question": "What brain imaging is recommended for people with clinical stage 1, stage 2, and stage 3 NSCLC who are being considered for curative-intent treatment?",
+      "ground_truth_ids": [
+        "core_0038",
+        "core_0039",
+        "core_0040",
+        "core_0041"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0039_c7113332",
+          "base_id": "core_0039",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "1.2.24 Do not offer dedicated brain imaging to people with clinical stage 1 NSCLC who have no neurological symptoms and are having treatment with curative intent. [2019] 1.2.25 Offer contrast-enhanced brain CT to people with clinical stage 2 NSCLC who are having treatment with curative intent. If CT shows suspected brain metastases, offer contrast-enhanced brain MRI. [2019]",
+          "metadata": {
+            "page_end": 14,
+            "section": "Further staging",
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 14",
+            "page_start": 14,
+            "word_count": 57
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0038_ead593b6",
+          "base_id": "core_0038",
+          "score": 0.9462768031547903,
+          "semantic_score": 0.9668528441887921,
+          "bm25_score": 0.8982660407421195,
+          "text": "1.2.23 Confirm the presence of isolated distant metastases or synchronous tumours by biopsy or further imaging (for example, MRI or PET-CT) in people for whom treatment with curative intent is an option. [2011] 1.2.24 Do not offer dedicated brain imaging to people with clinical stage 1 NSCLC who have no neurological symptoms and are having treatment with curative intent.",
+          "metadata": {
+            "page_end": 14,
+            "word_count": 59,
+            "page_start": 14,
+            "source_type": "core",
+            "section": "Further staging",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 14"
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0040_c8e3ba61",
+          "base_id": "core_0040",
+          "score": 0.946220922416786,
+          "semantic_score": 0.9497951038699118,
+          "bm25_score": 0.9378811656928256,
+          "text": "[2019] 1.2.25 Offer contrast-enhanced brain CT to people with clinical stage 2 NSCLC who are having treatment with curative intent. If CT shows suspected brain metastases, offer contrast-enhanced brain MRI. [2019] 1.2.26 Offer contrast-enhanced brain MRI for people with stage 3 NSCLC who are having treatment with curative intent. [2019] 1.2.27 Offer people with clinical features suggestive of intracranial pathology CT of the head followed by MRI if normal, or MRI as an initial test. [2011]",
+          "metadata": {
+            "source_type": "core",
+            "word_count": 76,
+            "section": "Further staging",
+            "page_end": 14,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 14",
+            "page_start": 14
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0043_4796207f",
+          "base_id": "core_0043",
+          "score": 0.925212676700554,
+          "semantic_score": 0.9317915120166155,
+          "bm25_score": 0.9098620609630773,
+          "text": "Why the committee made the recommendations Brain imaging is helpful before starting treatment with curative intent, because if brain metastases are detected then the treatment plan is likely to change. However, routine brain imaging is expensive, and the evidence showed that it does not always offer a good balance of benefits and costs. In people with stage 2 and 3a disease, the benefits of brain imaging outweigh the costs because: • brain metastases are more common than in stage 1 disease • people can start early treatment for metastases if they are identified, which improves prognosis • some people with brain metastases will not have radical treatment (depending on factors such as the number of metastases, prognosis and patient preference), and this reduces costs. In people with clinical stage 1 non-small-cell lung cancer (NSCLC) and no neurological symptoms, the prevalence of detectable brain metastases is fairly low (around 4%) compared with people with stage 2 or 3a disease. People with stage 1 NSCLC who do have brain metastases often still have radical lung treatment, which is much more rarely the case for people with stage 3a NSCLC. Overall, the lower prevalence of metastases and smaller reduction in numbers of people having radical treatment mean that the benefits of brain imaging in this population are too low to justify the costs. The 2018 review only examined the clinical and cost effectiveness of imaging after the treatment plan has been decided, but the committee noted that it could be more efficient to conduct CT brain imaging alongside initial staging CT. With this in mind, the committee made a recommendation for research on routine brain imaging with CT at initial diagnosis and/or staging. How the recommendations might affect practice Practice in this area is variable.",
+          "metadata": {
+            "word_count": 292,
+            "source_type": "core",
+            "section": "Further staging",
+            "page_start": 15,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 15, 16",
+            "page_end": 16
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0041_7d1312a2",
+          "base_id": "core_0041",
+          "score": 0.8379224554547566,
+          "semantic_score": 0.8989687755348215,
+          "bm25_score": 0.6954810419346054,
+          "text": "1.2.26 Offer contrast-enhanced brain MRI for people with stage 3 NSCLC who are having treatment with curative intent. [2019] 1.2.27 Offer people with clinical features suggestive of intracranial pathology CT of the head followed by MRI if normal, or MRI as an initial test. [2011] 1.2.28 Perform an X-ray as the first test for people with localised signs or symptoms of bone metastasis. If the results are negative or inconclusive, offer bone scintigraphy or an MRI scan. [2005] 1.2.29 Avoid bone scintigraphy when PET-CT has not shown bone metastases. [2011]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 14",
+            "page_end": 14,
+            "source_type": "core",
+            "section": "Further staging",
+            "word_count": 90,
+            "page_start": 14
+          }
+        }
+      ]
+    },
+    {
+      "question": "What is the recommended first-line imaging test for a patient with localised signs or symptoms of bone metastasis, and what should be done if the result is negative or inconclusive?",
+      "ground_truth_ids": [
+        "core_0041",
+        "core_0042"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0042_49d9307c",
+          "base_id": "core_0042",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "1.2.28 Perform an X-ray as the first test for people with localised signs or symptoms of bone metastasis. If the results are negative or inconclusive, offer bone scintigraphy or an MRI scan. [2005] 1.2.29 Avoid bone scintigraphy when PET-CT has not shown bone metastases. [2011] Why the committee made the recommendations",
+          "metadata": {
+            "section": "Further staging",
+            "page_start": 14,
+            "word_count": 51,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 14, 15",
+            "page_end": 15,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0041_7d1312a2",
+          "base_id": "core_0041",
+          "score": 0.8265873190262125,
+          "semantic_score": 0.8098957493161928,
+          "bm25_score": 0.8655343150162588,
+          "text": "1.2.26 Offer contrast-enhanced brain MRI for people with stage 3 NSCLC who are having treatment with curative intent. [2019] 1.2.27 Offer people with clinical features suggestive of intracranial pathology CT of the head followed by MRI if normal, or MRI as an initial test. [2011] 1.2.28 Perform an X-ray as the first test for people with localised signs or symptoms of bone metastasis. If the results are negative or inconclusive, offer bone scintigraphy or an MRI scan. [2005] 1.2.29 Avoid bone scintigraphy when PET-CT has not shown bone metastases. [2011]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 14",
+            "page_end": 14,
+            "source_type": "core",
+            "section": "Further staging",
+            "word_count": 90,
+            "page_start": 14
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0038_ead593b6",
+          "base_id": "core_0038",
+          "score": 0.5795488905864312,
+          "semantic_score": 0.6425408733232764,
+          "bm25_score": 0.4325675975337924,
+          "text": "1.2.23 Confirm the presence of isolated distant metastases or synchronous tumours by biopsy or further imaging (for example, MRI or PET-CT) in people for whom treatment with curative intent is an option. [2011] 1.2.24 Do not offer dedicated brain imaging to people with clinical stage 1 NSCLC who have no neurological symptoms and are having treatment with curative intent.",
+          "metadata": {
+            "page_end": 14,
+            "word_count": 59,
+            "page_start": 14,
+            "source_type": "core",
+            "section": "Further staging",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 14"
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0043_4796207f",
+          "base_id": "core_0043",
+          "score": 0.5681028947997375,
+          "semantic_score": 0.5991642992130476,
+          "bm25_score": 0.49562628450201424,
+          "text": "Why the committee made the recommendations Brain imaging is helpful before starting treatment with curative intent, because if brain metastases are detected then the treatment plan is likely to change. However, routine brain imaging is expensive, and the evidence showed that it does not always offer a good balance of benefits and costs. In people with stage 2 and 3a disease, the benefits of brain imaging outweigh the costs because: • brain metastases are more common than in stage 1 disease • people can start early treatment for metastases if they are identified, which improves prognosis • some people with brain metastases will not have radical treatment (depending on factors such as the number of metastases, prognosis and patient preference), and this reduces costs. In people with clinical stage 1 non-small-cell lung cancer (NSCLC) and no neurological symptoms, the prevalence of detectable brain metastases is fairly low (around 4%) compared with people with stage 2 or 3a disease. People with stage 1 NSCLC who do have brain metastases often still have radical lung treatment, which is much more rarely the case for people with stage 3a NSCLC. Overall, the lower prevalence of metastases and smaller reduction in numbers of people having radical treatment mean that the benefits of brain imaging in this population are too low to justify the costs. The 2018 review only examined the clinical and cost effectiveness of imaging after the treatment plan has been decided, but the committee noted that it could be more efficient to conduct CT brain imaging alongside initial staging CT. With this in mind, the committee made a recommendation for research on routine brain imaging with CT at initial diagnosis and/or staging. How the recommendations might affect practice Practice in this area is variable.",
+          "metadata": {
+            "word_count": 292,
+            "source_type": "core",
+            "section": "Further staging",
+            "page_start": 15,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 15, 16",
+            "page_end": 16
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0172_13d70c5a",
+          "base_id": "core_0172",
+          "score": 0.5584584129044066,
+          "semantic_score": 0.6111864137465028,
+          "bm25_score": 0.4354264109395151,
+          "text": "1.17.1 Offer single-fraction radiotherapy to people with bone metastasis who need palliation and for whom standard pain relief is inadequate. [2005] 1.17.2 Denosumab is recommended as an option for preventing skeletal-related events in adults with bone metastases from breast cancer and from solid tumours other than prostate if bisphosphonates would otherwise be prescribed.",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 42, 43",
+            "word_count": 53,
+            "page_end": 43,
+            "section": "1.17 Bone metastases",
+            "source_type": "core",
+            "page_start": 42
+          }
+        }
+      ]
+    },
+    {
+      "question": "In what circumstances should bone scintigraphy be avoided in lung cancer staging?",
+      "ground_truth_ids": [
+        "core_0041",
+        "core_0042"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0042_49d9307c",
+          "base_id": "core_0042",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "1.2.28 Perform an X-ray as the first test for people with localised signs or symptoms of bone metastasis. If the results are negative or inconclusive, offer bone scintigraphy or an MRI scan. [2005] 1.2.29 Avoid bone scintigraphy when PET-CT has not shown bone metastases. [2011] Why the committee made the recommendations",
+          "metadata": {
+            "section": "Further staging",
+            "page_start": 14,
+            "word_count": 51,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 14, 15",
+            "page_end": 15,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0041_7d1312a2",
+          "base_id": "core_0041",
+          "score": 0.847161450269452,
+          "semantic_score": 0.8425353334585362,
+          "bm25_score": 0.8579557228282556,
+          "text": "1.2.26 Offer contrast-enhanced brain MRI for people with stage 3 NSCLC who are having treatment with curative intent. [2019] 1.2.27 Offer people with clinical features suggestive of intracranial pathology CT of the head followed by MRI if normal, or MRI as an initial test. [2011] 1.2.28 Perform an X-ray as the first test for people with localised signs or symptoms of bone metastasis. If the results are negative or inconclusive, offer bone scintigraphy or an MRI scan. [2005] 1.2.29 Avoid bone scintigraphy when PET-CT has not shown bone metastases. [2011]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 14",
+            "page_end": 14,
+            "source_type": "core",
+            "section": "Further staging",
+            "word_count": 90,
+            "page_start": 14
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0015_03568bf1",
+          "base_id": "core_0015",
+          "score": 0.7911595504971318,
+          "semantic_score": 0.8886374889621895,
+          "bm25_score": 0.5637110274119971,
+          "text": "Include the liver, adrenals and lower neck in the scan. Use contrast medium with caution in people with known renal impairment. [2005, amended 2019] 1.2.3 When assessing mediastinal and chest wall invasion: • be aware that CT alone may not be reliable • consider other techniques such as ultrasound if there is doubt • be aware that surgical assessment may be necessary if there are no contraindications to resection. [2005] 1.2.4 Ensure that all people with lung cancer who could potentially have treatment with curative intent are offered positron emission tomography CT (PET-CT) before treatment. [2011] 1.2.5 Every cancer alliance should have a system of rapid access to PET-CT scanning for people who are eligible for this. [2005, amended 2019]",
+          "metadata": {
+            "word_count": 120,
+            "source_type": "core",
+            "page_end": 8,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 8",
+            "page_start": 8,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations"
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0014_521a2862",
+          "base_id": "core_0014",
+          "score": 0.7412229750293933,
+          "semantic_score": 0.8471365146347699,
+          "bm25_score": 0.4940913826168478,
+          "text": "1.2.1 Only use sputum cytology for investigation in people with suspected lung cancer who have centrally placed nodules or masses and who decline or cannot tolerate bronchoscopy or other invasive tests. [2005] 1.2.2 Offer people with known or suspected lung cancer a contrast-enhanced chest CT scan to further the diagnosis and stage the disease. Include the liver, adrenals and lower neck in the scan. Use contrast medium with caution in people with known renal impairment. [2005, amended 2019] 1.2.3 When assessing mediastinal and chest wall invasion: • be aware that CT alone may not be reliable • consider other techniques such as ultrasound if there is doubt • be aware that surgical assessment may be necessary if there are no contraindications to resection. [2005] 1.2.4 Ensure that all people with lung cancer who could potentially have treatment with curative intent are offered positron emission tomography CT (PET-CT) before treatment. [2011]",
+          "metadata": {
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "word_count": 150,
+            "page_end": 8,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 8",
+            "page_start": 8,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0022_03da0c63",
+          "base_id": "core_0022",
+          "score": 0.6847988850879222,
+          "semantic_score": 0.8739138881811253,
+          "bm25_score": 0.24353054453711534,
+          "text": "• initial invasive investigations for people with an intermediate probability of mediastinal malignancy • subsequent investigations for people with a high probability of mediastinal malignancy, when neck ultrasound and biopsy are negative. In these circumstances, when compared with alternative investigations, EBUS-TBNA and EUS-FNA: • produce a diagnosis and stage faster than bronchoscopy or CT-guided biopsy • are more acceptable to patients than surgery • reduce the need for further investigations and hospital visits compared with bronchoscopy. Surgical mediastinal staging There is evidence that surgical staging is useful when EBUS-TBNA and/or EUS-FNA are negative but clinical suspicion of mediastinal malignancy is high. While there are potential harms from the invasive nature of surgical staging, there is no evidence that these outweigh the benefits in this population. Procedures that were not recommended Transthoracic needle biopsy, bronchoscopy and non-ultrasound-guided TBNA are no longer recommended for staging lung cancer in intrathoracic lymph nodes because: • bronchoscopy and non-ultrasound-guided TBNA are unlikely to reach the minimum sensitivity required by the British Thoracic quality standards and",
+          "metadata": {
+            "page_start": 10,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 10, 11",
+            "source_type": "core",
+            "page_end": 11,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "word_count": 170
+          }
+        }
+      ]
+    },
+    {
+      "question": "What cardiovascular assessment criteria determine whether a person with NSCLC can proceed to surgery without further cardiac investigation versus needing a cardiology review?",
+      "ground_truth_ids": [
+        "core_0058",
+        "core_0059"
+      ],
+      "top_score": 0.8354467939039407,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0058_6dc8fb2a",
+          "base_id": "core_0058",
+          "score": 0.8354467939039407,
+          "semantic_score": 0.7649239912913439,
+          "bm25_score": 1.0,
+          "text": "Cardiovascular function 1.4.2 Avoid surgery within 30 days of myocardial infarction. [2011] 1.4.3 Seek a cardiology review for people with: • an active cardiac condition or • 3 or more risk factors or • poor cardiac functional capacity. [2011] 1.4.4 Offer surgery without further investigations to people with 2 or fewer risk factors and good cardiac functional capacity. [2011]",
+          "metadata": {
+            "source_type": "core",
+            "page_start": 18,
+            "word_count": 59,
+            "page_end": 19,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 18, 19",
+            "section": "Cardiovascular function"
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0059_3ca5c0c9",
+          "base_id": "core_0059",
+          "score": 0.7992866853770093,
+          "semantic_score": 0.813323091620919,
+          "bm25_score": 0.7665350708078869,
+          "text": "1.4.2 Avoid surgery within 30 days of myocardial infarction. [2011] 1.4.3 Seek a cardiology review for people with: • an active cardiac condition or • 3 or more risk factors or • poor cardiac functional capacity. [2011] 1.4.4 Offer surgery without further investigations to people with 2 or fewer risk factors and good cardiac functional capacity. [2011] 1.4.5 Optimise any primary cardiac treatment and begin secondary prophylaxis for coronary disease as soon as possible. [2011]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 18, 19",
+            "page_start": 18,
+            "source_type": "core",
+            "word_count": 75,
+            "page_end": 19,
+            "section": "Cardiovascular function"
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0057_7bfbcd20",
+          "base_id": "core_0057",
+          "score": 0.7952100418680369,
+          "semantic_score": 1.0,
+          "bm25_score": 0.31736680622678964,
+          "text": "Perioperative mortality 1.4.1 When evaluating surgery as an option for people with NSCLC, consider a global risk score such as Thoracoscore to estimate the risk of death. Ensure the person is aware of the risk before they give consent for surgery. [2011]",
+          "metadata": {
+            "section": "Perioperative mortality",
+            "page_start": 18,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 18",
+            "page_end": 18,
+            "word_count": 42,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0071_135f5862",
+          "base_id": "core_0071",
+          "score": 0.7109603330302331,
+          "semantic_score": 0.9071715830886924,
+          "bm25_score": 0.253134082893828,
+          "text": "1.5.6 Offer pulmonary function tests (including lung volumes and transfer factor) before radical radiotherapy for NSCLC. [2005] 1.5.7 Include people receiving radiotherapy with curative intent in a national quality assurance programme. [2011] 1.5.8 For people with stage 1 to 2a (T1a to T2b, N0, M0) NSCLC who decline surgery or in whom any surgery is contraindicated, offer SABR. If SABR is contraindicated, offer either conventional or hyperfractionated radiotherapy. [2019]",
+          "metadata": {
+            "page_start": 21,
+            "word_count": 69,
+            "page_end": 21,
+            "section": "Radical radiotherapy for people not having surgery",
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 21"
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0070_99fab0d1",
+          "base_id": "core_0070",
+          "score": 0.6664178467177442,
+          "semantic_score": 0.8895360264236181,
+          "bm25_score": 0.14580876073737167,
+          "text": "Radical radiotherapy for people not having surgery 1.5.6 Offer pulmonary function tests (including lung volumes and transfer factor) before radical radiotherapy for NSCLC. [2005] 1.5.7 Include people receiving radiotherapy with curative intent in a national quality assurance programme. [2011]",
+          "metadata": {
+            "word_count": 39,
+            "source_type": "core",
+            "section": "Radical radiotherapy for people not having surgery",
+            "page_end": 21,
+            "page_start": 21,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 21"
+          }
+        }
+      ]
+    },
+    {
+      "question": "What lung function tests should be performed before proceeding with curative-intent treatment for lung cancer, and what threshold is used for shuttle walk testing to assess fitness for surgery?",
+      "ground_truth_ids": [
+        "core_0062"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0062_1e2c646d",
+          "base_id": "core_0062",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "Lung function 1.4.9 Perform spirometry and transfer factor (TLCO) testing before proceeding with treatment with curative intent. [2011, amended 2019] 1.4.10 Offer people surgery if they have a forced expiratory volume in 1 second (FEV1) within normal limits and good exercise tolerance. [2011] 1.4.11 Before surgery, perform a functional segment count to predict postoperative lung function. [2011] 1.4.12 Offer people with predicted postoperative FEV1 or TLCO below 30% the option of treatment with curative intent if they accept the risks of dyspnoea and associated complications. [2011, amended 2019] 1.4.13 Consider shuttle walk testing (using a distance walked of more than 400 m as a cut-off for good function) to assess the fitness of people with moderate to high risk of postoperative dyspnoea. [2011] 1.4.14 Consider cardiopulmonary exercise testing to measure oxygen uptake (VO2 max) and assess lung function in people with moderate to high risk of postoperative dyspnoea, using more than 15 ml/kg/minute as a cut-off for good function. [2011]",
+          "metadata": {
+            "word_count": 160,
+            "page_end": 20,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 19, 20",
+            "section": "Lung function",
+            "page_start": 19,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0070_99fab0d1",
+          "base_id": "core_0070",
+          "score": 0.7345828677656187,
+          "semantic_score": 0.7939090840094108,
+          "bm25_score": 0.5961550298634368,
+          "text": "Radical radiotherapy for people not having surgery 1.5.6 Offer pulmonary function tests (including lung volumes and transfer factor) before radical radiotherapy for NSCLC. [2005] 1.5.7 Include people receiving radiotherapy with curative intent in a national quality assurance programme. [2011]",
+          "metadata": {
+            "word_count": 39,
+            "source_type": "core",
+            "section": "Radical radiotherapy for people not having surgery",
+            "page_end": 21,
+            "page_start": 21,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 21"
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0071_135f5862",
+          "base_id": "core_0071",
+          "score": 0.6809068391882986,
+          "semantic_score": 0.7376645239686643,
+          "bm25_score": 0.5484722413674455,
+          "text": "1.5.6 Offer pulmonary function tests (including lung volumes and transfer factor) before radical radiotherapy for NSCLC. [2005] 1.5.7 Include people receiving radiotherapy with curative intent in a national quality assurance programme. [2011] 1.5.8 For people with stage 1 to 2a (T1a to T2b, N0, M0) NSCLC who decline surgery or in whom any surgery is contraindicated, offer SABR. If SABR is contraindicated, offer either conventional or hyperfractionated radiotherapy. [2019]",
+          "metadata": {
+            "page_start": 21,
+            "word_count": 69,
+            "page_end": 21,
+            "section": "Radical radiotherapy for people not having surgery",
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 21"
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0063_0f5cc250",
+          "base_id": "core_0063",
+          "score": 0.6257036253994606,
+          "semantic_score": 0.7346556953805202,
+          "bm25_score": 0.3714821287769879,
+          "text": "Assessment before radiotherapy with curative intent 1.4.15 A clinical oncologist specialising in thoracic oncology should determine suitability for radiotherapy with curative intent, taking into account performance status and comorbidities. [2011]",
+          "metadata": {
+            "section": "Assessment before radiotherapy with curative intent",
+            "page_start": 20,
+            "page_end": 20,
+            "word_count": 30,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 20"
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0180_f452023c",
+          "base_id": "core_0180",
+          "score": 0.5940186116465673,
+          "semantic_score": 0.5602927416987725,
+          "bm25_score": 0.6727123081914218,
+          "text": "What is the effectiveness and cost effectiveness of immunotherapy in people with stage 3a to N2 non-small-cell lung cancer (NSCLC) following multimodality treatment including surgery? Why the committee made the recommendation for research",
+          "metadata": {
+            "page_start": 45,
+            "section": "1 Immunotherapy after multimodality treatment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 45",
+            "word_count": 33,
+            "page_end": 45,
+            "source_type": "core"
+          }
+        }
+      ]
+    },
+    {
+      "question": "What type of surgery should be offered to people with NSCLC who are well enough for curative-intent treatment, and when is more extensive surgery such as pneumonectomy indicated?",
+      "ground_truth_ids": [
+        "core_0065",
+        "core_0066"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0066_714d11d9",
+          "base_id": "core_0066",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "1.5.1 For people with NSCLC who are well enough and for whom treatment with curative intent is suitable, offer lobectomy (either open or thoracoscopic). [2019] 1.5.2 Offer more extensive surgery (bronchoangioplastic surgery, bilobectomy, pneumonectomy) only when needed to obtain clear margins. [2011]",
+          "metadata": {
+            "page_end": 20,
+            "page_start": 20,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 20",
+            "section": "Surgery",
+            "source_type": "core",
+            "word_count": 42
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0065_94d16828",
+          "base_id": "core_0065",
+          "score": 0.9154213403852736,
+          "semantic_score": 0.9785804560948407,
+          "bm25_score": 0.7680500703962836,
+          "text": "Surgery 1.5.1 For people with NSCLC who are well enough and for whom treatment with curative intent is suitable, offer lobectomy (either open or thoracoscopic). [2019]",
+          "metadata": {
+            "page_end": 20,
+            "page_start": 20,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 20",
+            "source_type": "core",
+            "section": "Surgery",
+            "word_count": 26
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0084_632bad1a",
+          "base_id": "core_0084",
+          "score": 0.7938803533745656,
+          "semantic_score": 0.7605459564058775,
+          "bm25_score": 0.8716606129681713,
+          "text": "[2011] 1.6.2 Treat Pancoast tumours in the same way as other types of NSCLC. Offer multimodality treatment according to resectability, stage of the tumour and performance status of the person. [2011] 1.6.3 For people with operable stage 3a N2 NSCLC who can have surgery and are well enough for multimodality treatment, consider chemoradiotherapy with surgery.",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 24, 25",
+            "section": "1.6 Multimodality treatment for NSCLC with curative intent",
+            "word_count": 55,
+            "page_start": 24,
+            "source_type": "core",
+            "page_end": 25
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0085_8bf59acf",
+          "base_id": "core_0085",
+          "score": 0.7788488902938143,
+          "semantic_score": 0.7610803577398274,
+          "bm25_score": 0.8203087995864506,
+          "text": "performance status of the person. [2011] 1.6.3 For people with operable stage 3a N2 NSCLC who can have surgery and are well enough for multimodality treatment, consider chemoradiotherapy with surgery. [2019] 1.6.4 Discuss the benefits and risks with the person before starting chemoradiotherapy with surgery, including that it: • improves progression-free survival • may improve overall survival. [2019] 1.6.5 For people with stage 3a N2 NSCLC who are having chemoradiotherapy and surgery, ensure that their surgery is scheduled for 3 to 5 weeks after completion of the chemoradiotherapy. [2019]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 25",
+            "section": "1.6 Multimodality treatment for NSCLC with curative intent",
+            "page_start": 25,
+            "source_type": "core",
+            "word_count": 89,
+            "page_end": 25
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0067_c883989a",
+          "base_id": "core_0067",
+          "score": 0.7659762105193594,
+          "semantic_score": 0.8054504994948113,
+          "bm25_score": 0.6738695362433051,
+          "text": "1.5.2 Offer more extensive surgery (bronchoangioplastic surgery, bilobectomy, pneumonectomy) only when needed to obtain clear margins. [2011] 1.5.3 Perform hilar and mediastinal lymph node sampling or en bloc resection for all people having surgery with curative intent. [2011]",
+          "metadata": {
+            "source_type": "core",
+            "page_start": 20,
+            "page_end": 20,
+            "section": "Surgery",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 20",
+            "word_count": 38
+          }
+        }
+      ]
+    },
+    {
+      "question": "What treatment options are recommended for people with stage 1 to 2a NSCLC who decline lobectomy or in whom it is contraindicated?",
+      "ground_truth_ids": [
+        "core_0069"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0069_a488ec7f",
+          "base_id": "core_0069",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "Surgery or radiotherapy for people not having lobectomy 1.5.5 For people with stage 1 to 2a (T1a to T2b, N0, M0) NSCLC who decline lobectomy or in whom it is contraindicated, offer radical radiotherapy with stereotactic ablative radiotherapy (SABR) or sublobar resection. [2019]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 21",
+            "page_start": 21,
+            "source_type": "core",
+            "word_count": 43,
+            "page_end": 21,
+            "section": "Surgery or radiotherapy for people not having lobectomy"
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0072_d4384cde",
+          "base_id": "core_0072",
+          "score": 0.8675365099700274,
+          "semantic_score": 0.9306065791373495,
+          "bm25_score": 0.720373015246276,
+          "text": "1.5.8 For people with stage 1 to 2a (T1a to T2b, N0, M0) NSCLC who decline surgery or in whom any surgery is contraindicated, offer SABR. If SABR is contraindicated, offer either conventional or hyperfractionated radiotherapy. [2019] 1.5.9 Consider radical radiotherapy (either conventional or hyperfractionated) for people with stage 3a NSCLC who: • are eligible for this treatment and • cannot tolerate, or decline, chemoradiotherapy (with or without surgery).",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 21",
+            "word_count": 69,
+            "page_start": 21,
+            "page_end": 21,
+            "source_type": "core",
+            "section": "Radical radiotherapy for people not having surgery"
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0076_de273908",
+          "base_id": "core_0076",
+          "score": 0.8515735076442678,
+          "semantic_score": 0.9107298136949089,
+          "bm25_score": 0.7135421268594384,
+          "text": "Why the committee made the recommendations For people with NSCLC who are well enough and for whom treatment with curative intent is suitable, the evidence showed that lobectomy provides better survival outcomes than stereotactic ablative radiotherapy (SABR). Lobectomy is a good compromise between preserving pulmonary function and being more likely to remove cancerous cells compared with sublobar resection. For people with stage 1 to 2a (T1a to T2b, N0, M0) NSCLC, the evidence showed that: • if they decline lobectomy or it is contraindicated, sublobar resection and SABR both provide better survival outcomes than conventionally fractionated radiotherapy, although it is not clear which of these 2 is better • if they decline any surgery or it is contraindicated, SABR provides better survival outcomes than conventionally fractionated radiotherapy, and people often prefer it because it involves fewer hospital visits • if surgery and SABR are contraindicated, conventionally fractionated radiotherapy provides better survival outcomes than no radiotherapy. For people with stage 3a or 3b NSCLC who cannot tolerate chemoradiotherapy or who decline it, the evidence was not strong enough to recommend conventional radiotherapy over hyper-fractionated regimens or vice versa. However, people who cannot tolerate chemoradiotherapy may also be unable to tolerate radical radiotherapy, so this will not be an option for everyone with stage 3a or 3b NSCLC. For an explanation of the recommendations covering surgery in this group, see the rationale on management of stage 3a N2 NSCLC.",
+          "metadata": {
+            "section": "Radiotherapy fractionation",
+            "page_start": 23,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 23",
+            "source_type": "core",
+            "word_count": 237,
+            "page_end": 23
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0071_135f5862",
+          "base_id": "core_0071",
+          "score": 0.8002312531108009,
+          "semantic_score": 0.8596120474964144,
+          "bm25_score": 0.6616760662110361,
+          "text": "1.5.6 Offer pulmonary function tests (including lung volumes and transfer factor) before radical radiotherapy for NSCLC. [2005] 1.5.7 Include people receiving radiotherapy with curative intent in a national quality assurance programme. [2011] 1.5.8 For people with stage 1 to 2a (T1a to T2b, N0, M0) NSCLC who decline surgery or in whom any surgery is contraindicated, offer SABR. If SABR is contraindicated, offer either conventional or hyperfractionated radiotherapy. [2019]",
+          "metadata": {
+            "page_start": 21,
+            "word_count": 69,
+            "page_end": 21,
+            "section": "Radical radiotherapy for people not having surgery",
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 21"
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0065_94d16828",
+          "base_id": "core_0065",
+          "score": 0.7737252894861896,
+          "semantic_score": 0.8780715641930463,
+          "bm25_score": 0.530250648503524,
+          "text": "Surgery 1.5.1 For people with NSCLC who are well enough and for whom treatment with curative intent is suitable, offer lobectomy (either open or thoracoscopic). [2019]",
+          "metadata": {
+            "page_end": 20,
+            "page_start": 20,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 20",
+            "source_type": "core",
+            "section": "Surgery",
+            "word_count": 26
+          }
+        }
+      ]
+    },
+    {
+      "question": "What are the two recommended conventionally fractionated radical radiotherapy dose regimens for NSCLC?",
+      "ground_truth_ids": [
+        "core_0074",
+        "core_0075"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0077_6014ed0c",
+          "base_id": "core_0077",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "• if surgery and SABR are contraindicated, conventionally fractionated radiotherapy provides better survival outcomes than no radiotherapy. For people with stage 3a or 3b NSCLC who cannot tolerate chemoradiotherapy or who decline it, the evidence was not strong enough to recommend conventional radiotherapy over hyper-fractionated regimens or vice versa. However, people who cannot tolerate chemoradiotherapy may also be unable to tolerate radical radiotherapy, so this will not be an option for everyone with stage 3a or 3b NSCLC. For an explanation of the recommendations covering surgery in this group, see the rationale on management of stage 3a N2 NSCLC. 55 Gy in 20 fractions is the most common conventional radical radiotherapy regimen in the UK. If conventionally fractionated radiotherapy is used, a total radiation dose of 60 Gy provides better survival outcomes and fewer adverse events than 74 Gy. A total dose of 60 to 66 Gy is also normal NHS practice.",
+          "metadata": {
+            "word_count": 152,
+            "page_start": 23,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 23",
+            "section": "Radiotherapy fractionation",
+            "source_type": "core",
+            "page_end": 23
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0078_81a56140",
+          "base_id": "core_0078",
+          "score": 0.8705044585905906,
+          "semantic_score": 0.8990502839196299,
+          "bm25_score": 0.8038975328228322,
+          "text": "55 Gy in 20 fractions is the most common conventional radical radiotherapy regimen in the UK. If conventionally fractionated radiotherapy is used, a total radiation dose of 60 Gy provides better survival outcomes and fewer adverse events than 74 Gy. A total dose of 60 to 66 Gy is also normal NHS practice. There are not many randomised controlled trials comparing SABR with surgery (lobectomy or sublobar resection). SABR is non-invasive, so if it is as effective as surgery then it may be a preferable option for many people with lung cancer.",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 23",
+            "word_count": 92,
+            "source_type": "core",
+            "page_end": 23,
+            "section": "Radiotherapy fractionation",
+            "page_start": 23
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0076_de273908",
+          "base_id": "core_0076",
+          "score": 0.7964320709878274,
+          "semantic_score": 0.8242643374495026,
+          "bm25_score": 0.7314901159105854,
+          "text": "Why the committee made the recommendations For people with NSCLC who are well enough and for whom treatment with curative intent is suitable, the evidence showed that lobectomy provides better survival outcomes than stereotactic ablative radiotherapy (SABR). Lobectomy is a good compromise between preserving pulmonary function and being more likely to remove cancerous cells compared with sublobar resection. For people with stage 1 to 2a (T1a to T2b, N0, M0) NSCLC, the evidence showed that: • if they decline lobectomy or it is contraindicated, sublobar resection and SABR both provide better survival outcomes than conventionally fractionated radiotherapy, although it is not clear which of these 2 is better • if they decline any surgery or it is contraindicated, SABR provides better survival outcomes than conventionally fractionated radiotherapy, and people often prefer it because it involves fewer hospital visits • if surgery and SABR are contraindicated, conventionally fractionated radiotherapy provides better survival outcomes than no radiotherapy. For people with stage 3a or 3b NSCLC who cannot tolerate chemoradiotherapy or who decline it, the evidence was not strong enough to recommend conventional radiotherapy over hyper-fractionated regimens or vice versa. However, people who cannot tolerate chemoradiotherapy may also be unable to tolerate radical radiotherapy, so this will not be an option for everyone with stage 3a or 3b NSCLC. For an explanation of the recommendations covering surgery in this group, see the rationale on management of stage 3a N2 NSCLC.",
+          "metadata": {
+            "section": "Radiotherapy fractionation",
+            "page_start": 23,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 23",
+            "source_type": "core",
+            "word_count": 237,
+            "page_end": 23
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0075_e4e5982f",
+          "base_id": "core_0075",
+          "score": 0.7634333426968433,
+          "semantic_score": 0.8160049975718034,
+          "bm25_score": 0.6407661479886028,
+          "text": "1.5.11 If using SABR, follow the SABR Consortium guidance on fractionation. [2019] 1.5.12 If conventionally fractionated radical radiotherapy is used, offer either: • 55 Gy in 20 fractions over 4 weeks or • 60 to 66 Gy, in 30 to 33 fractions, over 6 to 6.5 weeks. [2019] Why the committee made the recommendations",
+          "metadata": {
+            "page_end": 23,
+            "page_start": 21,
+            "word_count": 54,
+            "section": "Radiotherapy fractionation",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 21, 22, 23",
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0074_4a70f6df",
+          "base_id": "core_0074",
+          "score": 0.7496513781714628,
+          "semantic_score": 0.7900476600272817,
+          "bm25_score": 0.6553933871745521,
+          "text": "Radiotherapy fractionation 1.5.11 If using SABR, follow the SABR Consortium guidance on fractionation. [2019] 1.5.12 If conventionally fractionated radical radiotherapy is used, offer either: • 55 Gy in 20 fractions over 4 weeks or • 60 to 66 Gy, in 30 to 33 fractions, over 6 to 6.5 weeks. [2019]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 21, 22",
+            "word_count": 50,
+            "page_start": 21,
+            "source_type": "core",
+            "section": "Radiotherapy fractionation",
+            "page_end": 22
+          }
+        }
+      ]
+    },
+    {
+      "question": "For people with operable stage 3a N2 NSCLC having chemoradiotherapy and surgery, how long after completing chemoradiotherapy should surgery be scheduled, and what benefits should be discussed with the person before starting this combined treatment?",
+      "ground_truth_ids": [
+        "core_0085",
+        "core_0086"
+      ],
+      "top_score": 0.9991894328621727,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0085_8bf59acf",
+          "base_id": "core_0085",
+          "score": 0.9991894328621727,
+          "semantic_score": 0.9988420469459609,
+          "bm25_score": 1.0,
+          "text": "performance status of the person. [2011] 1.6.3 For people with operable stage 3a N2 NSCLC who can have surgery and are well enough for multimodality treatment, consider chemoradiotherapy with surgery. [2019] 1.6.4 Discuss the benefits and risks with the person before starting chemoradiotherapy with surgery, including that it: • improves progression-free survival • may improve overall survival. [2019] 1.6.5 For people with stage 3a N2 NSCLC who are having chemoradiotherapy and surgery, ensure that their surgery is scheduled for 3 to 5 weeks after completion of the chemoradiotherapy. [2019]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 25",
+            "section": "1.6 Multimodality treatment for NSCLC with curative intent",
+            "page_start": 25,
+            "source_type": "core",
+            "word_count": 89,
+            "page_end": 25
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0086_9bd1da9f",
+          "base_id": "core_0086",
+          "score": 0.9893248971492675,
+          "semantic_score": 1.0,
+          "bm25_score": 0.9644163238308918,
+          "text": "[2019] 1.6.4 Discuss the benefits and risks with the person before starting chemoradiotherapy with surgery, including that it: • improves progression-free survival • may improve overall survival. [2019] 1.6.5 For people with stage 3a N2 NSCLC who are having chemoradiotherapy and surgery, ensure that their surgery is scheduled for 3 to 5 weeks after completion of the chemoradiotherapy. [2019] 1.6.6 Multidisciplinary teams that provide chemoradiotherapy with surgery should have expertise in multimodality treatment and in all of the individual components.",
+          "metadata": {
+            "section": "1.6 Multimodality treatment for NSCLC with curative intent",
+            "page_end": 25,
+            "word_count": 80,
+            "page_start": 25,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 25",
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0089_b4667f4d",
+          "base_id": "core_0089",
+          "score": 0.7875710960000034,
+          "semantic_score": 0.8424465771525378,
+          "bm25_score": 0.65952830664409,
+          "text": "And as with any major surgery, there is a perioperative mortality risk for people who have chemoradiotherapy and surgery. The 3 to 5 week wait for surgery is recommended to give people time to recover from the chemoradiotherapy. Chemoradiotherapy with surgery is not often offered in current practice. In addition, there are specific factors to take into account when offering all these treatments together. Therefore, multidisciplinary teams providing it should have expertise both in the combined therapy, and in all the individual components. Immunotherapy has been shown to be effective in a variety of NSCLC indications but there is currently no evidence on whether it is clinically or cost effective for people with stage 3a N2 NSCLC following surgery. The committee made a recommendation for research on immunotherapy after multimodality treatment to address this. How the recommendations might affect practice",
+          "metadata": {
+            "source_type": "core",
+            "page_start": 26,
+            "section": "1.6 Multimodality treatment for NSCLC with curative intent",
+            "page_end": 27,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 26, 27",
+            "word_count": 140
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0090_a64225ab",
+          "base_id": "core_0090",
+          "score": 0.7518596907339093,
+          "semantic_score": 0.795986731739972,
+          "bm25_score": 0.6488965950530967,
+          "text": "Immunotherapy has been shown to be effective in a variety of NSCLC indications but there is currently no evidence on whether it is clinically or cost effective for people with stage 3a N2 NSCLC following surgery. The committee made a recommendation for research on immunotherapy after multimodality treatment to address this. How the recommendations might affect practice The committee felt that chemoradiotherapy and surgery is offered far less often than chemoradiotherapy alone or chemotherapy and surgery for people with NSCLC stage 3a N2.",
+          "metadata": {
+            "source_type": "core",
+            "section": "1.6 Multimodality treatment for NSCLC with curative intent",
+            "word_count": 83,
+            "page_start": 26,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 26, 27",
+            "page_end": 27
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0091_8a508f9f",
+          "base_id": "core_0091",
+          "score": 0.6999490909878949,
+          "semantic_score": 0.7865595028695175,
+          "bm25_score": 0.4978581299307756,
+          "text": "The committee felt that chemoradiotherapy and surgery is offered far less often than chemoradiotherapy alone or chemotherapy and surgery for people with NSCLC stage 3a N2. Therefore, these recommendations could lead to a change in current practice.",
+          "metadata": {
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 27",
+            "section": "1.6 Multimodality treatment for NSCLC with curative intent",
+            "word_count": 37,
+            "page_end": 27,
+            "page_start": 27
+          }
+        }
+      ]
+    },
+    {
+      "question": "For which patients with resectable NSCLC is nivolumab in combination with chemotherapy recommended as neoadjuvant treatment?",
+      "ground_truth_ids": [
+        "core_0093"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0093_1ae11002",
+          "base_id": "core_0093",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "Neoadjuvant treatment 1.6.8 Nivolumab in combination with chemotherapy is recommended as an option for neoadjuvant treatment of resectable (tumours at least 4 cm or node positive) NSCLC. For full details, see NICE's technology appraisal guidance on nivolumab (TA876, 2023).",
+          "metadata": {
+            "page_end": 27,
+            "source_type": "core",
+            "word_count": 39,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 27",
+            "page_start": 27,
+            "section": "Neoadjuvant treatment"
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0095_92f6ccb8",
+          "base_id": "core_0095",
+          "score": 0.8091922309414865,
+          "semantic_score": 0.7976861948183924,
+          "bm25_score": 0.8360396485620392,
+          "text": "1.6.9 Durvalumab in combination with platinum-based chemotherapy is recommended as an option for neoadjuvant (then continued alone as adjuvant) treatment of resectable (tumours at least 4 cm or node positive) NSCLC without epidermal growth factor receptor (EGFR) mutations or anaplastic lymphoma kinase (ALK) rearrangements. For full details, see NICE's technology appraisal guidance on durvalumab (TA1030, 2025). 1.6.10 Pembrolizumab in combination with platinum-based chemotherapy is recommended as an option for neoadjuvant (then continued alone as adjuvant) treatment of resectable NSCLC with a high risk of recurrence. For full details, see NICE's technology appraisal guidance on pembrolizumab (TA1017, 2024).",
+          "metadata": {
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 27",
+            "page_end": 27,
+            "section": "Neoadjuvant and adjuvant treatment",
+            "page_start": 27,
+            "word_count": 97
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0094_839d1c36",
+          "base_id": "core_0094",
+          "score": 0.770727029515031,
+          "semantic_score": 0.7814539361194656,
+          "bm25_score": 0.7456975807713506,
+          "text": "Neoadjuvant and adjuvant treatment 1.6.9 Durvalumab in combination with platinum-based chemotherapy is recommended as an option for neoadjuvant (then continued alone as adjuvant) treatment of resectable (tumours at least 4 cm or node positive) NSCLC without epidermal growth factor receptor (EGFR) mutations or anaplastic lymphoma kinase (ALK) rearrangements. For full details, see NICE's technology appraisal guidance on durvalumab (TA1030, 2025).",
+          "metadata": {
+            "page_start": 27,
+            "source_type": "core",
+            "section": "Neoadjuvant and adjuvant treatment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 27",
+            "page_end": 27,
+            "word_count": 60
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0129_a4d37736",
+          "base_id": "core_0129",
+          "score": 0.6384361354575784,
+          "semantic_score": 0.7055516703695681,
+          "bm25_score": 0.48183322066293566,
+          "text": "1.7.2 For medicines not recommended for treating advanced NSCLC in some people, see NICE's technology appraisal guidance on: • cemiplimab with platinum-based chemotherapy for untreated advanced NSCLC (TA1108, November 2025) • amivantamab for EGFR-TK positive advanced NSCLC (TA850, December 2022) • pralsetinib for RET fusion-positive advanced NSCLC (TA812, August 2022) • nivolumab with ipilimumab and chemotherapy for untreated metastatic NSCLC without EGFR or ALK mutations (TA724, September 2021) • necitumumab for EGFR-TK positive advanced squamous NSCLC (TA411,",
+          "metadata": {
+            "page_end": 35,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 35",
+            "section": "Treatments not recommended for squamous and non-squamous advanced NSCLC",
+            "word_count": 77,
+            "page_start": 35
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0090_a64225ab",
+          "base_id": "core_0090",
+          "score": 0.5803739595162731,
+          "semantic_score": 0.7105204314942253,
+          "bm25_score": 0.2766988582343849,
+          "text": "Immunotherapy has been shown to be effective in a variety of NSCLC indications but there is currently no evidence on whether it is clinically or cost effective for people with stage 3a N2 NSCLC following surgery. The committee made a recommendation for research on immunotherapy after multimodality treatment to address this. How the recommendations might affect practice The committee felt that chemoradiotherapy and surgery is offered far less often than chemoradiotherapy alone or chemotherapy and surgery for people with NSCLC stage 3a N2.",
+          "metadata": {
+            "source_type": "core",
+            "section": "1.6 Multimodality treatment for NSCLC with curative intent",
+            "word_count": 83,
+            "page_start": 26,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 26, 27",
+            "page_end": 27
+          }
+        }
+      ]
+    },
+    {
+      "question": "For which patients with resected NSCLC is osimertinib recommended as adjuvant treatment, and when should it be stopped?",
+      "ground_truth_ids": [
+        "core_0098",
+        "core_0099"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0099_41ed81be",
+          "base_id": "core_0099",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "1.6.14 Osimertinib is recommended as an option for adjuvant treatment of completely resected stage 1b to 3a NSCLC with EGFR exon 19 deletions or EGFR exon 21 (L858R) substitution mutations. It should be stopped at 3 years, or earlier if there is disease recurrence or unacceptable toxicity. For full details, see NICE's technology appraisal guidance on osimertinib (TA1043, 2025).",
+          "metadata": {
+            "section": "Adjuvant treatment",
+            "word_count": 59,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 28",
+            "page_end": 28,
+            "source_type": "core",
+            "page_start": 28
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0098_84258d4f",
+          "base_id": "core_0098",
+          "score": 0.9533286822121447,
+          "semantic_score": 0.9358462503310981,
+          "bm25_score": 0.99412102326792,
+          "text": "1.6.13 Offer a platinum-based combination chemotherapy regimen for adjuvant chemotherapy. [2011] 1.6.14 Osimertinib is recommended as an option for adjuvant treatment of completely resected stage 1b to 3a NSCLC with EGFR exon 19 deletions or EGFR exon 21 (L858R) substitution mutations. It should be stopped at 3 years, or earlier if there is disease recurrence or unacceptable toxicity.",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 28",
+            "page_start": 28,
+            "section": "Adjuvant treatment",
+            "word_count": 58,
+            "page_end": 28,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0100_093f35c0",
+          "base_id": "core_0100",
+          "score": 0.820214846075618,
+          "semantic_score": 0.8803317261611644,
+          "bm25_score": 0.6799421258760101,
+          "text": "For full details, see NICE's technology appraisal guidance on osimertinib (TA1043, 2025). 1.6.15 Alectinib is recommended as an option for adjuvant treatment of completely resected stage 1b (tumours at least 4 cm) to 3a ALK-positive NSCLC. For full details, see NICE's technology appraisal guidance on alectinib (TA1014, 2024).",
+          "metadata": {
+            "page_end": 28,
+            "source_type": "core",
+            "word_count": 48,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 28",
+            "section": "Adjuvant treatment",
+            "page_start": 28
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0101_45880ae3",
+          "base_id": "core_0101",
+          "score": 0.7310064328321861,
+          "semantic_score": 0.7562500549933842,
+          "bm25_score": 0.6721046477893909,
+          "text": "1.6.15 Alectinib is recommended as an option for adjuvant treatment of completely resected stage 1b (tumours at least 4 cm) to 3a ALK-positive NSCLC. For full details, see NICE's technology appraisal guidance on alectinib (TA1014, 2024). 1.6.16 For medicines recommended as options for adjuvant treatment of completely resected NSCLC with a high risk of recurrence after platinum-based chemotherapy in some people, see NICE's technology appraisal guidance on: • atezolizumab for NSCLC with a programmed cell death ligand 1 (PD-L1) score of 50% or more and without EGFR mutations or ALK rearrangements (TA1071, June 2025) • pembrolizumab (TA1037, February 2025).",
+          "metadata": {
+            "section": "Adjuvant treatment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 28",
+            "word_count": 99,
+            "page_start": 28,
+            "page_end": 28,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0094_839d1c36",
+          "base_id": "core_0094",
+          "score": 0.6289528694460073,
+          "semantic_score": 0.7035751312786894,
+          "bm25_score": 0.4548342585030824,
+          "text": "Neoadjuvant and adjuvant treatment 1.6.9 Durvalumab in combination with platinum-based chemotherapy is recommended as an option for neoadjuvant (then continued alone as adjuvant) treatment of resectable (tumours at least 4 cm or node positive) NSCLC without epidermal growth factor receptor (EGFR) mutations or anaplastic lymphoma kinase (ALK) rearrangements. For full details, see NICE's technology appraisal guidance on durvalumab (TA1030, 2025).",
+          "metadata": {
+            "page_start": 27,
+            "source_type": "core",
+            "section": "Neoadjuvant and adjuvant treatment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 27",
+            "page_end": 27,
+            "word_count": 60
+          }
+        }
+      ]
+    },
+    {
+      "question": "For which patients with resected NSCLC is alectinib recommended as adjuvant treatment?",
+      "ground_truth_ids": [
+        "core_0100",
+        "core_0101"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0101_45880ae3",
+          "base_id": "core_0101",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "1.6.15 Alectinib is recommended as an option for adjuvant treatment of completely resected stage 1b (tumours at least 4 cm) to 3a ALK-positive NSCLC. For full details, see NICE's technology appraisal guidance on alectinib (TA1014, 2024). 1.6.16 For medicines recommended as options for adjuvant treatment of completely resected NSCLC with a high risk of recurrence after platinum-based chemotherapy in some people, see NICE's technology appraisal guidance on: • atezolizumab for NSCLC with a programmed cell death ligand 1 (PD-L1) score of 50% or more and without EGFR mutations or ALK rearrangements (TA1071, June 2025) • pembrolizumab (TA1037, February 2025).",
+          "metadata": {
+            "section": "Adjuvant treatment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 28",
+            "word_count": 99,
+            "page_start": 28,
+            "page_end": 28,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0100_093f35c0",
+          "base_id": "core_0100",
+          "score": 0.9256964160633698,
+          "semantic_score": 0.9337400743457305,
+          "bm25_score": 0.9069278800711952,
+          "text": "For full details, see NICE's technology appraisal guidance on osimertinib (TA1043, 2025). 1.6.15 Alectinib is recommended as an option for adjuvant treatment of completely resected stage 1b (tumours at least 4 cm) to 3a ALK-positive NSCLC. For full details, see NICE's technology appraisal guidance on alectinib (TA1014, 2024).",
+          "metadata": {
+            "page_end": 28,
+            "source_type": "core",
+            "word_count": 48,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 28",
+            "section": "Adjuvant treatment",
+            "page_start": 28
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0098_84258d4f",
+          "base_id": "core_0098",
+          "score": 0.741288928736487,
+          "semantic_score": 0.7482816248896392,
+          "bm25_score": 0.724972637712465,
+          "text": "1.6.13 Offer a platinum-based combination chemotherapy regimen for adjuvant chemotherapy. [2011] 1.6.14 Osimertinib is recommended as an option for adjuvant treatment of completely resected stage 1b to 3a NSCLC with EGFR exon 19 deletions or EGFR exon 21 (L858R) substitution mutations. It should be stopped at 3 years, or earlier if there is disease recurrence or unacceptable toxicity.",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 28",
+            "page_start": 28,
+            "section": "Adjuvant treatment",
+            "word_count": 58,
+            "page_end": 28,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0099_41ed81be",
+          "base_id": "core_0099",
+          "score": 0.7231288222991433,
+          "semantic_score": 0.7511235329035701,
+          "bm25_score": 0.6578078308888141,
+          "text": "1.6.14 Osimertinib is recommended as an option for adjuvant treatment of completely resected stage 1b to 3a NSCLC with EGFR exon 19 deletions or EGFR exon 21 (L858R) substitution mutations. It should be stopped at 3 years, or earlier if there is disease recurrence or unacceptable toxicity. For full details, see NICE's technology appraisal guidance on osimertinib (TA1043, 2025).",
+          "metadata": {
+            "section": "Adjuvant treatment",
+            "word_count": 59,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 28",
+            "page_end": 28,
+            "source_type": "core",
+            "page_start": 28
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0094_839d1c36",
+          "base_id": "core_0094",
+          "score": 0.6773279137913334,
+          "semantic_score": 0.7565959079463597,
+          "bm25_score": 0.4923692607629388,
+          "text": "Neoadjuvant and adjuvant treatment 1.6.9 Durvalumab in combination with platinum-based chemotherapy is recommended as an option for neoadjuvant (then continued alone as adjuvant) treatment of resectable (tumours at least 4 cm or node positive) NSCLC without epidermal growth factor receptor (EGFR) mutations or anaplastic lymphoma kinase (ALK) rearrangements. For full details, see NICE's technology appraisal guidance on durvalumab (TA1030, 2025).",
+          "metadata": {
+            "page_start": 27,
+            "source_type": "core",
+            "section": "Neoadjuvant and adjuvant treatment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 27",
+            "page_end": 27,
+            "word_count": 60
+          }
+        }
+      ]
+    },
+    {
+      "question": "What first-line chemotherapy regimen and radiotherapy schedule are recommended for people with limited-stage SCLC?",
+      "ground_truth_ids": [
+        "core_0135",
+        "core_0136"
+      ],
+      "top_score": 0.9851679584037838,
+      "has_relevant_chunk": false,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0138_79466cf9",
+          "base_id": "core_0138",
+          "score": 0.9851679584037838,
+          "semantic_score": 0.9998736498228553,
+          "bm25_score": 0.9508546784259503,
+          "text": "1.10.4 Offer sequential radical thoracic radiotherapy to people with limited-stage SCLC (broadly corresponding to T1 to 4, N0 to 3, M0) who are not well enough for concurrent chemoradiotherapy but who respond to chemotherapy. [2019] 1.10.5 Offer prophylactic cranial irradiation at a dose of 25 Gy in 10 fractions to people with limited-stage SCLC and a WHO performance status of 0 to 2, if their disease has not progressed on first-line treatment. [2011, amended 2019]",
+          "metadata": {
+            "page_start": 37,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 37",
+            "page_end": 37,
+            "section": "1.10 First-line treatment for limited-stage SCLC",
+            "word_count": 75
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0154_7f021fec",
+          "base_id": "core_0154",
+          "score": 0.9660957479097663,
+          "semantic_score": 0.951565354156809,
+          "bm25_score": 1.0,
+          "text": "1.12.2 Inform people whose disease has not responded to first-line treatment that there is very limited evidence that second-line chemotherapy will be of benefit. [2011] 1.12.3 Offer people with relapsed SCLC in whom chemotherapy is suitable treatment with an anthracycline-containing regimen or further treatment with a platinum- based regimen to a maximum of 6 cycles. [2011]",
+          "metadata": {
+            "word_count": 56,
+            "section": "1.12 Subsequent treatment for SCLC that has relapsed after first-line treatment",
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 40",
+            "page_end": 40,
+            "page_start": 40
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0141_cb15213c",
+          "base_id": "core_0141",
+          "score": 0.9649930729357459,
+          "semantic_score": 0.9649743197217011,
+          "bm25_score": 0.9650368304351838,
+          "text": "Why the committee changed the recommendations The evidence showed a survival benefit from twice-daily radiotherapy compared with once-daily. However, the committee agreed that some people with SCLC will not be well enough to tolerate twice-daily radiotherapy, so they recommended giving people the option of once-daily radiotherapy. The committee noted that, in practice, radiotherapy is not started in chemotherapy cycle 1, because this is when planning for the radiotherapy often takes place (see the recommendation on twice-daily radiotherapy with concurrent chemotherapy in the section on first-line treatment for limited-stage SCLC). However, there was no new evidence on when to start radiotherapy, so the 2019 recommendation on this is the same as the original 2011 recommendation. There were limited data available on whether continuous radiotherapy with concurrent chemotherapy was more effective than alternating radiotherapy and chemotherapy. Because of the limited data, and the committee's experience that people prefer to complete treatment as quickly as possible, the 2019 recommendation on concurrent therapy (see the recommendation on twice-daily radiotherapy with concurrent chemotherapy) is the same as the 2011 recommendation. Full details of the evidence and the committee's discussion are in evidence review F: chemoradiotherapy for limited stage SCLC.",
+          "metadata": {
+            "page_start": 37,
+            "word_count": 194,
+            "source_type": "core",
+            "page_end": 37,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 37",
+            "section": "1.10 First-line treatment for limited-stage SCLC"
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0139_944f97a6",
+          "base_id": "core_0139",
+          "score": 0.9194919693650712,
+          "semantic_score": 0.9217469051339582,
+          "bm25_score": 0.9142304525710014,
+          "text": "1.10.5 Offer prophylactic cranial irradiation at a dose of 25 Gy in 10 fractions to people with limited-stage SCLC and a WHO performance status of 0 to 2, if their disease has not progressed on first-line treatment. [2011, amended 2019] 1.10.6 Durvalumab is recommended as an option for treating limited-stage SCLC that has not progressed after platinum-based chemoradiotherapy in adults. For full details, see NICE's technology appraisal guidance on durvalumab (TA1099, 2025).",
+          "metadata": {
+            "word_count": 72,
+            "page_start": 37,
+            "page_end": 37,
+            "source_type": "core",
+            "section": "1.10 First-line treatment for limited-stage SCLC",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 37"
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0155_9d865d8a",
+          "base_id": "core_0155",
+          "score": 0.9137345277406193,
+          "semantic_score": 0.9056504632042991,
+          "bm25_score": 0.9325973449920326,
+          "text": "1.12.3 Offer people with relapsed SCLC in whom chemotherapy is suitable treatment with an anthracycline-containing regimen or further treatment with a platinum- based regimen to a maximum of 6 cycles. [2011] 1.12.4 Oral topotecan is recommended as an option for treating relapsed SCLC in some people. For full details, see NICE's technology appraisal guidance on topotecan (TA184, 2009).",
+          "metadata": {
+            "page_start": 40,
+            "page_end": 40,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 40",
+            "section": "1.12 Subsequent treatment for SCLC that has relapsed after first-line treatment",
+            "word_count": 58
+          }
+        }
+      ]
+    },
+    {
+      "question": "What is the recommended dose and fractionation for prophylactic cranial irradiation in limited-stage SCLC, and under what condition should it be offered?",
+      "ground_truth_ids": [
+        "core_0138",
+        "core_0139"
+      ],
+      "top_score": 0.9371604427616981,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0139_944f97a6",
+          "base_id": "core_0139",
+          "score": 0.9371604427616981,
+          "semantic_score": 0.9830220751332969,
+          "bm25_score": 0.8301499672279676,
+          "text": "1.10.5 Offer prophylactic cranial irradiation at a dose of 25 Gy in 10 fractions to people with limited-stage SCLC and a WHO performance status of 0 to 2, if their disease has not progressed on first-line treatment. [2011, amended 2019] 1.10.6 Durvalumab is recommended as an option for treating limited-stage SCLC that has not progressed after platinum-based chemoradiotherapy in adults. For full details, see NICE's technology appraisal guidance on durvalumab (TA1099, 2025).",
+          "metadata": {
+            "word_count": 72,
+            "page_start": 37,
+            "page_end": 37,
+            "source_type": "core",
+            "section": "1.10 First-line treatment for limited-stage SCLC",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 37"
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0138_79466cf9",
+          "base_id": "core_0138",
+          "score": 0.9127421505412459,
+          "semantic_score": 1.0,
+          "bm25_score": 0.7091405018041527,
+          "text": "1.10.4 Offer sequential radical thoracic radiotherapy to people with limited-stage SCLC (broadly corresponding to T1 to 4, N0 to 3, M0) who are not well enough for concurrent chemoradiotherapy but who respond to chemotherapy. [2019] 1.10.5 Offer prophylactic cranial irradiation at a dose of 25 Gy in 10 fractions to people with limited-stage SCLC and a WHO performance status of 0 to 2, if their disease has not progressed on first-line treatment. [2011, amended 2019]",
+          "metadata": {
+            "page_start": 37,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 37",
+            "page_end": 37,
+            "section": "1.10 First-line treatment for limited-stage SCLC",
+            "word_count": 75
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0189_3a2f8da9",
+          "base_id": "core_0189",
+          "score": 0.8783824450052735,
+          "semantic_score": 0.8544961867215546,
+          "bm25_score": 0.9341170476672842,
+          "text": "Why the committee made the recommendation for research Prophylactic cranial irradiation The evidence showed that prophylactic cranial irradiation improves survival versus best supportive care. Prophylactic cranial irradiation can adversely affect quality of life, and the survival benefits are limited. There is also some evidence from a study outside the UK that routine MRI follow-up may be more cost effective. The committee made a recommendation for research on prophylactic cranial irradiation compared with routine MRI follow-up in extensive-stage SCLC, to provide evidence more relevant to the UK and to see if MRI could identify people who need whole-brain radiotherapy and so reduce the number of people having unnecessary treatment. Full details of the evidence and the committee's discussion are in evidence review G: thoracic radiotherapy for extensive stage SCLC and evidence review H: prophylactic cranial irradiation for extensive stage SCLC.",
+          "metadata": {
+            "word_count": 139,
+            "page_start": 47,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 47",
+            "source_type": "core",
+            "page_end": 47,
+            "section": "4 Prophylactic cranial irradiation compared with routine MRI follow-up in extensive-stage small-cell lung cancer"
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0187_02ff205b",
+          "base_id": "core_0187",
+          "score": 0.8705445177572028,
+          "semantic_score": 0.8150635967960039,
+          "bm25_score": 1.0,
+          "text": "4 Prophylactic cranial irradiation compared with routine MRI follow-up in extensive-stage small-cell lung cancer What is the effectiveness and cost effectiveness of prophylactic cranial irradiation compared with routine MRI follow-up in people with extensive-stage small-cell lung cancer without brain metastases?",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 47",
+            "page_start": 47,
+            "source_type": "core",
+            "section": "4 Prophylactic cranial irradiation compared with routine MRI follow-up in extensive-stage small-cell lung cancer",
+            "word_count": 40,
+            "page_end": 47
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0151_b1e670d0",
+          "base_id": "core_0151",
+          "score": 0.8633837535989208,
+          "semantic_score": 0.8407394048280046,
+          "bm25_score": 0.9162205673977253,
+          "text": "Prophylactic cranial irradiation can adversely affect quality of life, and the survival benefits are limited. There is also some evidence from a study outside the UK that routine MRI follow-up may be more cost effective. The committee made a recommendation for research on prophylactic cranial irradiation compared with routine MRI follow-up in extensive-stage SCLC, to provide evidence more relevant to the UK and to see if MRI could identify people who need whole-brain radiotherapy and so reduce the number of people having unnecessary treatment. How the recommendations might affect practice Thoracic radiotherapy The 2011 recommendation only recommended thoracic radiotherapy for people with a complete response to chemotherapy at distant sites. Therefore, this recommendation could increase the number of people who are given thoracic radiotherapy. Prophylactic cranial irradiation It is likely that the recommendation reflects current clinical practice. Full details of the evidence and the committee's discussion are in evidence review G: thoracic radiotherapy for extensive stage SCLC and evidence review H: prophylactic cranial irradiation for extensive stage SCLC.",
+          "metadata": {
+            "page_end": 40,
+            "word_count": 168,
+            "section": "1.11 First-line treatment for extensive-stage SCLC",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 39, 40",
+            "source_type": "core",
+            "page_start": 39
+          }
+        }
+      ]
+    },
+    {
+      "question": "What chemotherapy is recommended as first-line treatment for extensive-stage SCLC, and what is the maximum number of cycles that should be offered?",
+      "ground_truth_ids": [
+        "core_0143",
+        "core_0144"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0145_b3aec912",
+          "base_id": "core_0145",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "1.11.2 Assess the person's condition before treatment for extensive-stage SCLC (broadly corresponding to T1 to 4, N0 to 3, M1a/b) and offer up to a maximum of 6 cycles of chemotherapy, depending on response and toxicity. [2011] 1.11.3 For medicines recommended as options for untreated extensive-stage SCLC in people who have an Eastern Cooperative Oncology Group performance status of 0 or 1, see NICE's technology appraisal guidance on: • durvalumab with etoposide and either carboplatin or cisplatin (TA1041, 2025) • atezolizumab with etoposide and carboplatin (TA638, 2020). 1.11.4 Consider thoracic radiotherapy with prophylactic cranial irradiation for people with extensive-stage SCLC who have had a partial or complete response to chemotherapy within the thorax and at distant sites. [2019]",
+          "metadata": {
+            "source_type": "core",
+            "page_start": 38,
+            "section": "1.11 First-line treatment for extensive-stage SCLC",
+            "page_end": 38,
+            "word_count": 118,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 38"
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0144_18ef5b67",
+          "base_id": "core_0144",
+          "score": 0.9607039148481837,
+          "semantic_score": 0.9580546812729815,
+          "bm25_score": 0.9668854598569888,
+          "text": "1.11.1 Offer platinum-based combination chemotherapy to people with extensive-stage SCLC (broadly corresponding to T1 to 4, N0 to 3, M1a/b – including cerebral metastases) if they are fit enough. [2011] 1.11.2 Assess the person's condition before treatment for extensive-stage SCLC (broadly corresponding to T1 to 4, N0 to 3, M1a/b) and offer up to a maximum of 6 cycles of chemotherapy, depending on response and toxicity. [2011]",
+          "metadata": {
+            "page_start": 38,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 38",
+            "section": "1.11 First-line treatment for extensive-stage SCLC",
+            "source_type": "core",
+            "page_end": 38,
+            "word_count": 67
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0154_7f021fec",
+          "base_id": "core_0154",
+          "score": 0.8987287629731892,
+          "semantic_score": 0.9297584890307333,
+          "bm25_score": 0.8263260688389195,
+          "text": "1.12.2 Inform people whose disease has not responded to first-line treatment that there is very limited evidence that second-line chemotherapy will be of benefit. [2011] 1.12.3 Offer people with relapsed SCLC in whom chemotherapy is suitable treatment with an anthracycline-containing regimen or further treatment with a platinum- based regimen to a maximum of 6 cycles. [2011]",
+          "metadata": {
+            "word_count": 56,
+            "section": "1.12 Subsequent treatment for SCLC that has relapsed after first-line treatment",
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 40",
+            "page_end": 40,
+            "page_start": 40
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0155_9d865d8a",
+          "base_id": "core_0155",
+          "score": 0.8455304135107014,
+          "semantic_score": 0.9242823291083689,
+          "bm25_score": 0.6617759437828103,
+          "text": "1.12.3 Offer people with relapsed SCLC in whom chemotherapy is suitable treatment with an anthracycline-containing regimen or further treatment with a platinum- based regimen to a maximum of 6 cycles. [2011] 1.12.4 Oral topotecan is recommended as an option for treating relapsed SCLC in some people. For full details, see NICE's technology appraisal guidance on topotecan (TA184, 2009).",
+          "metadata": {
+            "page_start": 40,
+            "page_end": 40,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 40",
+            "section": "1.12 Subsequent treatment for SCLC that has relapsed after first-line treatment",
+            "word_count": 58
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0157_60455a4e",
+          "base_id": "core_0157",
+          "score": 0.8346972325130112,
+          "semantic_score": 0.8764879211862423,
+          "bm25_score": 0.7371856256088052,
+          "text": "1.12.5 Offer radiotherapy for palliation of local symptoms to people with SCLC that has relapsed after first-line treatment. [2011] 1.12.6 Tarlatamab is not recommended for treating extensive-stage SCLC in adults whose cancer has progressed after 2 or more lines of treatment, including platinum-based chemotherapy.",
+          "metadata": {
+            "source_type": "core",
+            "section": "1.12 Subsequent treatment for SCLC that has relapsed after first-line treatment",
+            "page_end": 40,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 40",
+            "word_count": 44,
+            "page_start": 40
+          }
+        }
+      ]
+    },
+    {
+      "question": "What treatment options are available for people with SCLC that has relapsed after first-line treatment, and what should patients be told if their disease did not respond to first-line treatment?",
+      "ground_truth_ids": [
+        "core_0154",
+        "core_0155",
+        "core_0156"
+      ],
+      "top_score": 0.9891515929747092,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0153_e6846c8b",
+          "base_id": "core_0153",
+          "score": 0.9891515929747092,
+          "semantic_score": 0.9845022756781561,
+          "bm25_score": 1.0,
+          "text": "1.12.1 Offer people with SCLC that has relapsed after first-line treatment assessment by a thoracic oncologist. [2011] 1.12.2 Inform people whose disease has not responded to first-line treatment that there is very limited evidence that second-line chemotherapy will be of benefit. [2011]",
+          "metadata": {
+            "section": "1.12 Subsequent treatment for SCLC that has relapsed after first-line treatment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 40",
+            "page_end": 40,
+            "source_type": "core",
+            "word_count": 42,
+            "page_start": 40
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0152_6a81f7f9",
+          "base_id": "core_0152",
+          "score": 0.9886290765295425,
+          "semantic_score": 1.0,
+          "bm25_score": 0.9620969217651415,
+          "text": "1.12 Subsequent treatment for SCLC that has relapsed after first-line treatment 1.12.1 Offer people with SCLC that has relapsed after first-line treatment assessment by a thoracic oncologist. [2011]",
+          "metadata": {
+            "page_end": 40,
+            "word_count": 28,
+            "section": "1.12 Subsequent treatment for SCLC that has relapsed after first-line treatment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 40",
+            "page_start": 40,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0157_60455a4e",
+          "base_id": "core_0157",
+          "score": 0.8653821265809791,
+          "semantic_score": 0.8269754648122225,
+          "bm25_score": 0.9549976707080781,
+          "text": "1.12.5 Offer radiotherapy for palliation of local symptoms to people with SCLC that has relapsed after first-line treatment. [2011] 1.12.6 Tarlatamab is not recommended for treating extensive-stage SCLC in adults whose cancer has progressed after 2 or more lines of treatment, including platinum-based chemotherapy.",
+          "metadata": {
+            "source_type": "core",
+            "section": "1.12 Subsequent treatment for SCLC that has relapsed after first-line treatment",
+            "page_end": 40,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 40",
+            "word_count": 44,
+            "page_start": 40
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0156_3e1ee7f3",
+          "base_id": "core_0156",
+          "score": 0.8622533157159089,
+          "semantic_score": 0.8990514759763203,
+          "bm25_score": 0.7763909417749494,
+          "text": "1.12.4 Oral topotecan is recommended as an option for treating relapsed SCLC in some people. For full details, see NICE's technology appraisal guidance on topotecan (TA184, 2009). 1.12.5 Offer radiotherapy for palliation of local symptoms to people with SCLC that has relapsed after first-line treatment. [2011]",
+          "metadata": {
+            "page_start": 40,
+            "word_count": 46,
+            "page_end": 40,
+            "source_type": "core",
+            "section": "1.12 Subsequent treatment for SCLC that has relapsed after first-line treatment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 40"
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0154_7f021fec",
+          "base_id": "core_0154",
+          "score": 0.8539524173592318,
+          "semantic_score": 0.8820414364321838,
+          "bm25_score": 0.788411372855677,
+          "text": "1.12.2 Inform people whose disease has not responded to first-line treatment that there is very limited evidence that second-line chemotherapy will be of benefit. [2011] 1.12.3 Offer people with relapsed SCLC in whom chemotherapy is suitable treatment with an anthracycline-containing regimen or further treatment with a platinum- based regimen to a maximum of 6 cycles. [2011]",
+          "metadata": {
+            "word_count": 56,
+            "section": "1.12 Subsequent treatment for SCLC that has relapsed after first-line treatment",
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 40",
+            "page_end": 40,
+            "page_start": 40
+          }
+        }
+      ]
+    },
+    {
+      "question": "What interventions should be offered to people with lung cancer who have impending endobronchial obstruction?",
+      "ground_truth_ids": [
+        "core_0160",
+        "core_0161"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0161_17c883af",
+          "base_id": "core_0161",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "1.14.1 When people have large airway involvement, monitor (clinically and radiologically) for endobronchial obstruction to ensure treatment is offered early. [2011] 1.14.2 Offer external beam radiotherapy and/or endobronchial debulking or stenting to people with impending endobronchial obstruction. [2011] 1.14.3 Every cancer alliance should ensure that people have rapid access to a team capable of providing interventional endobronchial treatments. [2011]",
+          "metadata": {
+            "page_end": 41,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 41",
+            "section": "1.14 Managing endobronchial obstruction",
+            "page_start": 41,
+            "word_count": 59
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0160_f8f2909c",
+          "base_id": "core_0160",
+          "score": 0.9360192489890873,
+          "semantic_score": 0.9445104165787142,
+          "bm25_score": 0.9162065246132913,
+          "text": "1.14 Managing endobronchial obstruction 1.14.1 When people have large airway involvement, monitor (clinically and radiologically) for endobronchial obstruction to ensure treatment is offered early. [2011] 1.14.2 Offer external beam radiotherapy and/or endobronchial debulking or stenting to people with impending endobronchial obstruction. [2011]",
+          "metadata": {
+            "section": "1.14 Managing endobronchial obstruction",
+            "word_count": 42,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 41",
+            "page_end": 41,
+            "page_start": 41
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0165_c695e51a",
+          "base_id": "core_0165",
+          "score": 0.6888324709842462,
+          "semantic_score": 0.7441316883809158,
+          "bm25_score": 0.5598009637253506,
+          "text": "[2005] 1.15.4 Non-pharmacological interventions for breathlessness should be delivered by a multidisciplinary group, coordinated by a professional with an interest in breathlessness and expertise in the techniques (for example, a nurse, physiotherapist or occupational therapist). Although this support may be provided in a breathlessness clinic, people should have access to it in all care settings. [2005] 1.15.5 Consider opioids, such as codeine or morphine, to reduce cough. [2005]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 41, 42",
+            "page_start": 41,
+            "section": "1.15 Other palliative treatments",
+            "word_count": 68,
+            "source_type": "core",
+            "page_end": 42
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0014_521a2862",
+          "base_id": "core_0014",
+          "score": 0.6751041636925753,
+          "semantic_score": 0.7285457318321424,
+          "bm25_score": 0.5504071713669185,
+          "text": "1.2.1 Only use sputum cytology for investigation in people with suspected lung cancer who have centrally placed nodules or masses and who decline or cannot tolerate bronchoscopy or other invasive tests. [2005] 1.2.2 Offer people with known or suspected lung cancer a contrast-enhanced chest CT scan to further the diagnosis and stage the disease. Include the liver, adrenals and lower neck in the scan. Use contrast medium with caution in people with known renal impairment. [2005, amended 2019] 1.2.3 When assessing mediastinal and chest wall invasion: • be aware that CT alone may not be reliable • consider other techniques such as ultrasound if there is doubt • be aware that surgical assessment may be necessary if there are no contraindications to resection. [2005] 1.2.4 Ensure that all people with lung cancer who could potentially have treatment with curative intent are offered positron emission tomography CT (PET-CT) before treatment. [2011]",
+          "metadata": {
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "word_count": 150,
+            "page_end": 8,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 8",
+            "page_start": 8,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0056_1f6bffa0",
+          "base_id": "core_0056",
+          "score": 0.6738400459817668,
+          "semantic_score": 0.7918300459402896,
+          "bm25_score": 0.3985300460785469,
+          "text": "1.3.2 Advise people to stop smoking as soon as the diagnosis of lung cancer is suspected and tell them why this is important. [2011] 1.3.3 Do not postpone surgery for lung cancer to allow people to stop smoking. [2011] Follow the section on stop-smoking interventions in NICE's guideline on tobacco: preventing uptake, promoting quitting and treating dependence.",
+          "metadata": {
+            "page_end": 18,
+            "page_start": 18,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 18",
+            "section": "1.3 Stop smoking interventions and services",
+            "source_type": "core",
+            "word_count": 57
+          }
+        }
+      ]
+    },
+    {
+      "question": "What treatment options are available for people presenting with superior vena cava obstruction due to lung cancer?",
+      "ground_truth_ids": [
+        "core_0167",
+        "core_0168"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0168_1825fa91",
+          "base_id": "core_0168",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "1.15.7 For people who present with superior vena cava obstruction, offer chemotherapy and radiotherapy based on the stage of disease and performance status. [2005] 1.15.8 Consider stent insertion for the immediate relief of severe symptoms of superior vena caval obstruction or following failure of earlier treatment. [2005]",
+          "metadata": {
+            "page_start": 42,
+            "section": "1.15 Other palliative treatments",
+            "source_type": "core",
+            "word_count": 47,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 42",
+            "page_end": 42
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0167_46c9cb0f",
+          "base_id": "core_0167",
+          "score": 0.8576312877799284,
+          "semantic_score": 0.814873490341081,
+          "bm25_score": 0.9573994818039055,
+          "text": "1.15.6 Refer people with troublesome hoarseness due to recurrent laryngeal nerve palsy to an ear, nose and throat specialist for advice. [2005] 1.15.7 For people who present with superior vena cava obstruction, offer chemotherapy and radiotherapy based on the stage of disease and performance status. [2005]",
+          "metadata": {
+            "page_start": 42,
+            "source_type": "core",
+            "section": "1.15 Other palliative treatments",
+            "word_count": 46,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 42",
+            "page_end": 42
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0160_f8f2909c",
+          "base_id": "core_0160",
+          "score": 0.6069606029977145,
+          "semantic_score": 0.6649069356584427,
+          "bm25_score": 0.4717524934560154,
+          "text": "1.14 Managing endobronchial obstruction 1.14.1 When people have large airway involvement, monitor (clinically and radiologically) for endobronchial obstruction to ensure treatment is offered early. [2011] 1.14.2 Offer external beam radiotherapy and/or endobronchial debulking or stenting to people with impending endobronchial obstruction. [2011]",
+          "metadata": {
+            "section": "1.14 Managing endobronchial obstruction",
+            "word_count": 42,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 41",
+            "page_end": 41,
+            "page_start": 41
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0161_17c883af",
+          "base_id": "core_0161",
+          "score": 0.6032927412560917,
+          "semantic_score": 0.6991256362336912,
+          "bm25_score": 0.37968265297502624,
+          "text": "1.14.1 When people have large airway involvement, monitor (clinically and radiologically) for endobronchial obstruction to ensure treatment is offered early. [2011] 1.14.2 Offer external beam radiotherapy and/or endobronchial debulking or stenting to people with impending endobronchial obstruction. [2011] 1.14.3 Every cancer alliance should ensure that people have rapid access to a team capable of providing interventional endobronchial treatments. [2011]",
+          "metadata": {
+            "page_end": 41,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 41",
+            "section": "1.14 Managing endobronchial obstruction",
+            "page_start": 41,
+            "word_count": 59
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0033_b292c734",
+          "base_id": "core_0033",
+          "score": 0.5769147101180062,
+          "semantic_score": 0.7443358257087969,
+          "bm25_score": 0.18626544040616144,
+          "text": "[2011, amended 2019] 1.2.20 For people with suspected lung cancer who have enlarged intrathoracic lymph nodes (lymph nodes greater than or equal to 10 mm short axis on CT) and who could potentially have treatment with curative intent, offer PET-CT (if not already done), followed by EBUS-TBNA or EUS-FNA, or both. [2019] 1.2.21 If nodal status would affect the treatment plan, evaluate PET-CT-positive or enlarged intrathoracic nodes using a systematic approach (sampling any suspicious node on CT, PET or USS) with: • either EBUS-TBNA or EUS-FNA or • both EBUS-TBNA and EUS-FNA. [2019] 1.2.22 Consider surgical mediastinal staging for people with a negative EBUS-TBNA or EUS-FNA if clinical suspicion of nodal malignancy is high and nodal status would affect their treatment plan. [2019] We have produced an algorithm on intrathoracic nodal staging of NSCLC in patients being considered for radical treatment. Why the committee made the recommendations",
+          "metadata": {
+            "source_type": "core",
+            "page_start": 12,
+            "word_count": 147,
+            "section": "Intrathoracic lymph node assessment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 12, 13",
+            "page_end": 13
+          }
+        }
+      ]
+    },
+    {
+      "question": "What is the recommended management of dexamethasone dosing in people with symptomatic brain metastases from lung cancer?",
+      "ground_truth_ids": [
+        "core_0169",
+        "core_0170"
+      ],
+      "top_score": 0.9620165313052871,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0170_84e6e6a3",
+          "base_id": "core_0170",
+          "score": 0.9620165313052871,
+          "semantic_score": 0.9457379018646958,
+          "bm25_score": 1.0,
+          "text": "1.16.1 Offer dexamethasone to people with symptomatic brain metastases and reduce to the minimum necessary maintenance dose for symptomatic response. [2011] 1.16.2 For guidance on management of brain metastases, see the section on management of confirmed brain metastases in the NICE guideline on brain tumours. [2019]",
+          "metadata": {
+            "page_end": 42,
+            "section": "1.16 Managing brain metastases",
+            "source_type": "core",
+            "page_start": 42,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 42",
+            "word_count": 46
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0169_5936b3b4",
+          "base_id": "core_0169",
+          "score": 0.9435661511072954,
+          "semantic_score": 1.0,
+          "bm25_score": 0.8118871703576511,
+          "text": "1.16 Managing brain metastases 1.16.1 Offer dexamethasone to people with symptomatic brain metastases and reduce to the minimum necessary maintenance dose for symptomatic response. [2011]",
+          "metadata": {
+            "section": "1.16 Managing brain metastases",
+            "page_end": 42,
+            "source_type": "core",
+            "page_start": 42,
+            "word_count": 25,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 42"
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0188_3647c5e3",
+          "base_id": "core_0188",
+          "score": 0.6167289367779596,
+          "semantic_score": 0.6811929712839426,
+          "bm25_score": 0.4663128562639991,
+          "text": "What is the effectiveness and cost effectiveness of prophylactic cranial irradiation compared with routine MRI follow-up in people with extensive-stage small-cell lung cancer without brain metastases? Why the committee made the recommendation for research",
+          "metadata": {
+            "section": "4 Prophylactic cranial irradiation compared with routine MRI follow-up in extensive-stage small-cell lung cancer",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 47",
+            "source_type": "core",
+            "page_start": 47,
+            "word_count": 34,
+            "page_end": 47
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0043_4796207f",
+          "base_id": "core_0043",
+          "score": 0.5942111860636179,
+          "semantic_score": 0.6277842453492194,
+          "bm25_score": 0.5158740477305478,
+          "text": "Why the committee made the recommendations Brain imaging is helpful before starting treatment with curative intent, because if brain metastases are detected then the treatment plan is likely to change. However, routine brain imaging is expensive, and the evidence showed that it does not always offer a good balance of benefits and costs. In people with stage 2 and 3a disease, the benefits of brain imaging outweigh the costs because: • brain metastases are more common than in stage 1 disease • people can start early treatment for metastases if they are identified, which improves prognosis • some people with brain metastases will not have radical treatment (depending on factors such as the number of metastases, prognosis and patient preference), and this reduces costs. In people with clinical stage 1 non-small-cell lung cancer (NSCLC) and no neurological symptoms, the prevalence of detectable brain metastases is fairly low (around 4%) compared with people with stage 2 or 3a disease. People with stage 1 NSCLC who do have brain metastases often still have radical lung treatment, which is much more rarely the case for people with stage 3a NSCLC. Overall, the lower prevalence of metastases and smaller reduction in numbers of people having radical treatment mean that the benefits of brain imaging in this population are too low to justify the costs. The 2018 review only examined the clinical and cost effectiveness of imaging after the treatment plan has been decided, but the committee noted that it could be more efficient to conduct CT brain imaging alongside initial staging CT. With this in mind, the committee made a recommendation for research on routine brain imaging with CT at initial diagnosis and/or staging. How the recommendations might affect practice Practice in this area is variable.",
+          "metadata": {
+            "word_count": 292,
+            "source_type": "core",
+            "section": "Further staging",
+            "page_start": 15,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 15, 16",
+            "page_end": 16
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0187_02ff205b",
+          "base_id": "core_0187",
+          "score": 0.5864718293636191,
+          "semantic_score": 0.643970047042199,
+          "bm25_score": 0.45230932144693275,
+          "text": "4 Prophylactic cranial irradiation compared with routine MRI follow-up in extensive-stage small-cell lung cancer What is the effectiveness and cost effectiveness of prophylactic cranial irradiation compared with routine MRI follow-up in people with extensive-stage small-cell lung cancer without brain metastases?",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 47",
+            "page_start": 47,
+            "source_type": "core",
+            "section": "4 Prophylactic cranial irradiation compared with routine MRI follow-up in extensive-stage small-cell lung cancer",
+            "word_count": 40,
+            "page_end": 47
+          }
+        }
+      ]
+    },
+    {
+      "question": "When is denosumab recommended for preventing skeletal-related events in people with bone metastases from lung cancer?",
+      "ground_truth_ids": [
+        "core_0172",
+        "core_0173"
+      ],
+      "top_score": 0.9942991237095019,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0173_27ddc885",
+          "base_id": "core_0173",
+          "score": 0.9942991237095019,
+          "semantic_score": 1.0,
+          "bm25_score": 0.980997079031673,
+          "text": "1.17.2 Denosumab is recommended as an option for preventing skeletal-related events in adults with bone metastases from breast cancer and from solid tumours other than prostate if bisphosphonates would otherwise be prescribed. For full details, see NICE's technology appraisal guidance on denosumab (TA265, 2012). Also see NICE's guideline on spinal metastases and metastatic spinal cord compression.",
+          "metadata": {
+            "page_start": 42,
+            "word_count": 56,
+            "section": "1.17 Bone metastases",
+            "source_type": "core",
+            "page_end": 43,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 42, 43"
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0172_13d70c5a",
+          "base_id": "core_0172",
+          "score": 0.9352660955067941,
+          "semantic_score": 0.9075229935811344,
+          "bm25_score": 1.0,
+          "text": "1.17.1 Offer single-fraction radiotherapy to people with bone metastasis who need palliation and for whom standard pain relief is inadequate. [2005] 1.17.2 Denosumab is recommended as an option for preventing skeletal-related events in adults with bone metastases from breast cancer and from solid tumours other than prostate if bisphosphonates would otherwise be prescribed.",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 42, 43",
+            "word_count": 53,
+            "page_end": 43,
+            "section": "1.17 Bone metastases",
+            "source_type": "core",
+            "page_start": 42
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0171_2afc8cad",
+          "base_id": "core_0171",
+          "score": 0.5143512396576765,
+          "semantic_score": 0.5586451882296749,
+          "bm25_score": 0.4109986929896801,
+          "text": "1.17 Bone metastases 1.17.1 Offer single-fraction radiotherapy to people with bone metastasis who need palliation and for whom standard pain relief is inadequate. [2005]",
+          "metadata": {
+            "source_type": "core",
+            "section": "1.17 Bone metastases",
+            "page_end": 42,
+            "page_start": 42,
+            "word_count": 24,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 42"
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0180_f452023c",
+          "base_id": "core_0180",
+          "score": 0.4880826934050247,
+          "semantic_score": 0.6240625550596751,
+          "bm25_score": 0.1707963495441737,
+          "text": "What is the effectiveness and cost effectiveness of immunotherapy in people with stage 3a to N2 non-small-cell lung cancer (NSCLC) following multimodality treatment including surgery? Why the committee made the recommendation for research",
+          "metadata": {
+            "page_start": 45,
+            "section": "1 Immunotherapy after multimodality treatment",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 45",
+            "word_count": 33,
+            "page_end": 45,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0129_a4d37736",
+          "base_id": "core_0129",
+          "score": 0.47312244193681524,
+          "semantic_score": 0.6070536095688812,
+          "bm25_score": 0.16061638412866128,
+          "text": "1.7.2 For medicines not recommended for treating advanced NSCLC in some people, see NICE's technology appraisal guidance on: • cemiplimab with platinum-based chemotherapy for untreated advanced NSCLC (TA1108, November 2025) • amivantamab for EGFR-TK positive advanced NSCLC (TA850, December 2022) • pralsetinib for RET fusion-positive advanced NSCLC (TA812, August 2022) • nivolumab with ipilimumab and chemotherapy for untreated metastatic NSCLC without EGFR or ALK mutations (TA724, September 2021) • necitumumab for EGFR-TK positive advanced squamous NSCLC (TA411,",
+          "metadata": {
+            "page_end": 35,
+            "source_type": "core",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 35",
+            "section": "Treatments not recommended for squamous and non-squamous advanced NSCLC",
+            "word_count": 77,
+            "page_start": 35
+          }
+        }
+      ]
+    },
+    {
+      "question": "Within how many weeks of completing treatment should people with lung cancer be offered an initial follow-up appointment, and who can lead protocol-driven follow-up?",
+      "ground_truth_ids": [
+        "core_0175",
+        "core_0176"
+      ],
+      "top_score": 0.9973142945500221,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0176_dbd794e3",
+          "base_id": "core_0176",
+          "score": 0.9973142945500221,
+          "semantic_score": 0.9961632779286029,
+          "bm25_score": 1.0,
+          "text": "1.19.1 Offer all people with lung cancer an initial follow-up appointment with a specialist within 6 weeks of completing treatment to discuss ongoing care. Offer regular appointments after this, rather than relying on the person requesting appointments when they experience symptoms. [2011] 1.19.2 Offer protocol-driven follow-up led by a lung cancer clinical nurse specialist as an option for people with a life expectancy of more than 3 months. [2011]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 44",
+            "page_start": 44,
+            "section": "1.19 Organising follow-up and collecting information on patient experience",
+            "word_count": 69,
+            "page_end": 44,
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0175_4d081998",
+          "base_id": "core_0175",
+          "score": 0.9770490950366335,
+          "semantic_score": 1.0,
+          "bm25_score": 0.9234969834554452,
+          "text": "1.19 Organising follow-up and collecting information on patient experience 1.19.1 Offer all people with lung cancer an initial follow-up appointment with a specialist within 6 weeks of completing treatment to discuss ongoing care. Offer regular appointments after this, rather than relying on the person requesting appointments when they experience symptoms. [2011]",
+          "metadata": {
+            "source_type": "core",
+            "page_end": 44,
+            "page_start": 44,
+            "word_count": 51,
+            "section": "1.19 Organising follow-up and collecting information on patient experience",
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 44"
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0177_105d6414",
+          "base_id": "core_0177",
+          "score": 0.7762030749949651,
+          "semantic_score": 0.8459741625012522,
+          "bm25_score": 0.6134038708136285,
+          "text": "1.19.2 Offer protocol-driven follow-up led by a lung cancer clinical nurse specialist as an option for people with a life expectancy of more than 3 months. [2011] 1.19.3 Ensure that people know how to contact the lung cancer clinical nurse specialist involved in their care between their scheduled hospital visits. [2011]",
+          "metadata": {
+            "source_type": "core",
+            "page_start": 44,
+            "page_end": 44,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 44",
+            "section": "1.19 Organising follow-up and collecting information on patient experience",
+            "word_count": 51
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0131_5af2fc6e",
+          "base_id": "core_0131",
+          "score": 0.625375536746682,
+          "semantic_score": 0.7198466455268344,
+          "bm25_score": 0.40494294959299304,
+          "text": "1.8 Assessing people with small-cell lung cancer (SCLC) 1.8.1 Arrange for people with SCLC to have an assessment by a thoracic oncologist within 1 week of deciding to recommend treatment. [2011]",
+          "metadata": {
+            "page_end": 36,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 36",
+            "source_type": "core",
+            "word_count": 31,
+            "page_start": 36,
+            "section": "1.8 Assessing people with small-cell lung cancer (SCLC)"
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0053_a9ca2928",
+          "base_id": "core_0053",
+          "score": 0.5757631217450127,
+          "semantic_score": 0.7205589836918291,
+          "bm25_score": 0.23790611053577426,
+          "text": "• see people before, at the time of and after diagnosis • provide continuing support • facilitate communication between the secondary care team (including the multidisciplinary team), the person's GP, the community team and the person with lung cancer • help people access advice and support whenever they need it. [2005, amended 2019]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 17",
+            "word_count": 53,
+            "page_end": 17,
+            "section": "Cancer clinical nurse specialists",
+            "source_type": "core",
+            "page_start": 17
+          }
+        }
+      ]
+    },
+    {
+      "question": "Should surgery for lung cancer be postponed to allow a person time to stop smoking first?",
+      "ground_truth_ids": [
+        "core_0056"
+      ],
+      "top_score": 1.0,
+      "has_relevant_chunk": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "core_0056_1f6bffa0",
+          "base_id": "core_0056",
+          "score": 1.0,
+          "semantic_score": 1.0,
+          "bm25_score": 1.0,
+          "text": "1.3.2 Advise people to stop smoking as soon as the diagnosis of lung cancer is suspected and tell them why this is important. [2011] 1.3.3 Do not postpone surgery for lung cancer to allow people to stop smoking. [2011] Follow the section on stop-smoking interventions in NICE's guideline on tobacco: preventing uptake, promoting quitting and treating dependence.",
+          "metadata": {
+            "page_end": 18,
+            "page_start": 18,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 18",
+            "section": "1.3 Stop smoking interventions and services",
+            "source_type": "core",
+            "word_count": 57
+          }
+        },
+        {
+          "rank": 2,
+          "chunk_id": "core_0055_05b5bf15",
+          "base_id": "core_0055",
+          "score": 0.8302078865919764,
+          "semantic_score": 0.8927241835381717,
+          "bm25_score": 0.6843365270508541,
+          "text": "1.3.1 Inform people that smoking increases the risk of pulmonary complications after lung cancer surgery. [2011] 1.3.2 Advise people to stop smoking as soon as the diagnosis of lung cancer is suspected and tell them why this is important. [2011]",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 18",
+            "page_start": 18,
+            "word_count": 40,
+            "source_type": "core",
+            "section": "1.3 Stop smoking interventions and services",
+            "page_end": 18
+          }
+        },
+        {
+          "rank": 3,
+          "chunk_id": "core_0054_4aed3385",
+          "base_id": "core_0054",
+          "score": 0.783496392366979,
+          "semantic_score": 0.8468242055129782,
+          "bm25_score": 0.6357314950263141,
+          "text": "1.3 Stop smoking interventions and services 1.3.1 Inform people that smoking increases the risk of pulmonary complications after lung cancer surgery. [2011]",
+          "metadata": {
+            "page_start": 18,
+            "page_end": 18,
+            "section": "1.3 Stop smoking interventions and services",
+            "word_count": 22,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, p. 18",
+            "source_type": "core"
+          }
+        },
+        {
+          "rank": 4,
+          "chunk_id": "core_0088_efade59f",
+          "base_id": "core_0088",
+          "score": 0.6269934804320113,
+          "semantic_score": 0.6769399752907562,
+          "bm25_score": 0.5104516590949398,
+          "text": "[2019] 1.6.7 Centres performing lung resections for lung cancer should validate their data for the National Lung Cancer Audit. [2019] Why the committee made the recommendations The available evidence showed that chemoradiotherapy and surgery are more effective than chemoradiotherapy alone in people who are well enough for surgery and when the disease is operable. For chemotherapy and surgery, there was no evidence that survival outcomes were better than for chemoradiotherapy, so the additional costs of including surgery outweighed the benefits. The key benefit associated with chemoradiotherapy and surgery is the longer progression-free survival time. An analysis of multiple trials showed improved progression-free survival and cost effectiveness for chemoradiotherapy with surgery, compared with chemoradiotherapy alone. There was an 89% probability that chemoradiotherapy and surgery improved average overall survival time compared with chemoradiotherapy. However, the evidence in favour of chemoradiotherapy and surgery involved indirect comparisons, and no head-to-head trials showed meaningful differences in overall survival for any of the interventions. And as with any major surgery, there is a perioperative mortality risk for people who have chemoradiotherapy and surgery. The 3 to 5 week wait for surgery is recommended to give people time to recover from the chemoradiotherapy. Chemoradiotherapy with surgery is not often offered in current practice. In addition, there are specific factors to take into account when offering all these treatments together. Therefore, multidisciplinary teams providing it should have expertise both in the combined therapy, and in all the individual components.",
+          "metadata": {
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 25, 26",
+            "page_end": 26,
+            "page_start": 25,
+            "source_type": "core",
+            "section": "1.6 Multimodality treatment for NSCLC with curative intent",
+            "word_count": 241
+          }
+        },
+        {
+          "rank": 5,
+          "chunk_id": "core_0089_b4667f4d",
+          "base_id": "core_0089",
+          "score": 0.5925935806685863,
+          "semantic_score": 0.6378275911882296,
+          "bm25_score": 0.48704755612275163,
+          "text": "And as with any major surgery, there is a perioperative mortality risk for people who have chemoradiotherapy and surgery. The 3 to 5 week wait for surgery is recommended to give people time to recover from the chemoradiotherapy. Chemoradiotherapy with surgery is not often offered in current practice. In addition, there are specific factors to take into account when offering all these treatments together. Therefore, multidisciplinary teams providing it should have expertise both in the combined therapy, and in all the individual components. Immunotherapy has been shown to be effective in a variety of NSCLC indications but there is currently no evidence on whether it is clinically or cost effective for people with stage 3a N2 NSCLC following surgery. The committee made a recommendation for research on immunotherapy after multimodality treatment to address this. How the recommendations might affect practice",
+          "metadata": {
+            "source_type": "core",
+            "page_start": 26,
+            "section": "1.6 Multimodality treatment for NSCLC with curative intent",
+            "page_end": 27,
+            "citation": "nice-lung-cancer-diagnosis-and-management.pdf, pp. 26, 27",
+            "word_count": 140
+          }
+        }
+      ]
+    }
+  ]
+}
