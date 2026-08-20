@@ -46,6 +46,7 @@ def select_file():
         )
 
     if not files:
+
         raise FileNotFoundError(
             "No *_chunks.json files found."
         )
@@ -54,6 +55,7 @@ def select_file():
         files,
         start=1
     ):
+
         print(
             f"{index} - "
             f"{file.parent.name}/"
@@ -71,6 +73,7 @@ def select_file():
             index = int(choice) - 1
 
             if 0 <= index < len(files):
+
                 return files[index]
 
         print("Invalid choice.")
@@ -80,7 +83,10 @@ def select_file():
 # Generate embeddings
 # ============================================================
 
-def generate_embeddings(chunks, model):
+def generate_embeddings(
+    chunks,
+    model
+):
 
     texts = [
         chunk["text"]
@@ -105,7 +111,10 @@ def generate_embeddings(chunks, model):
 # Build output
 # ============================================================
 
-def build_embedding_data(chunks, embeddings):
+def build_embedding_data(
+    chunks,
+    embeddings
+):
 
     output = []
 
@@ -124,6 +133,14 @@ def build_embedding_data(chunks, embeddings):
 
             "source_type": chunk["source_type"],
 
+            # ------------------------------------------------
+            # Preserve patient session identity
+            # ------------------------------------------------
+
+            "session_id": chunk.get(
+                "session_id"
+            ),
+
             "section": chunk["section"],
 
             "headings": chunk["headings"],
@@ -133,6 +150,11 @@ def build_embedding_data(chunks, embeddings):
             "citation": chunk["citation"],
 
             "source": chunk["source"],
+
+            # ------------------------------------------------
+            # Existing chunk metadata
+            # This already contains session_id as well.
+            # ------------------------------------------------
 
             "metadata": chunk["metadata"],
         })
@@ -176,7 +198,9 @@ def save_embeddings(
 # Validation
 # ============================================================
 
-def validate_embeddings(data):
+def validate_embeddings(
+    data
+):
 
     print(
         "\n" + "=" * 70
@@ -187,13 +211,45 @@ def validate_embeddings(data):
     print("=" * 70)
 
     print(
-        f"\nTotal chunks: {len(data)}"
+        f"\nTotal chunks: "
+        f"{len(data)}"
     )
 
     if not data:
+
         raise ValueError(
             "No embedding data generated."
         )
+
+    # ========================================================
+    # Source type validation
+    # ========================================================
+
+    source_types = set(
+        item.get("source_type")
+        for item in data
+    )
+
+    print(
+        f"Source type(s): "
+        f"{source_types}"
+    )
+
+    if len(source_types) != 1:
+
+        raise ValueError(
+            "Expected exactly one source_type "
+            f"in the embedding file. "
+            f"Found: {source_types}"
+        )
+
+    source_type = next(
+        iter(source_types)
+    )
+
+    # ========================================================
+    # Embedding dimension validation
+    # ========================================================
 
     dimensions = set(
         len(item["embedding"])
@@ -212,6 +268,10 @@ def validate_embeddings(data):
             f"Found: {dimensions}"
         )
 
+    # ========================================================
+    # Missing embeddings
+    # ========================================================
+
     missing_embeddings = [
         item
         for item in data
@@ -225,6 +285,10 @@ def validate_embeddings(data):
             "chunks have missing embeddings."
         )
 
+    # ========================================================
+    # Duplicate chunk IDs
+    # ========================================================
+
     chunk_ids = [
         item["chunk_id"]
         for item in data
@@ -236,13 +300,101 @@ def validate_embeddings(data):
             "Duplicate chunk IDs found."
         )
 
+    # ========================================================
+    # Patient session validation
+    # ========================================================
+
+    if source_type == "patient":
+
+        session_ids = {
+            item.get("session_id")
+            for item in data
+        }
+
+        print(
+            f"Patient session ID(s): "
+            f"{session_ids}"
+        )
+
+        # Every patient embedding must have a session ID.
+        if None in session_ids:
+
+            raise ValueError(
+                "Patient embeddings contain chunks "
+                "without a session_id."
+            )
+
+        # All chunks from one processed file must
+        # belong to the same session.
+        if len(session_ids) != 1:
+
+            raise ValueError(
+                "Multiple session IDs found in "
+                "the same patient embedding file. "
+                f"Found: {session_ids}"
+            )
+
+        # Make sure metadata also preserves
+        # the same session ID.
+        session_id = next(
+            iter(session_ids)
+        )
+
+        for item in data:
+
+            metadata_session_id = (
+                item.get(
+                    "metadata",
+                    {}
+                ).get(
+                    "session_id"
+                )
+            )
+
+            if metadata_session_id != session_id:
+
+                raise ValueError(
+                    "Session ID mismatch between "
+                    "chunk and metadata."
+                )
+
+        print(
+            "OK: Every patient chunk has the "
+            "same valid session_id."
+        )
+
+        print(
+            "OK: Session ID is preserved "
+            "inside chunk metadata."
+        )
+
+    # ========================================================
+    # Core validation
+    # ========================================================
+
+    else:
+
+        print(
+            "OK: Core knowledge embeddings "
+            "do not require a patient session_id."
+        )
+
+    # ========================================================
+    # General validation success
+    # ========================================================
+
     print(
-        "OK: Every chunk has a 384-dimensional embedding."
+        "\nOK: Every chunk has a "
+        "384-dimensional embedding."
     )
 
     print(
         "OK: No duplicate chunk IDs."
     )
+
+    # ========================================================
+    # Preview
+    # ========================================================
 
     print(
         "\nFirst embedding preview:"
@@ -267,8 +419,7 @@ def main():
 
     print("EMBEDDING GENERATION")
 
-    print("=" * 70
-    )
+    print("=" * 70)
 
     # --------------------------------------------------------
     # Select chunks file
@@ -356,5 +507,10 @@ def main():
     print("=" * 70)
 
 
+# ============================================================
+# Entry Point
+# ============================================================
+
 if __name__ == "__main__":
+
     main()

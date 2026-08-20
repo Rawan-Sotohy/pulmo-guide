@@ -1,7 +1,7 @@
 import chromadb
 from pathlib import Path
 
-from sentence_transformers import SentenceTransformer, CrossEncoder
+from sentence_transformers import SentenceTransformer
 from rank_bm25 import BM25Okapi
 
 import numpy as np
@@ -9,38 +9,19 @@ import numpy as np
 
 # ============================================================
 # PULMO GUIDE
-# DAY 2 - FINAL RETRIEVAL + RERANKING
+# UNIFIED HYBRID RETRIEVAL
 #
-# Stage 1:
-#   Semantic Search
-#   +
-#   BM25
-#   +
-#   Normalization
-#   +
-#   Hybrid Search
+# CORE:
+#   ChromaDB
 #
-# Final Decision:
-#   Alpha = 0.7
-#   Semantic = 70%
-#   BM25 = 30%
+# PATIENT:
+#   Temporary chunks in session cache
+#   NO Core ChromaDB insertion
 #
-# Stage 2:
-#   MS-MARCO Cross-Encoder Reranking
-#
-# Pipeline:
-#
-# Query
-#   ↓
-# Hybrid Retrieval
-#   ↓
-# Top 10 Candidates
-#   ↓
-# MS-MARCO Cross-Encoder
-#   ↓
-# Reranking
-#   ↓
-# Final Top 5
+# Retrieval:
+#   Semantic 70%
+#   BM25     30%
+#   Reranker OFF
 # ============================================================
 
 
@@ -50,52 +31,28 @@ import numpy as np
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
-VECTOR_DB_DIR = BASE_DIR / "data" / "vector_store"
+VECTOR_DB_DIR = (
+    BASE_DIR
+    / "data"
+    / "vector_store"
+)
 
 COLLECTION_NAME = "pulmo_guide"
 
-EMBEDDING_MODEL_NAME = "BAAI/bge-small-en-v1.5"
-
-RERANKER_MODEL_NAME = "cross-encoder/ms-marco-MiniLM-L-6-v2"
-
-# FINAL DECISION FROM OUR EXPERIMENTS
-ALPHA = 0.7
-
-# Retrieve more candidates before reranking
-CANDIDATE_K = 10
-
-# Final number of results
-FINAL_TOP_K = 5
-
-
-# ============================================================
-# TEST QUERY
-# ============================================================
-
-QUERY = (
-    "What imaging should be offered to people with stage 3 NSCLC "
-    "who are having treatment with curative intent?"
+EMBEDDING_MODEL_NAME = (
+    "BAAI/bge-small-en-v1.5"
 )
 
+SEMANTIC_WEIGHT = 0.70
+BM25_WEIGHT = 0.30
 
-# ============================================================
-# START
-# ============================================================
+FINAL_TOP_K = 5
 
-print("=" * 70)
-print("PULMO GUIDE")
-print("DAY 2 - FINAL HYBRID RETRIEVAL + MS-MARCO RERANKING")
-print("=" * 70)
-
-print("\nFinal Retrieval Configuration:")
-print(f"Semantic Weight : {ALPHA}")
-print(f"BM25 Weight     : {1 - ALPHA}")
-print(f"Candidate K     : {CANDIDATE_K}")
-print(f"Final Top K     : {FINAL_TOP_K}")
+USE_RERANKER = False
 
 
 # ============================================================
-# 1. LOAD EMBEDDING MODEL
+# LOAD EMBEDDING MODEL
 # ============================================================
 
 print("\nLoading embedding model...")
@@ -104,27 +61,16 @@ embedding_model = SentenceTransformer(
     EMBEDDING_MODEL_NAME
 )
 
-print("OK: Embedding model loaded.")
-
-
-# ============================================================
-# 2. LOAD MS-MARCO CROSS-ENCODER
-# ============================================================
-
-print("\nLoading MS-MARCO Cross-Encoder reranker...")
-
-reranker = CrossEncoder(
-    RERANKER_MODEL_NAME
+print(
+    "OK: Embedding model loaded."
 )
 
-print("OK: MS-MARCO Cross-Encoder loaded.")
-
 
 # ============================================================
-# 3. CONNECT TO CHROMADB
+# CONNECT TO CORE CHROMADB
 # ============================================================
 
-print("\nConnecting to ChromaDB...")
+print("\nConnecting to Core ChromaDB...")
 
 client = chromadb.PersistentClient(
     path=str(VECTOR_DB_DIR)
@@ -134,15 +80,19 @@ collection = client.get_collection(
     name=COLLECTION_NAME
 )
 
-print("OK: Collection loaded.")
-print(f"Total chunks in database: {collection.count()}")
+print("OK: Core collection loaded.")
+
+print(
+    f"Core chunks in database: "
+    f"{collection.count()}"
+)
 
 
 # ============================================================
-# 4. LOAD ALL CHUNKS
+# LOAD CORE CHUNKS
 # ============================================================
 
-print("\nLoading all chunks...")
+print("\nLoading Core chunks...")
 
 all_data = collection.get(
     include=[
@@ -151,49 +101,64 @@ all_data = collection.get(
     ]
 )
 
-chunk_ids = all_data["ids"]
-chunk_texts = all_data["documents"]
-chunk_metadata = all_data["metadatas"]
+CORE_CHUNK_IDS = all_data["ids"]
+
+CORE_CHUNK_TEXTS = all_data["documents"]
+
+CORE_CHUNK_METADATA = all_data["metadatas"]
 
 print(
-    f"OK: Loaded {len(chunk_texts)} chunks."
+    f"OK: Loaded "
+    f"{len(CORE_CHUNK_TEXTS)} Core chunks."
 )
 
 
 # ============================================================
-# 5. BUILD BM25 INDEX
+# BUILD CORE BM25
 # ============================================================
 
-print("\nBuilding BM25 index...")
+print("\nBuilding Core BM25 index...")
 
-tokenized_documents = [
+CORE_TOKENIZED_DOCUMENTS = [
+
     text.lower().split()
-    for text in chunk_texts
+
+    for text in CORE_CHUNK_TEXTS
+
 ]
 
-bm25 = BM25Okapi(
-    tokenized_documents
+CORE_BM25 = BM25Okapi(
+    CORE_TOKENIZED_DOCUMENTS
 )
 
-print("OK: BM25 index created.")
+print("OK: Core BM25 index created.")
 
 
 # ============================================================
-# 6. SCORE NORMALIZATION
+# SCORE NORMALIZATION
 # ============================================================
 
 def min_max_normalize(scores):
+    """
+    Normalize scores to [0, 1].
+    """
 
     scores = np.asarray(
         scores,
         dtype=float
     )
 
+    if len(scores) == 0:
+        return scores
+
     minimum = scores.min()
     maximum = scores.max()
 
     if maximum == minimum:
-        return np.zeros_like(scores)
+
+        return np.zeros_like(
+            scores
+        )
 
     return (
         (scores - minimum)
@@ -203,36 +168,199 @@ def min_max_normalize(scores):
 
 
 # ============================================================
-# 7. HYBRID RETRIEVAL
+# COSINE SIMILARITY
+# ============================================================
+
+def cosine_similarity(
+    query_embedding,
+    document_embeddings
+):
+    """
+    Calculate cosine similarity between
+    one query embedding and document embeddings.
+    """
+
+    query_embedding = np.asarray(
+        query_embedding,
+        dtype=float
+    )
+
+    document_embeddings = np.asarray(
+        document_embeddings,
+        dtype=float
+    )
+
+    query_norm = np.linalg.norm(
+        query_embedding
+    )
+
+    document_norms = np.linalg.norm(
+        document_embeddings,
+        axis=1
+    )
+
+    denominator = (
+        query_norm * document_norms
+    )
+
+    denominator = np.where(
+        denominator == 0,
+        1e-10,
+        denominator
+    )
+
+    return (
+        document_embeddings
+        @
+        query_embedding
+    ) / denominator
+
+
+# ============================================================
+# CHROMA L2 → COSINE
+# ============================================================
+
+def l2_distance_to_cosine_similarity(
+    distance
+):
+    """
+    ChromaDB uses squared L2 distance
+    because embeddings are normalized.
+
+    cosine = 1 - L2² / 2
+    """
+
+    return 1.0 - (
+        float(distance) / 2.0
+    )
+
+
+# ============================================================
+# BUILD RESULT
+# ============================================================
+
+def build_result(
+    rank,
+    chunk_id,
+    text,
+    metadata,
+    semantic_score,
+    semantic_normalized,
+    bm25_score,
+    bm25_normalized,
+    hybrid_score
+):
+
+    return {
+
+        "hybrid_rank":
+            rank,
+
+        "chunk_id":
+            chunk_id,
+
+        "text":
+            text,
+
+        "metadata":
+            metadata,
+
+        "semantic_score":
+            float(
+                semantic_score
+            ),
+
+        "semantic_normalized":
+            float(
+                semantic_normalized
+            ),
+
+        "bm25_score":
+            float(
+                bm25_score
+            ),
+
+        "bm25_normalized":
+            float(
+                bm25_normalized
+            ),
+
+        "hybrid_score":
+            float(
+                hybrid_score
+            )
+    }
+
+
+# ============================================================
+# CORE HYBRID RETRIEVAL
 # ============================================================
 
 def hybrid_search(
     query,
-    candidate_k=10,
-    alpha=0.7
+    final_top_k=FINAL_TOP_K,
+    alpha=SEMANTIC_WEIGHT
 ):
+    """
+    Hybrid retrieval from Core ChromaDB.
+
+    Semantic = alpha
+    BM25     = 1 - alpha
+    """
+
+    if not query or not query.strip():
+
+        raise ValueError(
+            "Query cannot be empty."
+        )
+
+    if not 0 <= alpha <= 1:
+
+        raise ValueError(
+            "alpha must be between 0 and 1."
+        )
+
+    if not CORE_CHUNK_TEXTS:
+
+        return []
 
     # --------------------------------------------------------
-    # Semantic scores
+    # Query embedding
     # --------------------------------------------------------
 
-    query_embedding = embedding_model.encode(
-        query,
-        normalize_embeddings=True
+    query_embedding = (
+        embedding_model.encode(
+            query,
+            normalize_embeddings=True
+        )
     )
 
+    # --------------------------------------------------------
+    # Semantic Search
+    # --------------------------------------------------------
+
     semantic_results = collection.query(
+
         query_embeddings=[
             query_embedding.tolist()
         ],
-        n_results=len(chunk_texts),
+
+        n_results=len(
+            CORE_CHUNK_TEXTS
+        ),
+
         include=[
             "distances"
         ]
     )
 
-    semantic_ids = semantic_results["ids"][0]
-    semantic_distances = semantic_results["distances"][0]
+    semantic_ids = (
+        semantic_results["ids"][0]
+    )
+
+    semantic_distances = (
+        semantic_results["distances"][0]
+    )
 
     semantic_score_map = {}
 
@@ -241,254 +369,493 @@ def hybrid_search(
         semantic_distances
     ):
 
-        semantic_score_map[chunk_id] = (
-            1 - distance
+        semantic_score_map[
+            chunk_id
+        ] = (
+            l2_distance_to_cosine_similarity(
+                distance
+            )
         )
 
-
     # --------------------------------------------------------
-    # BM25 scores
+    # BM25
     # --------------------------------------------------------
 
     tokens = query.lower().split()
 
-    bm25_scores = bm25.get_scores(
+    bm25_scores = CORE_BM25.get_scores(
         tokens
     )
 
     bm25_score_map = {
+
         chunk_id: float(score)
+
         for chunk_id, score in zip(
-            chunk_ids,
+            CORE_CHUNK_IDS,
             bm25_scores
         )
     }
-
 
     # --------------------------------------------------------
     # Align scores
     # --------------------------------------------------------
 
     semantic_scores = np.array([
-        semantic_score_map[chunk_id]
-        for chunk_id in chunk_ids
+
+        semantic_score_map.get(
+            chunk_id,
+            0.0
+        )
+
+        for chunk_id in CORE_CHUNK_IDS
+
     ])
 
     keyword_scores = np.array([
-        bm25_score_map[chunk_id]
-        for chunk_id in chunk_ids
-    ])
 
+        bm25_score_map.get(
+            chunk_id,
+            0.0
+        )
+
+        for chunk_id in CORE_CHUNK_IDS
+
+    ])
 
     # --------------------------------------------------------
     # Normalize
     # --------------------------------------------------------
 
-    semantic_normalized = min_max_normalize(
-        semantic_scores
+    semantic_normalized = (
+        min_max_normalize(
+            semantic_scores
+        )
     )
 
-    keyword_normalized = min_max_normalize(
-        keyword_scores
+    keyword_normalized = (
+        min_max_normalize(
+            keyword_scores
+        )
     )
-
 
     # --------------------------------------------------------
     # Hybrid
-    #
-    # Hybrid =
-    # 0.7 Semantic
-    # +
-    # 0.3 BM25
     # --------------------------------------------------------
 
     hybrid_scores = (
-        alpha * semantic_normalized
+
+        alpha
+        * semantic_normalized
+
         +
-        (1 - alpha) * keyword_normalized
+
+        (1 - alpha)
+        * keyword_normalized
     )
 
+    # --------------------------------------------------------
+    # Top K
+    # --------------------------------------------------------
 
-    # --------------------------------------------------------
-    # Get candidates
-    # --------------------------------------------------------
+    final_top_k = min(
+        final_top_k,
+        len(CORE_CHUNK_IDS)
+    )
 
     indices = np.argsort(
         hybrid_scores
-    )[::-1][:candidate_k]
+    )[::-1][
+        :final_top_k
+    ]
 
-    candidates = []
+    # --------------------------------------------------------
+    # Results
+    # --------------------------------------------------------
+
+    final_results = []
 
     for rank, index in enumerate(
         indices,
         start=1
     ):
 
-        candidates.append({
-
-            "hybrid_rank": rank,
-
-            "chunk_id": chunk_ids[index],
-
-            "text": chunk_texts[index],
-
-            "metadata": chunk_metadata[index],
-
-            "semantic_score":
-                float(semantic_scores[index]),
-
-            "semantic_normalized":
-                float(
-                    semantic_normalized[index]
-                ),
-
-            "bm25_score":
-                float(keyword_scores[index]),
-
-            "bm25_normalized":
-                float(
-                    keyword_normalized[index]
-                ),
-
-            "hybrid_score":
-                float(hybrid_scores[index])
-        })
-
-
-    return candidates
-
-
-# ============================================================
-# 8. MS-MARCO RERANKING
-# ============================================================
-
-def rerank_candidates(
-    query,
-    candidates,
-    final_top_k=5
-):
-
-    print(
-        "\nRunning MS-MARCO Cross-Encoder reranking..."
-    )
-
-    # --------------------------------------------------------
-    # Create query-passage pairs
-    # --------------------------------------------------------
-
-    pairs = [
-        (
-            query,
-            candidate["text"]
-        )
-        for candidate in candidates
-    ]
-
-
-    # --------------------------------------------------------
-    # Predict relevance scores
-    #
-    # MS-MARCO returns one relevance score
-    # for each query-passage pair.
-    # --------------------------------------------------------
-
-    scores = reranker.predict(
-        pairs
-    )
-
-    scores = np.asarray(
-        scores,
-        dtype=float
-    )
-
-
-    # --------------------------------------------------------
-    # Add reranker score
-    # --------------------------------------------------------
-
-    for candidate, score in zip(
-        candidates,
-        scores
-    ):
-
-        candidate["rerank_score"] = float(
-            score
-        )
-
-
-    # --------------------------------------------------------
-    # Sort by relevance score
-    # --------------------------------------------------------
-
-    reranked = sorted(
-        candidates,
-        key=lambda x: x["rerank_score"],
-        reverse=True
-    )
-
-
-    # --------------------------------------------------------
-    # Assign final rank
-    # --------------------------------------------------------
-
-    final_results = []
-
-    for rank, candidate in enumerate(
-        reranked[:final_top_k],
-        start=1
-    ):
-
-        candidate["final_rank"] = rank
-
         final_results.append(
-            candidate
-        )
 
+            build_result(
+
+                rank=rank,
+
+                chunk_id=
+                    CORE_CHUNK_IDS[index],
+
+                text=
+                    CORE_CHUNK_TEXTS[index],
+
+                metadata=
+                    CORE_CHUNK_METADATA[index],
+
+                semantic_score=
+                    semantic_scores[index],
+
+                semantic_normalized=
+                    semantic_normalized[index],
+
+                bm25_score=
+                    keyword_scores[index],
+
+                bm25_normalized=
+                    keyword_normalized[index],
+
+                hybrid_score=
+                    hybrid_scores[index]
+            )
+        )
 
     return final_results
 
 
 # ============================================================
-# 9. PRINT HYBRID CANDIDATES
+# PATIENT HYBRID RETRIEVAL
 # ============================================================
 
-def print_hybrid_candidates(
-    candidates
+def patient_hybrid_search(
+    query,
+    chunks,
+    final_top_k=FINAL_TOP_K,
+    alpha=SEMANTIC_WEIGHT,
+    session_id=None
+):
+    """
+    Hybrid retrieval from temporary Patient chunks.
+
+    Patient chunks are NOT stored in Core ChromaDB.
+
+    chunks:
+        Patient chunks loaded from session cache.
+
+    Required chunk structure:
+
+        {
+            "chunk_id": "...",
+            "text": "...",
+            "embedding": [...],
+            "metadata": {...}
+        }
+    """
+
+    if not query or not query.strip():
+
+        raise ValueError(
+            "Query cannot be empty."
+        )
+
+    if not chunks:
+
+        return []
+
+    if not 0 <= alpha <= 1:
+
+        raise ValueError(
+            "alpha must be between 0 and 1."
+        )
+
+    # --------------------------------------------------------
+    # Prepare Patient data
+    # --------------------------------------------------------
+
+    valid_chunks = []
+
+    for chunk in chunks:
+
+        text = chunk.get(
+            "text",
+            ""
+        )
+
+        embedding = chunk.get(
+            "embedding"
+        )
+
+        if not text.strip():
+            continue
+
+        if embedding is None:
+            continue
+
+        valid_chunks.append(
+            chunk
+        )
+
+    if not valid_chunks:
+
+        return []
+
+    # --------------------------------------------------------
+    # IDs / Text / Metadata
+    # --------------------------------------------------------
+
+    patient_ids = [
+
+        chunk.get(
+            "chunk_id",
+            f"patient_{index}"
+        )
+
+        for index, chunk
+        in enumerate(valid_chunks)
+
+    ]
+
+    patient_texts = [
+
+        chunk["text"]
+
+        for chunk in valid_chunks
+
+    ]
+
+    patient_embeddings = np.asarray(
+
+        [
+            chunk["embedding"]
+            for chunk in valid_chunks
+        ],
+
+        dtype=float
+    )
+
+    patient_metadata = []
+
+    for chunk in valid_chunks:
+
+        metadata = dict(
+            chunk.get(
+                "metadata",
+                {}
+            )
+        )
+
+        # Make sure Patient is always identified
+        metadata["source_type"] = "patient"
+
+        if session_id is not None:
+
+            metadata["session_id"] = (
+                session_id
+            )
+
+        patient_metadata.append(
+            metadata
+        )
+
+    # --------------------------------------------------------
+    # Query embedding
+    # --------------------------------------------------------
+
+    query_embedding = (
+        embedding_model.encode(
+            query,
+            normalize_embeddings=True
+        )
+    )
+
+    # --------------------------------------------------------
+    # Semantic Search
+    # --------------------------------------------------------
+
+    semantic_scores = (
+        cosine_similarity(
+            query_embedding,
+            patient_embeddings
+        )
+    )
+
+    # --------------------------------------------------------
+    # BM25
+    # --------------------------------------------------------
+
+    tokenized_documents = [
+
+        text.lower().split()
+
+        for text in patient_texts
+
+    ]
+
+    patient_bm25 = BM25Okapi(
+        tokenized_documents
+    )
+
+    tokens = query.lower().split()
+
+    keyword_scores = np.asarray(
+
+        patient_bm25.get_scores(
+            tokens
+        ),
+
+        dtype=float
+    )
+
+    # --------------------------------------------------------
+    # Normalize
+    # --------------------------------------------------------
+
+    semantic_normalized = (
+        min_max_normalize(
+            semantic_scores
+        )
+    )
+
+    keyword_normalized = (
+        min_max_normalize(
+            keyword_scores
+        )
+    )
+
+    # --------------------------------------------------------
+    # Hybrid 70/30
+    # --------------------------------------------------------
+
+    hybrid_scores = (
+
+        alpha
+        * semantic_normalized
+
+        +
+
+        (1 - alpha)
+        * keyword_normalized
+    )
+
+    # --------------------------------------------------------
+    # Top K
+    # --------------------------------------------------------
+
+    final_top_k = min(
+        final_top_k,
+        len(patient_ids)
+    )
+
+    indices = np.argsort(
+        hybrid_scores
+    )[::-1][
+        :final_top_k
+    ]
+
+    # --------------------------------------------------------
+    # Results
+    # --------------------------------------------------------
+
+    final_results = []
+
+    for rank, index in enumerate(
+        indices,
+        start=1
+    ):
+
+        final_results.append(
+
+            build_result(
+
+                rank=rank,
+
+                chunk_id=
+                    patient_ids[index],
+
+                text=
+                    patient_texts[index],
+
+                metadata=
+                    patient_metadata[index],
+
+                semantic_score=
+                    semantic_scores[index],
+
+                semantic_normalized=
+                    semantic_normalized[index],
+
+                bm25_score=
+                    keyword_scores[index],
+
+                bm25_normalized=
+                    keyword_normalized[index],
+
+                hybrid_score=
+                    hybrid_scores[index]
+            )
+        )
+
+    return final_results
+
+
+# ============================================================
+# PRINT RESULTS
+# ============================================================
+
+def print_final_results(
+    results
 ):
 
-    print("\n" + "=" * 70)
-    print("HYBRID CANDIDATES BEFORE RERANKING")
-    print("=" * 70)
+    print(
+        "\n" + "=" * 70
+    )
 
-    for candidate in candidates:
+    print(
+        "FINAL HYBRID RETRIEVAL RESULTS"
+    )
 
-        metadata = candidate["metadata"]
+    print(
+        "=" * 70
+    )
 
-        print("\n" + "-" * 70)
+    for result in results:
+
+        metadata = (
+            result.get(
+                "metadata",
+                {}
+            )
+        )
 
         print(
-            f"Hybrid Rank : "
-            f"{candidate['hybrid_rank']}"
+            "\n" + "-" * 70
+        )
+
+        print(
+            f"Rank        : "
+            f"{result['hybrid_rank']}"
         )
 
         print(
             f"Chunk ID    : "
-            f"{candidate['chunk_id']}"
+            f"{result['chunk_id']}"
         )
 
         print(
-            f"Semantic N  : "
-            f"{candidate['semantic_normalized']:.4f}"
+            f"Source      : "
+            f"{metadata.get('source_type', '')}"
         )
 
         print(
-            f"BM25 N      : "
-            f"{candidate['bm25_normalized']:.4f}"
+            f"Session     : "
+            f"{metadata.get('session_id', '')}"
+        )
+
+        print(
+            f"Semantic    : "
+            f"{result['semantic_score']:.4f}"
+        )
+
+        print(
+            f"BM25        : "
+            f"{result['bm25_score']:.4f}"
         )
 
         print(
             f"Hybrid      : "
-            f"{candidate['hybrid_score']:.4f}"
+            f"{result['hybrid_score']:.4f}"
         )
 
         print(
@@ -503,152 +870,94 @@ def print_hybrid_candidates(
             f"{metadata.get('page_end', '')}"
         )
 
-
-# ============================================================
-# 10. PRINT FINAL RERANKED RESULTS
-# ============================================================
-
-def print_final_results(
-    results
-):
-
-    print("\n" + "=" * 70)
-    print("FINAL MS-MARCO RERANKED RESULTS")
-    print("=" * 70)
-
-    for result in results:
-
-        metadata = result["metadata"]
-
-        print("\n" + "-" * 70)
-
         print(
-            f"Final Rank  : "
-            f"{result['final_rank']}"
-        )
-
-        print(
-            f"Chunk ID    : "
-            f"{result['chunk_id']}"
-        )
-
-        print(
-            f"Original Hybrid Rank : "
-            f"{result['hybrid_rank']}"
-        )
-
-        print(
-            f"Hybrid Score : "
-            f"{result['hybrid_score']:.4f}"
-        )
-
-        print(
-            f"Rerank Score : "
-            f"{result['rerank_score']:.4f}"
-        )
-
-        print(
-            f"Section      : "
-            f"{metadata.get('section', '')}"
-        )
-
-        print(
-            f"Pages        : "
-            f"{metadata.get('page_start', '')}"
-            f"-"
-            f"{metadata.get('page_end', '')}"
-        )
-
-        print(
-            f"Citation     : "
+            f"Citation    : "
             f"{metadata.get('citation', '')}"
         )
 
-        print("\nText:")
+        print(
+            "\nText:"
+        )
+
         print(
             result["text"]
         )
 
 
 # ============================================================
-# 11. RUN PIPELINE
+# MANUAL CORE TEST
 # ============================================================
 
-print("\n" + "=" * 70)
-print("QUERY")
-print("=" * 70)
-
-print(QUERY)
-
-
-# ------------------------------------------------------------
-# Stage 1: Hybrid Retrieval
-# ------------------------------------------------------------
-
-print("\n" + "=" * 70)
-print("STAGE 1 - HYBRID RETRIEVAL")
-print("=" * 70)
-
-hybrid_candidates = hybrid_search(
-    QUERY,
-    candidate_k=CANDIDATE_K,
-    alpha=ALPHA
-)
-
-print_hybrid_candidates(
-    hybrid_candidates
-)
-
-
-# ------------------------------------------------------------
-# Stage 2: MS-MARCO Reranking
-# ------------------------------------------------------------
-
-print("\n" + "=" * 70)
-print("STAGE 2 - MS-MARCO CROSS-ENCODER RERANKING")
-print("=" * 70)
-
-final_results = rerank_candidates(
-    QUERY,
-    hybrid_candidates,
-    final_top_k=FINAL_TOP_K
-)
-
-print_final_results(
-    final_results
+QUERY = (
+    "What imaging should be offered to people with stage 3 NSCLC "
+    "who are having treatment with curative intent?"
 )
 
 
 # ============================================================
-# 12. FINAL SUMMARY
+# MAIN TEST
 # ============================================================
 
-print("\n" + "=" * 70)
-print("FINAL RETRIEVAL PIPELINE COMPLETE")
-print("=" * 70)
+if __name__ == "__main__":
 
-print("\nPipeline:")
+    print(
+        "\n" + "=" * 70
+    )
 
-print(
-    "Query"
-    " -> Semantic Search"
-    " + BM25"
-    " -> Normalization"
-    " -> Hybrid (0.7 / 0.3)"
-    " -> Top 10"
-    " -> MS-MARCO Cross-Encoder"
-    " -> Final Top 5"
-)
+    print(
+        "PULMO GUIDE - CORE RETRIEVAL TEST"
+    )
 
-print("\nFinal configuration:")
+    print(
+        "=" * 70
+    )
 
-print("Alpha = 0.7")
-print("Semantic = 70%")
-print("BM25 = 30%")
-print(f"Candidates before reranking = {CANDIDATE_K}")
-print(f"Final results = {FINAL_TOP_K}")
+    print(
+        "\nQuery:"
+    )
 
-print("\nReranker:")
-print(RERANKER_MODEL_NAME)
+    print(
+        QUERY
+    )
 
-print("=" * 70)
+    results = hybrid_search(
+        query=QUERY,
+        final_top_k=FINAL_TOP_K,
+        alpha=SEMANTIC_WEIGHT
+    )
+
+    print_final_results(
+        results
+    )
+
+    print(
+        "\n" + "=" * 70
+    )
+
+    print(
+        "RETRIEVAL COMPLETE"
+    )
+
+    print(
+        "=" * 70
+    )
+
+    print(
+        f"Semantic = "
+        f"{SEMANTIC_WEIGHT * 100:.0f}%"
+    )
+
+    print(
+        f"BM25 = "
+        f"{BM25_WEIGHT * 100:.0f}%"
+    )
+
+    print(
+        f"Top K = "
+        f"{FINAL_TOP_K}"
+    )
+
+    print(
+        f"Reranker = "
+        f"{'ON' if USE_RERANKER else 'OFF'}"
+    )

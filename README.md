@@ -22,3 +22,65 @@ Grounded Prompt
 LLM Generation
       ↓
 Answer + Evidence + Citation
+```
+
+
+---
+
+
+```
+
+                         USER QUERY
+                              │
+                              ▼
+                    ┌──────────────────┐
+                    │ SAFETY DECISION  │
+                    └──────────────────┘
+                              │
+              ┌───────────────┼───────────────┐
+              │               │               │
+           UNSAFE       OUT_OF_SCOPE    INJECTION
+              │               │               │
+              └───────────────┴───────────────┘
+                              │
+                           REFUSE
+                             
+                              │
+                         IN_SCOPE
+                              ▼
+                  ┌─────────────────────┐
+                  │ HYBRID RETRIEVAL    │
+                  │      70 / 30        │
+                  └─────────────────────┘
+                              │
+                              ▼
+                  ┌─────────────────────┐
+                  │ EVIDENCE DECISION   │
+                  └─────────────────────┘
+                              │
+             ┌────────────────┼────────────────┐
+             │                │                │
+        insufficient        weak/partial     strong
+             │                │                │
+           REFUSE             │                │
+                              └───────┬────────┘
+                                      ▼
+                           ┌──────────────────┐
+                           │ GROUNDED PROMPT  │
+                           │ Persona +        │
+                           │ Evidence Level   │
+                           └──────────────────┘
+                                      │
+                                      ▼
+                              ┌─────────────┐
+                              │     LLM     │
+                              └─────────────┘
+                                      │
+                                      ▼
+                       Recommendation / Excerpt / Citation
+                                      │
+                                      ▼
+                              Citation Validation
+
+
+ ```

@@ -964,7 +964,8 @@ def create_chunk(
     units,
     source_type,
     section,
-    chunk_index
+    chunk_index,
+    session_id=None
 ):
 
     texts = [
@@ -1019,6 +1020,8 @@ def create_chunk(
 
         "source_type": source_type,
 
+        "session_id": session_id,
+
         "section": section,
 
         "headings": headings,
@@ -1049,6 +1052,8 @@ def create_chunk(
         "metadata": {
 
             "source_type": source_type,
+
+            "session_id": session_id,
 
             "section": section,
 
@@ -1081,7 +1086,8 @@ def process_section(
     section_elements,
     source_type,
     model,
-    config
+    config,
+    session_id=None
 ):
 
     if not section_elements:
@@ -1151,7 +1157,8 @@ def process_section(
 def process_document(
     elements,
     source_type,
-    model
+    model,
+    session_id=None
 ):
 
     config = CONFIG[
@@ -1242,7 +1249,8 @@ def process_document(
             section_elements,
             source_type,
             model,
-            config
+            config,
+            session_id
         )
 
         for units in chunk_units:
@@ -1251,7 +1259,8 @@ def process_document(
                 units,
                 source_type,
                 section_name,
-                chunk_index
+                chunk_index,
+                session_id
             )
 
             final_chunks.append(
@@ -1690,6 +1699,20 @@ def main():
             f"Unsupported source_type: "
             f"{source_type}"
         )
+    # --------------------------------------------------------
+    # Patient session
+    # --------------------------------------------------------
+
+    session_id = None
+
+    if source_type == "patient":
+
+        session_id = uuid.uuid4().hex
+
+        print(
+            f"\nPatient session created: "
+            f"{session_id}"
+        )
 
     # --------------------------------------------------------
     # Configuration
@@ -1746,7 +1769,8 @@ def main():
     chunks = process_document(
         elements,
         source_type,
-        model
+        model,
+        session_id
     )
 
     # --------------------------------------------------------

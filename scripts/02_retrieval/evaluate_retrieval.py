@@ -6,93 +6,87 @@ from pathlib import Path
 import chromadb
 import numpy as np
 from rank_bm25 import BM25Okapi
-from sentence_transformers import CrossEncoder, SentenceTransformer
+from sentence_transformers import SentenceTransformer
 
 
 # ============================================================
 # PULMO GUIDE
-# RETRIEVAL EVALUATION SCRIPT
+# HYBRID RETRIEVAL EVALUATION
 #
-# Compares 4 retrieval configurations against the 32-question
-# ground-truth evaluation set:
+# Evaluation:
+#   Hybrid Retrieval only
 #
-#   1. Semantic Search only
-#   2. BM25 only
-#   3. Hybrid Search (Alpha = 0.7 / 0.3), no reranking
-#   4. Hybrid Search + MS-MARCO Cross-Encoder Reranking
+# Pipeline:
 #
-# The reranker is trained for Information Retrieval / passage
-# ranking, making it suitable for ranking candidate chunks by
-# relevance to the query.
+# Query
+#   ↓
+# Semantic Search
+#   +
+# BM25
+#   ↓
+# Score Normalization
+#   ↓
+# Hybrid 70/30
+#   ↓
+# Top 5
+#   ↓
+# Evaluation
 #
-# This script does NOT modify retrieval.py.
-# It reuses the same models, configuration values, hybrid logic,
-# and reranking logic used by the production retrieval pipeline.
-#
-# Metrics reported @5 for every question and averaged overall:
+# Metrics:
 #   Precision@5
 #   Recall@5
 #   Hit@5
 #   MRR@5
+#
+# No Reranker
 # ============================================================
 
 
 # ============================================================
 # CONFIGURATION
-# Must match retrieval.py
 # ============================================================
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
 VECTOR_DB_DIR = BASE_DIR / "data" / "vector_store"
+
 COLLECTION_NAME = "pulmo_guide"
 
 EMBEDDING_MODEL_NAME = "BAAI/bge-small-en-v1.5"
 
-# MS-MARCO Cross-Encoder
-# Trained for Information Retrieval / passage ranking
-RERANKER_MODEL_NAME = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+# Hybrid configuration
+ALPHA = 0.70
 
-ALPHA = 0.7          # 70% Semantic + 30% BM25
-CANDIDATE_K = 10     # candidates retrieved before reranking
-FINAL_TOP_K = 5      # final results / evaluation cutoff
+SEMANTIC_WEIGHT = 0.70
+BM25_WEIGHT = 0.30
 
-EVAL_SET_PATH = BASE_DIR / "data" / "evaluation" / "evaluation_set.json"
+# Final retrieval cutoff
+FINAL_TOP_K = 5
 
-RESULTS_DIR = BASE_DIR / "data" / "evaluation"
+# Evaluation set
+EVAL_SET_PATH = (
+    BASE_DIR
+    / "data"
+    / "evaluation"
+    / "evaluation_set.json"
+)
+
+# Output files
+RESULTS_DIR = (
+    BASE_DIR
+    / "data"
+    / "evaluation"
+)
 
 RESULTS_JSON_PATH = (
-    RESULTS_DIR / "retrieval_evaluation_results.json"
+    RESULTS_DIR
+    / "hybrid_retrieval_evaluation_results.json"
 )
 
 RESULTS_MD_PATH = (
-    RESULTS_DIR / "retrieval_evaluation_report.md"
+    RESULTS_DIR
+    / "hybrid_retrieval_evaluation_report.md"
 )
-
-
-CONFIG_LABELS = {
-    "semantic": "Semantic Search",
-    "bm25": "BM25",
-    "hybrid": "Hybrid 70/30",
-    "hybrid_rerank": "Hybrid + MS-MARCO",
-}
-
-
-# ============================================================
-# ID MAPPING
-#
-# ChromaDB IDs:
-#     core_0040_c8e3ba61
-#
-# Ground-truth IDs:
-#     core_0040
-#
-# We compare using the base ID.
-# ============================================================
-
-def to_base_id(chunk_id: str) -> str:
-    parts = chunk_id.split("_")
-    return "_".join(parts[:2])
 
 
 # ============================================================
@@ -101,22 +95,47 @@ def to_base_id(chunk_id: str) -> str:
 
 def load_evaluation_set(path: Path):
 
-    with open(path, "r", encoding="utf-8") as f:
+    print("\nLoading evaluation set...")
+
+    with open(
+        path,
+        "r",
+        encoding="utf-8"
+    ) as f:
+
         data = json.load(f)
 
-    if not isinstance(data, list) or len(data) == 0:
+    if not isinstance(data, list):
+
         raise ValueError(
-            f"Evaluation set at {path} is empty or malformed."
+            "Evaluation set must be a JSON list."
+        )
+
+    if len(data) == 0:
+
+        raise ValueError(
+            "Evaluation set is empty."
         )
 
     for i, item in enumerate(data):
 
-        if "question" not in item or "relevant_chunk_ids" not in item:
+        if "question" not in item:
+
             raise ValueError(
-                f"Evaluation item {i} is missing "
-                "'question' or 'relevant_chunk_ids': "
-                f"{item}"
+                f"Evaluation item {i} "
+                "is missing 'question'."
             )
+
+        if "relevant_chunk_ids" not in item:
+
+            raise ValueError(
+                f"Evaluation item {i} "
+                "is missing 'relevant_chunk_ids'."
+            )
+
+    print(
+        f"OK: Loaded {len(data)} evaluation questions."
+    )
 
     return data
 
@@ -127,23 +146,25 @@ def load_evaluation_set(path: Path):
 
 def load_pipeline_components():
 
-    print("Loading embedding model...")
+    # --------------------------------------------------------
+    # Embedding model
+    # --------------------------------------------------------
+
+    print("\nLoading embedding model...")
 
     embedding_model = SentenceTransformer(
         EMBEDDING_MODEL_NAME
     )
 
-    print("OK: Embedding model loaded.")
-
-    print("Loading MS-MARCO Cross-Encoder reranker...")
-
-    reranker = CrossEncoder(
-        RERANKER_MODEL_NAME
+    print(
+        "OK: Embedding model loaded."
     )
 
-    print("OK: MS-MARCO Cross-Encoder loaded.")
+    # --------------------------------------------------------
+    # ChromaDB
+    # --------------------------------------------------------
 
-    print("Connecting to ChromaDB...")
+    print("\nConnecting to ChromaDB...")
 
     client = chromadb.PersistentClient(
         path=str(VECTOR_DB_DIR)
@@ -154,50 +175,102 @@ def load_pipeline_components():
     )
 
     print(
-        f"OK: Collection loaded. "
-        f"Total chunks: {collection.count()}"
+        "OK: Collection loaded."
     )
 
-    print("Loading all chunks...")
+    print(
+        f"Total chunks in database: "
+        f"{collection.count()}"
+    )
+
+    # --------------------------------------------------------
+    # Load all chunks
+    # --------------------------------------------------------
+
+    print("\nLoading all chunks...")
 
     all_data = collection.get(
-        include=["documents", "metadatas"]
+        include=[
+            "documents",
+            "metadatas"
+        ]
     )
 
     chunk_ids = all_data["ids"]
+
     chunk_texts = all_data["documents"]
+
     chunk_metadata = all_data["metadatas"]
 
     print(
         f"OK: Loaded {len(chunk_texts)} chunks."
     )
 
-    print("Building BM25 index...")
+    # --------------------------------------------------------
+    # BM25
+    # --------------------------------------------------------
+
+    print("\nBuilding BM25 index...")
 
     tokenized_documents = [
+
         text.lower().split()
+
         for text in chunk_texts
+
     ]
 
     bm25 = BM25Okapi(
         tokenized_documents
     )
 
-    print("OK: BM25 index created.")
+    print(
+        "OK: BM25 index created."
+    )
 
     return {
-        "embedding_model": embedding_model,
-        "reranker": reranker,
-        "collection": collection,
-        "chunk_ids": chunk_ids,
-        "chunk_texts": chunk_texts,
-        "chunk_metadata": chunk_metadata,
-        "bm25": bm25,
+
+        "embedding_model":
+            embedding_model,
+
+        "collection":
+            collection,
+
+        "chunk_ids":
+            chunk_ids,
+
+        "chunk_texts":
+            chunk_texts,
+
+        "chunk_metadata":
+            chunk_metadata,
+
+        "bm25":
+            bm25,
     }
 
 
 # ============================================================
-# 3. SANITY CHECK
+# 3. ID MAPPING
+#
+# ChromaDB:
+#     core_0040_c8e3ba61
+#
+# Evaluation:
+#     core_0040
+#
+# We compare using the base ID.
+# ============================================================
+
+def to_base_id(chunk_id: str) -> str:
+
+    parts = chunk_id.split("_")
+
+    return "_".join(parts[:2])
+
+
+# ============================================================
+# 4. VALIDATE GROUND-TRUTH IDs
 # ============================================================
 
 def validate_ground_truth_ids(
@@ -205,56 +278,64 @@ def validate_ground_truth_ids(
     chunk_ids
 ):
 
+    print(
+        "\nValidating ground-truth IDs..."
+    )
+
     known_base_ids = {
+
         to_base_id(cid)
+
         for cid in chunk_ids
+
     }
 
     missing = {}
 
     for item in eval_set:
 
-        for gt_id in item["relevant_chunk_ids"]:
+        question = item["question"]
+
+        for gt_id in item[
+            "relevant_chunk_ids"
+        ]:
 
             if gt_id not in known_base_ids:
 
                 missing.setdefault(
-                    item["question"],
+                    question,
                     []
                 ).append(gt_id)
 
     if missing:
 
         print(
-            "\nWARNING: The following ground-truth IDs "
-            "were NOT found"
-        )
-
-        print(
-            "among the ChromaDB chunk IDs "
-            "(after base-ID mapping):"
+            "\nERROR: Ground-truth IDs "
+            "were not found."
         )
 
         for question, ids in missing.items():
 
             print(
-                f"  - '{question[:70]}...' -> {ids}"
+                f"\nQuestion: {question}"
+            )
+
+            print(
+                f"Missing IDs: {ids}"
             )
 
         raise ValueError(
-            "Ground-truth / ChromaDB ID mismatch detected. "
-            "Fix the evaluation set or vector store."
+            "Ground-truth / ChromaDB ID mismatch."
         )
 
     print(
-        f"OK: All ground-truth chunk IDs across "
-        f"{len(eval_set)} questions were matched "
-        "to ChromaDB base IDs."
+        f"OK: All ground-truth IDs matched "
+        f"against {len(chunk_ids)} ChromaDB chunks."
     )
 
 
 # ============================================================
-# 4. SCORE NORMALIZATION
+# 5. SCORE NORMALIZATION
 # ============================================================
 
 def min_max_normalize(scores):
@@ -265,30 +346,45 @@ def min_max_normalize(scores):
     )
 
     minimum = scores.min()
+
     maximum = scores.max()
 
     if maximum == minimum:
-        return np.zeros_like(scores)
+
+        return np.zeros_like(
+            scores
+        )
 
     return (
+
         (scores - minimum)
-        / (maximum - minimum)
+
+        /
+
+        (maximum - minimum)
+
     )
 
 
 # ============================================================
-# 5. HYBRID RETRIEVAL
+# 6. HYBRID SEARCH
 #
-# Semantic 70%
-# BM25     30%
+# Semantic = 70%
+# BM25     = 30%
 # ============================================================
 
 def hybrid_search(
     query,
     components,
-    candidate_k=CANDIDATE_K,
+    final_top_k=FINAL_TOP_K,
     alpha=ALPHA
 ):
+
+    if not query or not query.strip():
+
+        raise ValueError(
+            "Query cannot be empty."
+        )
 
     embedding_model = components[
         "embedding_model"
@@ -314,24 +410,35 @@ def hybrid_search(
         "bm25"
     ]
 
-    # --------------------------------------------------------
-    # Semantic scores
-    # --------------------------------------------------------
+    # ========================================================
+    # Semantic Search
+    # ========================================================
 
     query_embedding = embedding_model.encode(
+
         query,
+
         normalize_embeddings=True
+
     )
 
     semantic_results = collection.query(
+
         query_embeddings=[
             query_embedding.tolist()
         ],
+
         n_results=len(chunk_texts),
-        include=["distances"],
+
+        include=[
+            "distances"
+        ]
+
     )
 
-    semantic_ids = semantic_results["ids"][0]
+    semantic_ids = (
+        semantic_results["ids"][0]
+    )
 
     semantic_distances = (
         semantic_results["distances"][0]
@@ -340,17 +447,20 @@ def hybrid_search(
     semantic_score_map = {}
 
     for chunk_id, distance in zip(
+
         semantic_ids,
+
         semantic_distances
+
     ):
 
-        semantic_score_map[chunk_id] = (
-            1 - distance
-        )
+        semantic_score_map[
+            chunk_id
+        ] = 1 - distance
 
-    # --------------------------------------------------------
-    # BM25 scores
-    # --------------------------------------------------------
+    # ========================================================
+    # BM25
+    # ========================================================
 
     tokens = query.lower().split()
 
@@ -359,322 +469,275 @@ def hybrid_search(
     )
 
     bm25_score_map = {
+
         chunk_id: float(score)
+
         for chunk_id, score in zip(
+
             chunk_ids,
+
             bm25_scores
+
         )
+
     }
 
-    # --------------------------------------------------------
+    # ========================================================
     # Align scores
-    # --------------------------------------------------------
+    # ========================================================
 
     semantic_scores = np.array([
+
         semantic_score_map[chunk_id]
+
         for chunk_id in chunk_ids
+
     ])
 
     keyword_scores = np.array([
+
         bm25_score_map[chunk_id]
+
         for chunk_id in chunk_ids
+
     ])
 
-    # --------------------------------------------------------
+    # ========================================================
     # Normalize
-    # --------------------------------------------------------
+    # ========================================================
 
-    semantic_normalized = min_max_normalize(
-        semantic_scores
+    semantic_normalized = (
+        min_max_normalize(
+            semantic_scores
+        )
     )
 
-    keyword_normalized = min_max_normalize(
-        keyword_scores
+    keyword_normalized = (
+        min_max_normalize(
+            keyword_scores
+        )
     )
 
-    # --------------------------------------------------------
-    # Hybrid
-    # --------------------------------------------------------
+    # ========================================================
+    # Hybrid 70 / 30
+    # ========================================================
 
     hybrid_scores = (
-        alpha * semantic_normalized
+
+        alpha
+        * semantic_normalized
+
         +
-        (1 - alpha) * keyword_normalized
+
+        (1 - alpha)
+        * keyword_normalized
+
     )
 
-    # --------------------------------------------------------
-    # Get candidates
-    # --------------------------------------------------------
+    # ========================================================
+    # Top K
+    # ========================================================
 
     indices = np.argsort(
         hybrid_scores
-    )[::-1][:candidate_k]
+    )[::-1][:final_top_k]
 
-    candidates = []
+    results = []
 
     for rank, index in enumerate(
         indices,
         start=1
     ):
 
-        candidates.append({
+        results.append({
 
-            "hybrid_rank": rank,
+            "rank":
+                rank,
 
-            "chunk_id": chunk_ids[index],
+            "chunk_id":
+                chunk_ids[index],
 
-            "text": chunk_texts[index],
+            "text":
+                chunk_texts[index],
 
-            "metadata": chunk_metadata[index],
+            "metadata":
+                chunk_metadata[index],
 
-            "semantic_score": float(
-                semantic_scores[index]
-            ),
+            "semantic_score":
+                float(
+                    semantic_scores[index]
+                ),
 
-            "semantic_normalized": float(
-                semantic_normalized[index]
-            ),
+            "semantic_normalized":
+                float(
+                    semantic_normalized[index]
+                ),
 
-            "bm25_score": float(
-                keyword_scores[index]
-            ),
+            "bm25_score":
+                float(
+                    keyword_scores[index]
+                ),
 
-            "bm25_normalized": float(
-                keyword_normalized[index]
-            ),
+            "bm25_normalized":
+                float(
+                    keyword_normalized[index]
+                ),
 
-            "hybrid_score": float(
-                hybrid_scores[index]
-            ),
+            "hybrid_score":
+                float(
+                    hybrid_scores[index]
+                ),
+
         })
 
-    return candidates
+    return results
 
 
 # ============================================================
-# 6. MS-MARCO RERANKING
+# 7. COMPUTE FOUR METRICS
 #
-# The Cross-Encoder receives:
-#
-#     (query, chunk)
-#
-# and predicts a relevance score.
-#
-# Unlike the previous NLI model, this model is designed
-# specifically for Information Retrieval / passage ranking.
-# ============================================================
-
-def rerank_candidates(
-    query,
-    candidates,
-    reranker,
-    final_top_k=FINAL_TOP_K
-):
-
-    pairs = [
-        (
-            query,
-            candidate["text"]
-        )
-        for candidate in candidates
-    ]
-
-    # MS-MARCO returns one relevance score per pair
-    scores = reranker.predict(
-        pairs
-    )
-
-    scores = np.asarray(
-        scores
-    ).reshape(-1)
-
-    for candidate, score in zip(
-        candidates,
-        scores
-    ):
-
-        candidate["rerank_score"] = float(
-            score
-        )
-
-    # Higher MS-MARCO score = more relevant
-    reranked = sorted(
-        candidates,
-        key=lambda x: x["rerank_score"],
-        reverse=True
-    )
-
-    final_results = []
-
-    for rank, candidate in enumerate(
-        reranked[:final_top_k],
-        start=1
-    ):
-
-        candidate["final_rank"] = rank
-
-        final_results.append(
-            candidate
-        )
-
-    return final_results
-
-
-# ============================================================
-# 7. BASELINE HELPERS
-# ============================================================
-
-def semantic_only_topk(
-    query,
-    components,
-    k=FINAL_TOP_K
-):
-
-    embedding_model = components[
-        "embedding_model"
-    ]
-
-    collection = components[
-        "collection"
-    ]
-
-    query_embedding = embedding_model.encode(
-        query,
-        normalize_embeddings=True
-    )
-
-    results = collection.query(
-        query_embeddings=[
-            query_embedding.tolist()
-        ],
-        n_results=k,
-        include=["distances"],
-    )
-
-    ids = results["ids"][0]
-
-    distances = results["distances"][0]
-
-    return [
-        {
-            "rank": i + 1,
-            "chunk_id": cid,
-            "score": 1 - dist,
-        }
-        for i, (cid, dist)
-        in enumerate(
-            zip(ids, distances)
-        )
-    ]
-
-
-def bm25_only_topk(
-    query,
-    components,
-    k=FINAL_TOP_K
-):
-
-    chunk_ids = components[
-        "chunk_ids"
-    ]
-
-    bm25 = components[
-        "bm25"
-    ]
-
-    tokens = query.lower().split()
-
-    scores = bm25.get_scores(
-        tokens
-    )
-
-    order = np.argsort(
-        scores
-    )[::-1][:k]
-
-    return [
-        {
-            "rank": i + 1,
-            "chunk_id": chunk_ids[idx],
-            "score": float(scores[idx]),
-        }
-        for i, idx in enumerate(order)
-    ]
-
-
-# ============================================================
-# 8. METRICS
+# Precision@5
+# Recall@5
+# Hit@5
+# MRR@5
 # ============================================================
 
 def compute_metrics(
-    retrieved_chunk_ids_ordered,
+
+    retrieved_chunk_ids,
+
     ground_truth_base_ids,
+
     k=FINAL_TOP_K
+
 ):
 
-    gt = set(
+    ground_truth = set(
         ground_truth_base_ids
     )
 
-    top_k = retrieved_chunk_ids_ordered[
+    top_k_ids = retrieved_chunk_ids[
         :k
     ]
 
     retrieved_base_ids = [
-        to_base_id(cid)
-        for cid in top_k
+
+        to_base_id(chunk_id)
+
+        for chunk_id in top_k_ids
+
     ]
 
+    # --------------------------------------------------------
+    # Relevant flags
+    # --------------------------------------------------------
+
     relevant_flags = [
-        base_id in gt
+
+        base_id in ground_truth
+
         for base_id in retrieved_base_ids
+
     ]
 
     num_relevant_retrieved = sum(
         relevant_flags
     )
 
+    # --------------------------------------------------------
+    # Precision@5
+    #
+    # Relevant retrieved / retrieved
+    # --------------------------------------------------------
+
     precision_at_k = (
+
         num_relevant_retrieved / k
-        if k
+
+        if k > 0
+
         else 0.0
+
     )
+
+    # --------------------------------------------------------
+    # Recall@5
+    #
+    # Relevant retrieved / total relevant
+    # --------------------------------------------------------
 
     recall_at_k = (
-        num_relevant_retrieved / len(gt)
-        if gt
+
+        num_relevant_retrieved
+        /
+        len(ground_truth)
+
+        if ground_truth
+
         else 0.0
+
     )
+
+    # --------------------------------------------------------
+    # Hit@5
+    #
+    # At least one relevant chunk?
+    # --------------------------------------------------------
 
     hit_at_k = (
+
         1
+
         if num_relevant_retrieved > 0
+
         else 0
+
     )
 
+    # --------------------------------------------------------
+    # MRR@5
+    #
+    # 1 / rank of first relevant chunk
+    # --------------------------------------------------------
+
     first_relevant_rank = next(
+
         (
+
             i + 1
-            for i, flag
-            in enumerate(relevant_flags)
+
+            for i, flag in enumerate(
+                relevant_flags
+            )
+
             if flag
+
         ),
+
         None
+
     )
 
     mrr_at_k = (
+
         1.0 / first_relevant_rank
+
         if first_relevant_rank
+
         else 0.0
+
     )
 
     return {
 
-        "retrieved_chunk_ids": top_k,
+        "retrieved_chunk_ids":
+            top_k_ids,
 
-        "retrieved_base_ids": retrieved_base_ids,
+        "retrieved_base_ids":
+            retrieved_base_ids,
 
-        "relevant_flags": relevant_flags,
+        "relevant_flags":
+            relevant_flags,
 
         "num_relevant_retrieved":
             num_relevant_retrieved,
@@ -693,320 +756,309 @@ def compute_metrics(
 
         "mrr_at_5":
             mrr_at_k,
+
     }
 
 
 # ============================================================
-# 9. EVALUATE ONE QUESTION
+# 8. EVALUATE ONE QUESTION
 # ============================================================
 
 def evaluate_question(
-    question_item,
-    components,
-    k=FINAL_TOP_K
+    item,
+    components
 ):
 
-    query = question_item[
+    question = item[
         "question"
     ]
 
-    ground_truth_ids = question_item[
+    ground_truth_ids = item[
         "relevant_chunk_ids"
     ]
 
     # --------------------------------------------------------
-    # Config 1: Semantic only
+    # Retrieve
     # --------------------------------------------------------
 
-    semantic_results = semantic_only_topk(
-        query,
+    results = hybrid_search(
+
+        question,
+
         components,
-        k=k
-    )
 
-    semantic_ids_ordered = [
-        r["chunk_id"]
-        for r in semantic_results
-    ]
+        final_top_k=FINAL_TOP_K,
 
-    # --------------------------------------------------------
-    # Config 2: BM25 only
-    # --------------------------------------------------------
-
-    bm25_results = bm25_only_topk(
-        query,
-        components,
-        k=k
-    )
-
-    bm25_ids_ordered = [
-        r["chunk_id"]
-        for r in bm25_results
-    ]
-
-    # --------------------------------------------------------
-    # Config 3 + 4:
-    # Same Hybrid candidate pool
-    # --------------------------------------------------------
-
-    hybrid_candidates = hybrid_search(
-        query,
-        components,
-        candidate_k=CANDIDATE_K,
         alpha=ALPHA
+
     )
 
-    # Hybrid without reranking
-    hybrid_ids_ordered = [
-        c["chunk_id"]
-        for c in hybrid_candidates[:k]
-    ]
+    retrieved_ids = [
 
-    # Hybrid + MS-MARCO reranking
-    reranked = rerank_candidates(
-        query,
-        list(hybrid_candidates),
-        components["reranker"],
-        final_top_k=k
-    )
+        result["chunk_id"]
 
-    hybrid_rerank_ids_ordered = [
-        c["chunk_id"]
-        for c in reranked
+        for result in results
+
     ]
 
     # --------------------------------------------------------
     # Metrics
     # --------------------------------------------------------
 
-    configs_output = {
+    metrics = compute_metrics(
 
-        "semantic": compute_metrics(
-            semantic_ids_ordered,
-            ground_truth_ids,
-            k=k
-        ),
+        retrieved_ids,
 
-        "bm25": compute_metrics(
-            bm25_ids_ordered,
-            ground_truth_ids,
-            k=k
-        ),
+        ground_truth_ids,
 
-        "hybrid": compute_metrics(
-            hybrid_ids_ordered,
-            ground_truth_ids,
-            k=k
-        ),
+        k=FINAL_TOP_K
 
-        "hybrid_rerank": compute_metrics(
-            hybrid_rerank_ids_ordered,
-            ground_truth_ids,
-            k=k
-        ),
-    }
+    )
 
     return {
 
-        "question": query,
+        "question":
+            question,
 
         "ground_truth_ids":
             ground_truth_ids,
 
-        "configs":
-            configs_output,
+        "results":
+            results,
+
+        "metrics":
+            metrics,
+
     }
 
 
 # ============================================================
-# 10. AGGREGATE METRICS
+# 9. AGGREGATE METRICS
 # ============================================================
 
 def aggregate_metrics(
-    per_question_results,
-    config_keys
+    per_question_results
 ):
 
     metric_names = [
+
         "precision_at_5",
+
         "recall_at_5",
+
         "hit_at_5",
+
         "mrr_at_5",
+
     ]
 
     averages = {}
 
-    for config_key in config_keys:
+    for metric in metric_names:
 
-        values = {
-            m: []
-            for m in metric_names
-        }
+        values = [
 
-        for record in per_question_results:
+            record["metrics"][metric]
 
-            for m in metric_names:
+            for record
+            in per_question_results
 
-                values[m].append(
-                    record[
-                        "configs"
-                    ][config_key][m]
-                )
+        ]
 
-        averages[config_key] = {
+        averages[metric] = (
 
-            m: (
-                sum(v) / len(v)
-                if v
-                else 0.0
-            )
+            sum(values)
+            /
+            len(values)
 
-            for m, v
-            in values.items()
-        }
+            if values
+
+            else 0.0
+
+        )
 
     return averages
 
 
 # ============================================================
-# 11. CONSOLE REPORTING
+# 10. PRINT QUESTION RESULT
 # ============================================================
 
-def print_per_question_result(
+def print_question_result(
     record,
     index,
     total
 ):
+
+    metrics = record[
+        "metrics"
+    ]
 
     print(
         "\n" + "-" * 70
     )
 
     print(
-        f"[{index}/{total}] QUESTION: "
+        f"[{index}/{total}] "
         f"{record['question']}"
     )
 
     print(
-        f"Ground truth: "
-        f"{record['ground_truth_ids']}"
+        f"\nGround Truth:"
     )
 
-    for config_key, label in CONFIG_LABELS.items():
+    print(
+        record["ground_truth_ids"]
+    )
 
-        metrics = record[
-            "configs"
-        ][config_key]
+    print(
+        "\nRetrieved Top 5:"
+    )
 
-        print(
-            f"\n  {label}"
-        )
+    print(
+        metrics[
+            "retrieved_base_ids"
+        ]
+    )
 
-        print(
-            f"    Retrieved (top {FINAL_TOP_K}): "
-            f"{metrics['retrieved_base_ids']}"
-        )
+    print(
+        f"\nRelevant Flags:"
+    )
 
-        print(
-            f"    Relevant flags: "
-            f"{metrics['relevant_flags']}"
-        )
+    print(
+        metrics[
+            "relevant_flags"
+        ]
+    )
 
-        print(
-            f"    First relevant rank: "
-            f"{metrics['first_relevant_rank']}"
-        )
+    print(
+        f"\nFirst Relevant Rank:"
+        f" {metrics['first_relevant_rank']}"
+    )
 
-        print(
-            f"    Precision@5: "
-            f"{metrics['precision_at_5']:.2f}  "
-            f"Recall@5: "
-            f"{metrics['recall_at_5']:.2f}  "
-            f"Hit@5: "
-            f"{metrics['hit_at_5']}  "
-            f"MRR@5: "
-            f"{metrics['mrr_at_5']:.2f}"
-        )
+    print(
+        f"Precision@5:"
+        f" {metrics['precision_at_5']:.3f}"
+    )
+
+    print(
+        f"Recall@5:"
+        f" {metrics['recall_at_5']:.3f}"
+    )
+
+    print(
+        f"Hit@5:"
+        f" {metrics['hit_at_5']}"
+    )
+
+    print(
+        f"MRR@5:"
+        f" {metrics['mrr_at_5']:.3f}"
+    )
 
 
 # ============================================================
-# 12. COMPARISON TABLE
+# 11. BUILD COMPARISON TABLE
 # ============================================================
 
-def build_comparison_table_str(
+def build_comparison_table(
     averages,
     num_questions
 ):
 
-    header = (
-        f"{'Method':<25}"
-        f"{'Precision@5':>14}"
-        f"{'Recall@5':>12}"
-        f"{'Hit@5':>10}"
-        f"{'MRR@5':>10}"
+    lines = []
+
+    lines.append(
+        "\n" + "=" * 70
     )
 
-    lines = [
-        header,
-        "-" * len(header)
-    ]
+    lines.append(
+        "HYBRID RETRIEVAL EVALUATION"
+    )
 
-    for config_key, label in CONFIG_LABELS.items():
+    lines.append(
+        "=" * 70
+    )
 
-        a = averages[
-            config_key
-        ]
+    lines.append(
+        f"Questions evaluated: "
+        f"{num_questions}"
+    )
 
-        lines.append(
-            f"{label:<25}"
-            f"{a['precision_at_5']:>14.3f}"
-            f"{a['recall_at_5']:>12.3f}"
-            f"{a['hit_at_5']:>10.3f}"
-            f"{a['mrr_at_5']:>10.3f}"
-        )
+    lines.append(
+        f"Embedding model: "
+        f"{EMBEDDING_MODEL_NAME}"
+    )
+
+    lines.append(
+        f"Semantic weight: "
+        f"{SEMANTIC_WEIGHT:.0%}"
+    )
+
+    lines.append(
+        f"BM25 weight: "
+        f"{BM25_WEIGHT:.0%}"
+    )
+
+    lines.append(
+        f"Final Top K: "
+        f"{FINAL_TOP_K}"
+    )
 
     lines.append("")
 
     lines.append(
-        f"(Averaged over "
-        f"{num_questions} questions, k=5)"
+        f"{'Metric':<20}"
+        f"{'Score':>12}"
+    )
+
+    lines.append(
+        "-" * 32
+    )
+
+    lines.append(
+        f"{'Precision@5':<20}"
+        f"{averages['precision_at_5']:>12.3f}"
+    )
+
+    lines.append(
+        f"{'Recall@5':<20}"
+        f"{averages['recall_at_5']:>12.3f}"
+    )
+
+    lines.append(
+        f"{'Hit@5':<20}"
+        f"{averages['hit_at_5']:>12.3f}"
+    )
+
+    lines.append(
+        f"{'MRR@5':<20}"
+        f"{averages['mrr_at_5']:>12.3f}"
+    )
+
+    lines.append("")
+
+    lines.append(
+        "=" * 70
     )
 
     return "\n".join(lines)
 
 
 # ============================================================
-# 13. MARKDOWN REPORT
+# 12. BUILD MARKDOWN REPORT
 # ============================================================
 
 def build_markdown_report(
     per_question_results,
     averages,
-    num_questions,
     elapsed_seconds
 ):
 
     lines = []
 
     lines.append(
-        "# Pulmo Guide — Retrieval Evaluation Report"
-    )
-
-    lines.append("")
-
-    lines.append(
-        f"Evaluated **{num_questions} questions** "
-        f"from `evaluation_set.json` against "
-        f"**{len(CONFIG_LABELS)} retrieval configurations**, "
-        f"cutoff k=5, ChromaDB collection "
-        f"`{COLLECTION_NAME}`."
-    )
-
-    lines.append("")
-
-    lines.append(
-        f"Total evaluation time: "
-        f"{elapsed_seconds:.1f}s"
+        "# Pulmo Guide — Hybrid Retrieval Evaluation"
     )
 
     lines.append("")
@@ -1023,26 +1075,13 @@ def build_markdown_report(
     )
 
     lines.append(
-        f"- Reranker model: "
-        f"`{RERANKER_MODEL_NAME}`"
+        f"- Semantic weight: "
+        f"`70%`"
     )
 
     lines.append(
-        f"- Alpha (semantic weight): "
-        f"`{ALPHA}`"
-    )
-
-    lines.append(
-        f"- Semantic weight: `70%`"
-    )
-
-    lines.append(
-        f"- BM25 weight: `30%`"
-    )
-
-    lines.append(
-        f"- Candidate K (pre-rerank): "
-        f"`{CANDIDATE_K}`"
+        f"- BM25 weight: "
+        f"`30%`"
     )
 
     lines.append(
@@ -1050,37 +1089,45 @@ def build_markdown_report(
         f"`{FINAL_TOP_K}`"
     )
 
-    lines.append("")
-
     lines.append(
-        "## Comparison Table "
-        "(averaged over all questions)"
+        "- Reranker: `OFF`"
     )
 
     lines.append("")
 
     lines.append(
-        "| Method | Precision@5 | Recall@5 | "
-        "Hit@5 | MRR@5 |"
+        "## Overall Metrics"
+    )
+
+    lines.append("")
+
+    lines.append(
+        "| Metric | Score |"
     )
 
     lines.append(
-        "|---|---|---|---|---|"
+        "|---|---:|"
     )
 
-    for config_key, label in CONFIG_LABELS.items():
+    lines.append(
+        f"| Precision@5 | "
+        f"{averages['precision_at_5']:.3f} |"
+    )
 
-        a = averages[
-            config_key
-        ]
+    lines.append(
+        f"| Recall@5 | "
+        f"{averages['recall_at_5']:.3f} |"
+    )
 
-        lines.append(
-            f"| {label} | "
-            f"{a['precision_at_5']:.3f} | "
-            f"{a['recall_at_5']:.3f} | "
-            f"{a['hit_at_5']:.3f} | "
-            f"{a['mrr_at_5']:.3f} |"
-        )
+    lines.append(
+        f"| Hit@5 | "
+        f"{averages['hit_at_5']:.3f} |"
+    )
+
+    lines.append(
+        f"| MRR@5 | "
+        f"{averages['mrr_at_5']:.3f} |"
+    )
 
     lines.append("")
 
@@ -1094,6 +1141,10 @@ def build_markdown_report(
         per_question_results,
         start=1
     ):
+
+        metrics = record[
+            "metrics"
+        ]
 
         lines.append(
             f"### {i}. "
@@ -1110,48 +1161,60 @@ def build_markdown_report(
         lines.append("")
 
         lines.append(
-            "| Method | Retrieved (top 5) | "
-            "Relevant | First rel. rank | "
-            "P@5 | R@5 | Hit@5 | MRR@5 |"
+            f"**Retrieved Top 5:** "
+            f"`{metrics['retrieved_base_ids']}`"
+        )
+
+        lines.append("")
+
+        lines.append(
+            f"**Relevant flags:** "
+            f"`{metrics['relevant_flags']}`"
+        )
+
+        lines.append("")
+
+        lines.append(
+            f"- Precision@5: "
+            f"`{metrics['precision_at_5']:.3f}`"
         )
 
         lines.append(
-            "|---|---|---|---|---|---|---|---|"
+            f"- Recall@5: "
+            f"`{metrics['recall_at_5']:.3f}`"
         )
 
-        for config_key, label in CONFIG_LABELS.items():
+        lines.append(
+            f"- Hit@5: "
+            f"`{metrics['hit_at_5']}`"
+        )
 
-            m = record[
-                "configs"
-            ][config_key]
-
-            lines.append(
-                f"| {label} | "
-                f"`{m['retrieved_base_ids']}` | "
-                f"`{m['relevant_flags']}` | "
-                f"{m['first_relevant_rank']} | "
-                f"{m['precision_at_5']:.2f} | "
-                f"{m['recall_at_5']:.2f} | "
-                f"{m['hit_at_5']} | "
-                f"{m['mrr_at_5']:.2f} |"
-            )
+        lines.append(
+            f"- MRR@5: "
+            f"`{metrics['mrr_at_5']:.3f}`"
+        )
 
         lines.append("")
+
+    lines.append(
+        f"Evaluation time: "
+        f"{elapsed_seconds:.1f}s"
+    )
 
     return "\n".join(lines)
 
 
 # ============================================================
-# 14. MAIN
+# 13. MAIN
 # ============================================================
 
 def main():
 
     parser = argparse.ArgumentParser(
         description=(
-            "Evaluate 4 retrieval configurations "
-            "against evaluation_set.json using "
-            "the same production retrieval pipeline."
+            "Evaluate Pulmo Guide Hybrid "
+            "Retrieval using Precision@5, "
+            "Recall@5, Hit@5 and MRR@5."
         )
     )
 
@@ -1159,7 +1222,7 @@ def main():
         "--eval-set",
         type=Path,
         default=EVAL_SET_PATH,
-        help="Path to evaluation_set.json",
+        help="Path to evaluation_set.json"
     )
 
     parser.add_argument(
@@ -1167,37 +1230,49 @@ def main():
         type=int,
         default=None,
         help=(
-            "Only evaluate the first N questions "
-            "for quick testing."
-        ),
+            "Evaluate only the first N "
+            "questions for quick testing."
+        )
     )
 
     parser.add_argument(
         "--quiet",
         action="store_true",
         help=(
-            "Suppress detailed per-question output "
-            "and print progress only."
-        ),
+            "Show only progress and final "
+            "metrics."
+        )
     )
 
     parser.add_argument(
         "--no-save",
         action="store_true",
-        help="Do not write result files to disk.",
+        help="Do not save result files."
     )
 
     args = parser.parse_args()
 
     start_time = time.time()
 
+    # ========================================================
+    # HEADER
+    # ========================================================
+
     print("=" * 70)
 
     print(
-        "PULMO GUIDE - RETRIEVAL EVALUATION"
+        "PULMO GUIDE"
+    )
+
+    print(
+        "HYBRID RETRIEVAL EVALUATION"
     )
 
     print("=" * 70)
+
+    print(
+        "\nConfiguration:"
+    )
 
     print(
         f"Embedding Model : "
@@ -1205,85 +1280,90 @@ def main():
     )
 
     print(
-        f"Reranker        : "
-        f"{RERANKER_MODEL_NAME}"
+        f"Semantic Weight : "
+        f"{SEMANTIC_WEIGHT:.0%}"
     )
 
     print(
-        f"Alpha           : {ALPHA}"
+        f"BM25 Weight     : "
+        f"{BM25_WEIGHT:.0%}"
     )
 
     print(
-        f"Semantic Weight : 70%"
+        f"Final Top K     : "
+        f"{FINAL_TOP_K}"
     )
 
     print(
-        f"BM25 Weight     : 30%"
+        "Reranker        : OFF"
     )
 
     print(
-        f"Candidate K     : {CANDIDATE_K}"
+        f"Evaluation Set  : "
+        f"{args.eval_set}"
     )
 
-    print(
-        f"Final Top K     : {FINAL_TOP_K}"
-    )
-
-    print(
-        f"Evaluation set  : {args.eval_set}"
-    )
-
-    # --------------------------------------------------------
+    # ========================================================
     # Load evaluation set
-    # --------------------------------------------------------
+    # ========================================================
 
     eval_set = load_evaluation_set(
         args.eval_set
     )
 
-    if args.limit:
+    if args.limit is not None:
+
         eval_set = eval_set[
             :args.limit
         ]
 
-    print(
-        f"OK: Loaded "
-        f"{len(eval_set)} evaluation questions."
+        print(
+            f"\nLIMIT MODE: "
+            f"Evaluating only "
+            f"{len(eval_set)} questions."
+        )
+
+    # ========================================================
+    # Load pipeline
+    # ========================================================
+
+    components = (
+        load_pipeline_components()
     )
 
-    # --------------------------------------------------------
-    # Load pipeline
-    # --------------------------------------------------------
-
-    components = load_pipeline_components()
-
-    # --------------------------------------------------------
-    # Validate ground truth
-    # --------------------------------------------------------
+    # ========================================================
+    # Validate IDs
+    # ========================================================
 
     validate_ground_truth_ids(
+
         eval_set,
+
         components["chunk_ids"]
+
     )
+
+    # ========================================================
+    # Run evaluation
+    # ========================================================
 
     print(
         "\n" + "=" * 70
     )
 
     print(
-        "RUNNING 4 RETRIEVAL CONFIGURATIONS "
-        "PER QUESTION"
+        "RUNNING HYBRID 70/30 EVALUATION"
     )
 
     print(
         "=" * 70
     )
 
-    # --------------------------------------------------------
-    # Evaluate
-    # --------------------------------------------------------
-
     per_question_results = []
+
+    total_questions = len(
+        eval_set
+    )
 
     for i, item in enumerate(
         eval_set,
@@ -1291,42 +1371,44 @@ def main():
     ):
 
         record = evaluate_question(
+
             item,
-            components,
-            k=FINAL_TOP_K
+
+            components
+
         )
 
         per_question_results.append(
             record
         )
 
-        if not args.quiet:
+        if args.quiet:
 
-            print_per_question_result(
-                record,
-                i,
-                len(eval_set)
+            print(
+                f"[{i}/{total_questions}] "
+                f"done"
             )
 
         else:
 
-            print(
-                f"  [{i}/{len(eval_set)}] "
-                f"done: "
-                f"{item['question'][:60]}..."
+            print_question_result(
+
+                record,
+
+                i,
+
+                total_questions
+
             )
 
-    # --------------------------------------------------------
+    # ========================================================
     # Aggregate
-    # --------------------------------------------------------
-
-    config_keys = list(
-        CONFIG_LABELS.keys()
-    )
+    # ========================================================
 
     averages = aggregate_metrics(
-        per_question_results,
-        config_keys
+
+        per_question_results
+
     )
 
     elapsed = (
@@ -1334,42 +1416,28 @@ def main():
         - start_time
     )
 
-    # --------------------------------------------------------
-    # Final comparison
-    # --------------------------------------------------------
+    # ========================================================
+    # Final results
+    # ========================================================
 
     print(
-        "\n" + "=" * 70
-    )
+        build_comparison_table(
 
-    print(
-        "COMPARISON TABLE "
-        "(averaged over all questions, k=5)"
-    )
-
-    print(
-        "=" * 70
-    )
-
-    print(
-        build_comparison_table_str(
             averages,
+
             len(per_question_results)
+
         )
     )
 
     print(
-        f"\nTotal evaluation time: "
+        f"Evaluation time: "
         f"{elapsed:.1f}s"
     )
 
-    print(
-        "=" * 70
-    )
-
-    # --------------------------------------------------------
+    # ========================================================
     # Save results
-    # --------------------------------------------------------
+    # ========================================================
 
     if not args.no_save:
 
@@ -1385,26 +1453,26 @@ def main():
                 "embedding_model":
                     EMBEDDING_MODEL_NAME,
 
-                "reranker_model":
-                    RERANKER_MODEL_NAME,
+                "semantic_weight":
+                    SEMANTIC_WEIGHT,
+
+                "bm25_weight":
+                    BM25_WEIGHT,
 
                 "alpha":
                     ALPHA,
 
-                "semantic_weight":
-                    0.70,
-
-                "bm25_weight":
-                    0.30,
-
-                "candidate_k":
-                    CANDIDATE_K,
-
                 "final_top_k":
                     FINAL_TOP_K,
 
+                "reranker":
+                    False,
+
                 "num_questions":
-                    len(per_question_results),
+                    len(
+                        per_question_results
+                    ),
+
             },
 
             "averages":
@@ -1415,39 +1483,56 @@ def main():
 
             "elapsed_seconds":
                 elapsed,
+
         }
 
         with open(
+
             RESULTS_JSON_PATH,
+
             "w",
+
             encoding="utf-8"
+
         ) as f:
 
             json.dump(
+
                 results_payload,
+
                 f,
+
                 indent=2,
+
                 ensure_ascii=False
+
             )
 
         print(
-            f"\nSaved JSON results to: "
-            f"{RESULTS_JSON_PATH}"
+            f"\nSaved JSON results to:"
+            f"\n{RESULTS_JSON_PATH}"
         )
 
         markdown_report = (
             build_markdown_report(
+
                 per_question_results,
+
                 averages,
-                len(per_question_results),
+
                 elapsed
+
             )
         )
 
         with open(
+
             RESULTS_MD_PATH,
+
             "w",
+
             encoding="utf-8"
+
         ) as f:
 
             f.write(
@@ -1455,9 +1540,25 @@ def main():
             )
 
         print(
-            f"Saved Markdown report to: "
-            f"{RESULTS_MD_PATH}"
+            f"Saved Markdown report to:"
+            f"\n{RESULTS_MD_PATH}"
         )
+
+    # ========================================================
+    # DONE
+    # ========================================================
+
+    print(
+        "\n" + "=" * 70
+    )
+
+    print(
+        "HYBRID RETRIEVAL EVALUATION COMPLETE"
+    )
+
+    print(
+        "=" * 70
+    )
 
 
 # ============================================================
@@ -1465,4 +1566,5 @@ def main():
 # ============================================================
 
 if __name__ == "__main__":
+
     main()

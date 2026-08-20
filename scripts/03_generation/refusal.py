@@ -1,41 +1,88 @@
 """
 ============================================================
 PULMO GUIDE
-DAY 3 - REFUSAL / CONFIDENCE GATE
+DAY 3 - EVIDENCE DECISION / REFUSAL GATE
 ============================================================
+
+FINAL RETRIEVAL CONFIGURATION:
+
+    Semantic Retrieval = 70%
+    BM25 Retrieval     = 30%
+    Final Top K        = 5
+    Reranker           = OFF
 
 Pipeline:
 
     User Query
         |
         v
-    Hybrid Retrieval (70/30)       [LOCKED]
-        |
-        v
-    Refusal / Confidence Gate      [THIS MODULE]
+    Safety Decision
         |
         +----> REFUSE
         |
         v
-    Grounded Prompt                [NEXT]
+    Hybrid Retrieval
+    70% Semantic + 30% BM25
         |
         v
-    LLM                            [NEXT]
+    Final Top 5
         |
         v
-    Answer + Citation              [NEXT]
+    THIS MODULE
+        |
+        +----> INSUFFICIENT
+        |
+        +----> WEAK
+        |
+        +----> PARTIAL
+        |
+        +----> STRONG
+        |
+        v
+    Citation Builder
+        |
+        v
+    Grounded Prompt
+        |
+        v
+    LLM
 
 IMPORTANT:
+
 - Retrieval is LOCKED.
+- No reranker is used.
 - This module does NOT modify retrieval.py.
-- This module does NOT modify retrieval_config.py.
 - This module does NOT modify ChromaDB.
 - This module does NOT call an LLM.
-- This module only decides whether generation is allowed.
+- This module does NOT create citations.
+- This module only evaluates retrieved evidence.
+============================================================
 """
 
 from dataclasses import dataclass
 from typing import Optional, List, Dict, Any
+
+
+# ============================================================
+# FINAL RETRIEVAL CONFIGURATION
+# ============================================================
+
+SEMANTIC_WEIGHT = 0.70
+BM25_WEIGHT = 0.30
+FINAL_TOP_K = 5
+USE_RERANKER = False
+
+
+# ============================================================
+# EVIDENCE LEVELS
+# ============================================================
+
+class EvidenceLevel:
+
+    INSUFFICIENT = "insufficient"
+    WEAK = "weak"
+    PARTIAL = "partial"
+    STRONG = "strong"
 
 
 # ============================================================
@@ -45,22 +92,36 @@ from typing import Optional, List, Dict, Any
 @dataclass
 class RefusalConfig:
     """
-    Configuration for the refusal gate.
+    Evidence decision thresholds.
 
-    NOTE:
-    hybrid_score is NOT a calibrated probability.
+    IMPORTANT:
 
-    The current threshold (0.80) is only a conservative
-    starting heuristic based on the Day 3 experiment.
+    hybrid_score is a retrieval score.
+    It is NOT a calibrated probability.
+
+    Threshold policy:
+
+        < 0.65
+            INSUFFICIENT
+
+        0.65 <= score < 0.75
+            WEAK
+
+        0.75 <= score < 0.85
+            PARTIAL
+
+        score >= 0.85
+            STRONG
     """
 
-    # Current experimental starting point.
-    hybrid_score_threshold: float = 0.80
+    insufficient_threshold: float = 0.65
 
-    # Minimum number of retrieved chunks required.
+    weak_threshold: float = 0.75
+
+    strong_threshold: float = 0.85
+
     min_retrieved_chunks: int = 1
 
-    # Reject empty queries.
     require_non_empty_query: bool = True
 
 
@@ -75,33 +136,82 @@ def _build_result(
     decision: str,
     reason: str,
     confidence: Optional[float],
-    threshold: float,
+    config: RefusalConfig,
     retrieved_chunks: List[Dict[str, Any]],
 ) -> Dict[str, Any]:
-    """
-    Build a standardized refusal-gate result.
-    """
+
+    # --------------------------------------------------------
+    # Only keep final Top 5.
+    # --------------------------------------------------------
+
+    retrieved_chunks = (
+        retrieved_chunks[:FINAL_TOP_K]
+        if retrieved_chunks
+        else []
+    )
 
     return {
-        "decision": decision,
-        "reason": reason,
-        "confidence": confidence,
-        "threshold": threshold,
 
-        # Important:
-        # hybrid_score is a retrieval score, not a probability.
+        "decision": decision,
+
+        "evidence_level": decision,
+
+        "reason": reason,
+
+        # Retrieval score only.
+        "confidence": confidence,
+
+        # Explicitly NOT a probability.
         "confidence_is_calibrated": False,
 
-        # True means the request may continue to generation.
-        "generation_allowed": decision == "accept",
+        # Final retrieval configuration.
+        "retrieval_configuration": {
 
-        # Retrieved evidence is passed unchanged to later stages.
-        "retrieved_chunks": retrieved_chunks,
+            "semantic_weight":
+                SEMANTIC_WEIGHT,
+
+            "bm25_weight":
+                BM25_WEIGHT,
+
+            "final_top_k":
+                FINAL_TOP_K,
+
+            "reranker":
+                USE_RERANKER,
+        },
+
+        "thresholds": {
+
+            "insufficient":
+                config.insufficient_threshold,
+
+            "weak":
+                config.weak_threshold,
+
+            "strong":
+                config.strong_threshold,
+        },
+
+        # ----------------------------------------------------
+        # Generation policy
+        # ----------------------------------------------------
+
+        "generation_allowed": decision in {
+
+            EvidenceLevel.WEAK,
+
+            EvidenceLevel.PARTIAL,
+
+            EvidenceLevel.STRONG,
+        },
+
+        "retrieved_chunks":
+            retrieved_chunks,
     }
 
 
 # ============================================================
-# REFUSAL / CONFIDENCE GATE
+# EVIDENCE DECISION
 # ============================================================
 
 def check_refusal(
@@ -110,180 +220,278 @@ def check_refusal(
     config: Optional[RefusalConfig] = None,
 ) -> Dict[str, Any]:
     """
-    Decide whether the system should:
+    Evaluate retrieved evidence.
 
-        ACCEPT -> continue to grounded generation
+    Returns one of:
 
-    or
-
-        REFUSE -> do not call the LLM
-
-    Parameters
-    ----------
-    query:
-        User's original question.
-
-    retrieved_results:
-        Output from the locked Hybrid Retrieval.
-
-        Expected structure:
-
-        [
-            {
-                "hybrid_rank": 1,
-                "chunk_id": "...",
-                "text": "...",
-                "metadata": {...},
-                "semantic_score": ...,
-                "semantic_normalized": ...,
-                "bm25_score": ...,
-                "bm25_normalized": ...,
-                "hybrid_score": ...
-            },
-            ...
-        ]
-
-    config:
-        Optional RefusalConfig.
-
-    Returns
-    -------
-    dict
-        Standardized refusal decision.
+        insufficient
+        weak
+        partial
+        strong
     """
 
     cfg = config or DEFAULT_CONFIG
 
-    # --------------------------------------------------------
-    # 1. Empty query guard
-    # --------------------------------------------------------
+
+    # ========================================================
+    # 1. EMPTY QUERY
+    # ========================================================
 
     if cfg.require_non_empty_query:
 
         if not query or not query.strip():
 
             return _build_result(
-                decision="refuse",
+
+                decision=EvidenceLevel.INSUFFICIENT,
+
                 reason="Empty or missing query.",
+
                 confidence=None,
-                threshold=cfg.hybrid_score_threshold,
-                retrieved_chunks=retrieved_results or [],
+
+                config=cfg,
+
+                retrieved_chunks=
+                    retrieved_results or [],
             )
 
-    # --------------------------------------------------------
-    # 2. Retrieval failure / no evidence
-    # --------------------------------------------------------
+
+    # ========================================================
+    # 2. NO EVIDENCE
+    # ========================================================
 
     if not retrieved_results:
 
         return _build_result(
-            decision="refuse",
+
+            decision=EvidenceLevel.INSUFFICIENT,
+
             reason=(
-                "No evidence was retrieved from the NICE NG122 "
-                "knowledge base."
+                "No relevant evidence was retrieved "
+                "from the indexed clinical knowledge base."
             ),
+
             confidence=None,
-            threshold=cfg.hybrid_score_threshold,
+
+            config=cfg,
+
             retrieved_chunks=[],
         )
 
-    # --------------------------------------------------------
-    # 3. Minimum retrieval check
-    # --------------------------------------------------------
+
+    # ========================================================
+    # 3. KEEP FINAL TOP 5
+    # ========================================================
+
+    retrieved_results = retrieved_results[
+        :FINAL_TOP_K
+    ]
+
+
+    # ========================================================
+    # 4. MINIMUM RETRIEVAL CHECK
+    # ========================================================
 
     if len(retrieved_results) < cfg.min_retrieved_chunks:
 
         return _build_result(
-            decision="refuse",
+
+            decision=EvidenceLevel.INSUFFICIENT,
+
             reason=(
-                "Insufficient retrieved evidence to answer safely."
+                "Insufficient retrieved evidence "
+                "to answer safely."
             ),
+
             confidence=None,
-            threshold=cfg.hybrid_score_threshold,
+
+            config=cfg,
+
             retrieved_chunks=retrieved_results,
         )
 
-    # --------------------------------------------------------
-    # 4. Get top-ranked result
-    # --------------------------------------------------------
 
-    # retrieval.py already sorts by hybrid_score descending.
+    # ========================================================
+    # 5. TOP RESULT
+    # ========================================================
+
     top_chunk = retrieved_results[0]
 
-    confidence = top_chunk.get("hybrid_score")
+    score = top_chunk.get(
+        "hybrid_score"
+    )
 
-    # --------------------------------------------------------
-    # 5. Missing score guard
-    # --------------------------------------------------------
 
-    if confidence is None:
+    # ========================================================
+    # 6. MISSING SCORE
+    # ========================================================
+
+    if score is None:
 
         return _build_result(
-            decision="refuse",
+
+            decision=EvidenceLevel.INSUFFICIENT,
+
             reason=(
-                "The retrieved result does not contain a valid "
-                "hybrid_score."
+                "The retrieved result does not contain "
+                "a valid hybrid_score."
             ),
+
             confidence=None,
-            threshold=cfg.hybrid_score_threshold,
+
+            config=cfg,
+
             retrieved_chunks=retrieved_results,
         )
 
-    # --------------------------------------------------------
-    # 6. Validate score
-    # --------------------------------------------------------
+
+    # ========================================================
+    # 7. VALIDATE SCORE
+    # ========================================================
 
     try:
-        confidence = float(confidence)
+
+        score = float(score)
+
     except (TypeError, ValueError):
 
         return _build_result(
-            decision="refuse",
-            reason="Invalid hybrid_score returned by retrieval.",
+
+            decision=EvidenceLevel.INSUFFICIENT,
+
+            reason=(
+                "Invalid hybrid_score returned "
+                "by retrieval."
+            ),
+
             confidence=None,
-            threshold=cfg.hybrid_score_threshold,
+
+            config=cfg,
+
             retrieved_chunks=retrieved_results,
         )
 
-    # --------------------------------------------------------
-    # 7. Threshold decision
-    # --------------------------------------------------------
 
-    if confidence >= cfg.hybrid_score_threshold:
+    # ========================================================
+    # 8. INVALID NUMERIC RANGE
+    # ========================================================
+
+    if not 0.0 <= score <= 1.0:
 
         return _build_result(
-            decision="accept",
+
+            decision=EvidenceLevel.INSUFFICIENT,
+
             reason=(
-                f"Retrieved evidence passed the current refusal "
-                f"threshold ({confidence:.4f} >= "
-                f"{cfg.hybrid_score_threshold:.2f})."
+                f"Invalid hybrid_score range: {score:.4f}."
             ),
-            confidence=confidence,
-            threshold=cfg.hybrid_score_threshold,
+
+            confidence=None,
+
+            config=cfg,
+
             retrieved_chunks=retrieved_results,
         )
 
-    # --------------------------------------------------------
-    # 8. Refuse
-    # --------------------------------------------------------
+
+    # ========================================================
+    # 9. INSUFFICIENT
+    # ========================================================
+
+    if score < cfg.insufficient_threshold:
+
+        return _build_result(
+
+            decision=EvidenceLevel.INSUFFICIENT,
+
+            reason=(
+                f"Retrieved evidence score ({score:.4f}) "
+                f"is below the minimum evidence threshold "
+                f"({cfg.insufficient_threshold:.2f})."
+            ),
+
+            confidence=score,
+
+            config=cfg,
+
+            retrieved_chunks=retrieved_results,
+        )
+
+
+    # ========================================================
+    # 10. WEAK
+    # ========================================================
+
+    if score < cfg.weak_threshold:
+
+        return _build_result(
+
+            decision=EvidenceLevel.WEAK,
+
+            reason=(
+                f"Evidence score ({score:.4f}) indicates "
+                f"weak retrieval evidence. "
+                f"Only explicitly supported information "
+                f"may be used."
+            ),
+
+            confidence=score,
+
+            config=cfg,
+
+            retrieved_chunks=retrieved_results,
+        )
+
+
+    # ========================================================
+    # 11. PARTIAL
+    # ========================================================
+
+    if score < cfg.strong_threshold:
+
+        return _build_result(
+
+            decision=EvidenceLevel.PARTIAL,
+
+            reason=(
+                f"Evidence score ({score:.4f}) indicates "
+                f"partial evidence. "
+                f"Only the supported part of the question "
+                f"may be answered."
+            ),
+
+            confidence=score,
+
+            config=cfg,
+
+            retrieved_chunks=retrieved_results,
+        )
+
+
+    # ========================================================
+    # 12. STRONG
+    # ========================================================
 
     return _build_result(
-        decision="refuse",
+
+        decision=EvidenceLevel.STRONG,
+
         reason=(
-            f"Retrieved evidence did not pass the current refusal "
-            f"threshold ({confidence:.4f} < "
-            f"{cfg.hybrid_score_threshold:.2f}). "
-            "The information is not sufficiently supported by "
-            "the NICE NG122 knowledge base."
+            f"Evidence score ({score:.4f}) meets "
+            f"the strong evidence threshold "
+            f"({cfg.strong_threshold:.2f})."
         ),
-        confidence=confidence,
-        threshold=cfg.hybrid_score_threshold,
+
+        confidence=score,
+
+        config=cfg,
+
         retrieved_chunks=retrieved_results,
     )
 
 
 # ============================================================
-# HELPER FUNCTIONS
+# HELPER
 # ============================================================
 
 def should_generate(
@@ -291,134 +499,184 @@ def should_generate(
     retrieved_results: List[Dict[str, Any]],
     config: Optional[RefusalConfig] = None,
 ) -> bool:
-    """
-    Simple helper used by the future generation pipeline.
-
-    Returns:
-        True  -> generation is allowed
-        False -> system should refuse
-    """
 
     result = check_refusal(
+
         query=query,
+
         retrieved_results=retrieved_results,
+
         config=config,
     )
 
     return result["generation_allowed"]
 
 
-def get_refusal_message() -> str:
-    """
-    Standard safe refusal message.
+# ============================================================
+# REFUSAL MESSAGE
+# ============================================================
 
-    This is intentionally short and does not invent medical content.
-    """
+def get_refusal_message() -> str:
 
     return (
-        "I’m sorry, but I couldn’t find sufficient information "
-        "in the available NICE lung cancer guideline to answer "
-        "this question safely."
+        "I couldn't find enough relevant evidence in the "
+        "indexed guidelines to answer this question confidently."
     )
 
 
 # ============================================================
-# MANUAL SMOKE TEST
+# MANUAL TEST
 # ============================================================
 
 if __name__ == "__main__":
 
-    print("=" * 60)
-    print("PULMO GUIDE - REFUSAL GATE SMOKE TEST")
-    print("=" * 60)
+    print("=" * 75)
 
-    # --------------------------------------------------------
-    # Case 1: Strong retrieved evidence
-    # --------------------------------------------------------
+    print(
+        "PULMO GUIDE - DAY 3 "
+        "EVIDENCE DECISION TEST"
+    )
 
-    fake_in_kb_result = [
-        {
-            "hybrid_rank": 1,
-            "chunk_id": "chunk_001",
-            "text": (
-                "Offer contrast-enhanced brain MRI for people "
-                "with stage 3 NSCLC."
-            ),
-            "metadata": {
-                "section": "Further staging",
-                "page_start": 14,
-                "page_end": 14,
-            },
-            "semantic_score": 0.90,
-            "semantic_normalized": 0.95,
-            "bm25_score": 8.2,
-            "bm25_normalized": 0.88,
-            "hybrid_score": 0.91,
-        }
+    print("=" * 75)
+
+    print("\nFinal Retrieval Configuration:")
+
+    print(
+        f"Semantic Weight : {SEMANTIC_WEIGHT}"
+    )
+
+    print(
+        f"BM25 Weight     : {BM25_WEIGHT}"
+    )
+
+    print(
+        f"Final Top K     : {FINAL_TOP_K}"
+    )
+
+    print(
+        f"Reranker        : {USE_RERANKER}"
+    )
+
+
+    test_scores = [
+
+        0.40,
+
+        0.68,
+
+        0.78,
+
+        0.91,
     ]
 
+
+    for score in test_scores:
+
+        fake_result = [
+
+            {
+
+                "hybrid_rank": 1,
+
+                "chunk_id": "test_chunk",
+
+                "text":
+                    "Test retrieved clinical evidence.",
+
+                "metadata": {
+
+                    "document_name":
+                        "NICE NG122",
+
+                    "section":
+                        "Test Section",
+
+                    "page_start":
+                        10,
+
+                    "page_end":
+                        10,
+
+                    "citation":
+                        "[NICE NG122, Test Section, Page 10]",
+                },
+
+                "hybrid_score":
+                    score,
+            }
+        ]
+
+
+        result = check_refusal(
+
+            query=
+                "What are the symptoms of lung cancer?",
+
+            retrieved_results=
+                fake_result,
+        )
+
+
+        print("\n" + "-" * 75)
+
+        print(
+            "SCORE:",
+            score
+        )
+
+        print(
+            "DECISION:",
+            result["decision"]
+        )
+
+        print(
+            "GENERATION ALLOWED:",
+            result["generation_allowed"]
+        )
+
+        print(
+            "REASON:",
+            result["reason"]
+        )
+
+
+    # ========================================================
+    # NO EVIDENCE
+    # ========================================================
+
     result = check_refusal(
-        "What imaging is offered in stage 3 NSCLC?",
-        fake_in_kb_result,
+
+        query=
+            "What are the symptoms of lung cancer?",
+
+        retrieved_results=[],
     )
 
-    print("\nCASE 1 - IN-KB")
-    print(result)
 
-    # --------------------------------------------------------
-    # Case 2: Weak retrieved evidence
-    # --------------------------------------------------------
+    print("\n" + "-" * 75)
 
-    fake_weak_result = [
-        {
-            "hybrid_rank": 1,
-            "chunk_id": "chunk_002",
-            "text": "Unrelated lung cancer information.",
-            "metadata": {
-                "section": "General",
-                "page_start": 1,
-                "page_end": 1,
-            },
-            "hybrid_score": 0.42,
-        }
-    ]
+    print("NO EVIDENCE")
 
-    result = check_refusal(
-        "What is the capital of France?",
-        fake_weak_result,
+    print(
+        "DECISION:",
+        result["decision"]
     )
 
-    print("\nCASE 2 - WEAK / OUT-OF-KB")
-    print(result)
-
-    # --------------------------------------------------------
-    # Case 3: Empty query
-    # --------------------------------------------------------
-
-    result = check_refusal(
-        "",
-        fake_in_kb_result,
+    print(
+        "GENERATION ALLOWED:",
+        result["generation_allowed"]
     )
 
-    print("\nCASE 3 - EMPTY QUERY")
-    print(result)
-
-    # --------------------------------------------------------
-    # Case 4: No retrieval results
-    # --------------------------------------------------------
-
-    result = check_refusal(
-        "Some question",
-        [],
+    print(
+        "REASON:",
+        result["reason"]
     )
 
-    print("\nCASE 4 - NO RETRIEVAL RESULTS")
-    print(result)
 
-    # --------------------------------------------------------
-    # Summary
-    # --------------------------------------------------------
+    print("\n" + "=" * 75)
 
-    print("\n" + "=" * 60)
-    print("SMOKE TEST COMPLETED")
-    print("=" * 60)
+    print(
+        "EVIDENCE DECISION TEST COMPLETED"
+    )
+
+    print("=" * 75)
