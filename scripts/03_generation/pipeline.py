@@ -1938,6 +1938,13 @@ def print_pipeline_result(
                 ""
             )
         )
+        print("Content:")
+        print(
+            item.get(
+               "text",
+               ""
+            )
+        )
 
     print("\n" + "-" * 75)
     print("PATIENT RESULTS")
@@ -1974,6 +1981,13 @@ def print_pipeline_result(
             item.get(
                 "hybrid_score",
                 ""
+            )
+        )
+        print("Content:")
+        print(
+            item.get(
+               "text",
+               ""
             )
         )
 

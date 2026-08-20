@@ -1,0 +1,539 @@
+"""
+============================================================
+PULMO GUIDE
+DAY 4/5 — USER-FACING ANSWER FORMATTER
+============================================================
+
+Purpose:
+    Convert the raw pipeline result into a clean,
+    user-facing response.
+
+Responsibilities:
+    - Format successful answers
+    - Format refusal responses
+    - Format citations
+    - Keep technical retrieval details hidden
+    - Preserve patient-specific answers
+    - Provide a consistent output structure for the UI
+
+IMPORTANT:
+    This module does NOT:
+        - perform retrieval
+        - calculate confidence
+        - call the LLM
+        - modify chunks
+        - modify citations
+        - change refusal logic
+
+Input:
+    Result returned by pipeline.run_pipeline()
+
+Output:
+    Clean dictionary ready for the User Interface.
+============================================================
+"""
+
+from __future__ import annotations
+
+from typing import Any, Dict, List
+
+
+# ============================================================
+# SOURCE TYPES
+# ============================================================
+
+SOURCE_CORE = "core"
+SOURCE_PATIENT = "patient"
+SOURCE_BOTH = "core+patient"
+
+
+# ============================================================
+# DEFAULT MESSAGES
+# ============================================================
+
+DEFAULT_ERROR_MESSAGE = (
+    "Sorry, something went wrong while processing your question."
+)
+
+DEFAULT_REFUSAL_MESSAGE = (
+    "I couldn't provide an answer to this question "
+    "based on the available information."
+)
+
+DEFAULT_NO_ANSWER_MESSAGE = (
+    "I couldn't find enough relevant evidence "
+    "to answer this question confidently."
+)
+
+
+# ============================================================
+# CLEAN TEXT
+# ============================================================
+
+def clean_text(
+    value: Any
+) -> str:
+    """
+    Convert any value to clean displayable text.
+    """
+
+    if value is None:
+        return ""
+
+    return str(value).strip()
+
+
+# ============================================================
+# FORMAT CITATIONS
+# ============================================================
+
+def format_citations(
+    citations: Any
+) -> List[str]:
+    """
+    Return clean, unique citations.
+
+    Input:
+        List of citation strings.
+
+    Output:
+        Clean list of unique citation strings.
+    """
+
+    if not isinstance(citations, list):
+        return []
+
+    formatted = []
+
+    for citation in citations:
+
+        citation_text = clean_text(
+            citation
+        )
+
+        if not citation_text:
+            continue
+
+        if citation_text not in formatted:
+            formatted.append(
+                citation_text
+            )
+
+    return formatted
+
+
+# ============================================================
+# SOURCE LABEL
+# ============================================================
+
+def get_source_label(
+    source_mode: Any
+) -> str:
+    """
+    Convert internal source mode into
+    a user-friendly source label.
+    """
+
+    source_mode = clean_text(
+        source_mode
+    ).lower()
+
+    if source_mode == SOURCE_CORE:
+
+        return "NICE lung cancer guideline"
+
+    if source_mode == SOURCE_PATIENT:
+
+        return "Your uploaded report"
+
+    if source_mode == SOURCE_BOTH:
+
+        return (
+            "Your uploaded report and "
+            "NICE lung cancer guideline"
+        )
+
+    return ""
+
+
+# ============================================================
+# FORMAT SUCCESSFUL ANSWER
+# ============================================================
+
+def format_success_response(
+    pipeline_result: Dict[str, Any]
+) -> Dict[str, Any]:
+    """
+    Format a successful pipeline response.
+
+    Returns a clean object suitable for a UI.
+    """
+
+    answer = clean_text(
+        pipeline_result.get(
+            "answer"
+        )
+    )
+
+    citations = format_citations(
+        pipeline_result.get(
+            "citations",
+            []
+        )
+    )
+
+    source_mode = pipeline_result.get(
+        "source_mode"
+    )
+
+    source_label = get_source_label(
+        source_mode
+    )
+
+    # --------------------------------------------------------
+    # Prevent empty answers
+    # --------------------------------------------------------
+
+    if not answer:
+
+        answer = DEFAULT_NO_ANSWER_MESSAGE
+
+    # --------------------------------------------------------
+    # User-facing response
+    # --------------------------------------------------------
+
+    return {
+
+        "status": "success",
+
+        "answer": answer,
+
+        "citations": citations,
+
+        "source": source_label,
+
+        "has_citations": bool(
+            citations
+        ),
+
+        "source_mode": source_mode,
+    }
+
+
+# ============================================================
+# FORMAT REFUSAL RESPONSE
+# ============================================================
+
+def format_refusal_response(
+    pipeline_result: Dict[str, Any]
+) -> Dict[str, Any]:
+    """
+    Format any refusal generated by the pipeline.
+
+    Refusal can happen because of:
+        - safety
+        - scope
+        - retrieval
+        - insufficient evidence
+    """
+
+    answer = clean_text(
+        pipeline_result.get(
+            "answer"
+        )
+    )
+
+    if not answer:
+
+        answer = DEFAULT_REFUSAL_MESSAGE
+
+    return {
+
+        "status": "refused",
+
+        "answer": answer,
+
+        "citations": [],
+
+        "source": "",
+
+        "has_citations": False,
+
+        "source_mode":
+            pipeline_result.get(
+                "source_mode"
+            ),
+    }
+
+
+# ============================================================
+# FORMAT ERROR RESPONSE
+# ============================================================
+
+def format_error_response(
+    error_message: Any = None
+) -> Dict[str, Any]:
+    """
+    Format an unexpected application error.
+
+    Technical error details should NOT be exposed
+    directly to the end user.
+    """
+
+    return {
+
+        "status": "error",
+
+        "answer": (
+            DEFAULT_ERROR_MESSAGE
+        ),
+
+        "citations": [],
+
+        "source": "",
+
+        "has_citations": False,
+
+        "source_mode": None,
+    }
+
+
+# ============================================================
+# MAIN FORMATTER
+# ============================================================
+
+def format_answer(
+    pipeline_result: Dict[str, Any]
+) -> Dict[str, Any]:
+    """
+    Main entry point.
+
+    Takes the raw result from pipeline.run_pipeline()
+    and returns a clean user-facing response.
+    """
+
+    if not isinstance(
+        pipeline_result,
+        dict
+    ):
+
+        return format_error_response()
+
+    status = clean_text(
+        pipeline_result.get(
+            "status"
+        )
+    ).lower()
+
+    # --------------------------------------------------------
+    # Refused
+    # --------------------------------------------------------
+
+    if status == "refused":
+
+        return format_refusal_response(
+            pipeline_result
+        )
+
+    # --------------------------------------------------------
+    # Successful generation
+    # --------------------------------------------------------
+
+    if status == "success":
+
+        return format_success_response(
+            pipeline_result
+        )
+
+    # --------------------------------------------------------
+    # Unexpected status
+    # --------------------------------------------------------
+
+    return format_error_response()
+
+
+# ============================================================
+# TERMINAL DISPLAY
+# ============================================================
+
+def print_user_response(
+    formatted_response: Dict[str, Any]
+):
+    """
+    Optional helper for testing the final
+    user-facing format in the terminal.
+
+    This is NOT the technical pipeline output.
+    """
+
+    print("\n")
+    print("=" * 70)
+    print("PULMO GUIDE")
+    print("=" * 70)
+
+    print("\nAnswer")
+    print("-" * 70)
+
+    print(
+        formatted_response.get(
+            "answer",
+            ""
+        )
+    )
+
+    citations = formatted_response.get(
+        "citations",
+        []
+    )
+
+    if citations:
+
+        print("\nSources")
+        print("-" * 70)
+
+        for citation in citations:
+
+            print(
+                f"• {citation}"
+            )
+
+    print("\n" + "=" * 70)
+
+
+# ============================================================
+# MANUAL TEST
+# ============================================================
+
+if __name__ == "__main__":
+
+    # --------------------------------------------------------
+    # TEST 1 — CORE ANSWER
+    # --------------------------------------------------------
+
+    core_result = {
+
+        "status": "success",
+
+        "answer": (
+            "Lung cancer can cause symptoms such as "
+            "a persistent cough, chest pain and "
+            "breathlessness."
+        ),
+
+        "citations": [
+            "NICE NG122 — Section 1.2.6 — Page 8",
+            "NICE NG122 — Section 1.2.7 — Page 9",
+        ],
+
+        "source_mode": SOURCE_CORE,
+    }
+
+    print(
+        "\nTEST 1 — CORE"
+    )
+
+    formatted = format_answer(
+        core_result
+    )
+
+    print_user_response(
+        formatted
+    )
+
+    # --------------------------------------------------------
+    # TEST 2 — PATIENT ANSWER
+    # --------------------------------------------------------
+
+    patient_result = {
+
+        "status": "success",
+
+        "answer": (
+            "According to your uploaded report, "
+            "your FEV1 is 72% predicted."
+        ),
+
+        "citations": [
+            (
+                "Your pulmonary function report "
+                "— Page 2"
+            ),
+        ],
+
+        "source_mode": SOURCE_BOTH,
+    }
+
+    print(
+        "\nTEST 2 — PATIENT"
+    )
+
+    formatted = format_answer(
+        patient_result
+    )
+
+    print_user_response(
+        formatted
+    )
+
+    # --------------------------------------------------------
+    # TEST 3 — REFUSAL
+    # --------------------------------------------------------
+
+    refusal_result = {
+
+        "status": "refused",
+
+        "answer": (
+            "I couldn't answer this question "
+            "because it is outside the scope "
+            "of the available lung cancer "
+            "information."
+        ),
+
+        "citations": [],
+
+        "source_mode": SOURCE_CORE,
+    }
+
+    print(
+        "\nTEST 3 — REFUSAL"
+    )
+
+    formatted = format_answer(
+        refusal_result
+    )
+
+    print_user_response(
+        formatted
+    )
+
+    # --------------------------------------------------------
+    # TEST 4 — EMPTY ANSWER
+    # --------------------------------------------------------
+
+    empty_result = {
+
+        "status": "success",
+
+        "answer": "",
+
+        "citations": [],
+
+        "source_mode": SOURCE_CORE,
+    }
+
+    print(
+        "\nTEST 4 — EMPTY ANSWER"
+    )
+
+    formatted = format_answer(
+        empty_result
+    )
+
+    print_user_response(
+        formatted
+    )
+
+    print(
+        "\nFormatter tests completed."
+    )

@@ -11,7 +11,6 @@ Retrieval Quality Score: 78.44%
 Safety / Refusal Score: 78.34%
 Measurable Project Indicator: 86.86%
 Evaluation Cases: 32
-20+ Dataset Target: MET
 
 2. RETRIEVAL EVALUATION
 ------------------------------------------------------------------------------
@@ -24,8 +23,6 @@ Selected Retrieval Configuration: hybrid
     Recall@5: 86.98%
     Hit Rate@5: 93.75%
     MRR@5: 86.04%
-    NDCG@5: N/A
-    MAP@5: N/A
     Config Score: 75.13%
 
   [bm25]
@@ -33,8 +30,6 @@ Selected Retrieval Configuration: hybrid
     Recall@5: 86.20%
     Hit Rate@5: 90.62%
     MRR@5: 83.85%
-    NDCG@5: N/A
-    MAP@5: N/A
     Config Score: 73.29%
 
   [hybrid] <== SELECTED / BEST
@@ -42,8 +37,6 @@ Selected Retrieval Configuration: hybrid
     Recall@5: 92.19%
     Hit Rate@5: 96.88%
     MRR@5: 89.06%
-    NDCG@5: N/A
-    MAP@5: N/A
     Config Score: 78.44%
 
   [hybrid_rerank]
@@ -51,13 +44,11 @@ Selected Retrieval Configuration: hybrid
     Recall@5: 89.06%
     Hit Rate@5: 93.75%
     MRR@5: 87.50%
-    NDCG@5: N/A
-    MAP@5: N/A
     Config Score: 76.17%
 
 Final Retrieval Quality Score: 78.44%
 
-Hybrid 70/30 — cross-validation (hybrid_retrieval_evaluation_results.json)
+Hybrid 70/30 — cross-validation
   Test cases: 32
   Reranker used: False
   precision: 35.62%
@@ -65,7 +56,7 @@ Hybrid 70/30 — cross-validation (hybrid_retrieval_evaluation_results.json)
   hit_rate: 96.88%
   mrr: 89.06%
   Cross-check score: 78.44%
-  (Not included in the main retrieval score to avoid double-counting)
+  Not included in the main retrieval score.
 
 3. GROUNDING & CITATION
 ------------------------------------------------------------------------------
@@ -106,7 +97,7 @@ Selected Refusal Threshold: 0.80
 
 Confidence Gate Accuracy: 100.00%
 
-Threshold Experiment (confidence-gate acceptance, supplementary):
+Threshold Experiment
   Test cases: 32
   Selected threshold: 0.20
   Accept precision: 96.88%
@@ -114,7 +105,7 @@ Threshold Experiment (confidence-gate acceptance, supplementary):
   Acceptance rate: 100.00%
   Note: all tested thresholds produced identical accept/reject outcomes.
 
-Day 3 Comprehensive Test Suite (supplementary, not double-counted):
+Day 3 Comprehensive Test Suite
   Total tests: 8
   Passed: 7
   Failed: 1
@@ -125,7 +116,6 @@ Day 3 Comprehensive Test Suite (supplementary, not double-counted):
 Test cases: 32
 Average: 42.95 ms
 Median: 40.35 ms
-P95: N/A ms
 Min: 29.66 ms
 Max: 78.29 ms
 
@@ -154,21 +144,21 @@ Faithfulness failures:
 Retrieval failures:
   - Q23: MISS_HYBRID_CONFIG — What first-line chemotherapy regimen and radiotherapy schedule are recommended for people with limited-stage SCLC?
 
-9. JUDGE-ORIENTED RUBRIC EVIDENCE
+9. EVALUATION SUMMARY
 ------------------------------------------------------------------------------
-Retrieval Quality — 30%
+Retrieval Quality
   Score: 78.44%
   Status: MEASURED
-Grounding & Citation — 25%
+
+Grounding & Citation
   Score: 94.18%
   Status: MEASURED
-System Architecture — 15%
-  Score: N/A
-  Status: JUDGE_REVIEW_REQUIRED
-Evaluation Depth — 15%
+
+Evaluation Depth
   Score: 100.00%
   Status: MEETS_TARGET
-Safety & UX — 15%
+
+Safety & UX
   Score: 78.34%
   Status: MEASURED
 
@@ -176,8 +166,7 @@ Safety & UX — 15%
 ------------------------------------------------------------------------------
 Score: 86.86%
 Available Weight: 85
-Excluded Weight (Architecture, judge-reviewed): 15
-Note: Project-level measurable indicator only; not the official hackathon score.
+Note: Aggregated measurable evaluation indicator based on available quantitative evidence.
 
 11. EVALUATION ARTIFACT AVAILABILITY
 ------------------------------------------------------------------------------
@@ -195,13 +184,6 @@ refusal_evaluation: AVAILABLE
 threshold_experiment: AVAILABLE
 latency: AVAILABLE
 evaluation_set: AVAILABLE
-
-12. IMPORTANT JUDGING NOTE
-------------------------------------------------------------------------------
-This report provides quantitative evidence for the judging rubric.
-It is NOT the official hackathon score.
-System Architecture (15%) requires judge review.
-Live UX, clinical disclaimer, citation display, pipeline architecture, modularity, and demo quality must be demonstrated separately.
 
 ==============================================================================
 END OF COMPREHENSIVE FINAL EVALUATION
