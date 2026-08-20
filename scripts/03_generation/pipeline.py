@@ -15,6 +15,11 @@ PATIENT:
     Cached by session_id + document hash
     NEVER inserted into Core ChromaDB
 
+IMPORTANT:
+    For patient-specific questions:
+        PATIENT evidence has priority.
+        CORE evidence is secondary context only.
+
 FLOW:
 
     USER QUERY
@@ -26,6 +31,8 @@ FLOW:
     CORE / PATIENT / BOTH
         ↓
     RETRIEVAL
+        ↓
+    PATIENT EVIDENCE PRIORITY
         ↓
     EVIDENCE CHECK
         ↓
@@ -61,41 +68,62 @@ from rank_bm25 import BM25Okapi
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-PROCESSING_DIR = PROJECT_ROOT / "scripts" / "01_processing"
-RETRIEVAL_DIR = PROJECT_ROOT / "scripts" / "02_retrieval"
-GENERATION_DIR = PROJECT_ROOT / "scripts" / "03_generation"
+PROCESSING_DIR = (
+    PROJECT_ROOT / "scripts" / "01_processing"
+)
+
+RETRIEVAL_DIR = (
+    PROJECT_ROOT / "scripts" / "02_retrieval"
+)
+
+GENERATION_DIR = (
+    PROJECT_ROOT / "scripts" / "03_generation"
+)
 
 DATA_DIR = PROJECT_ROOT / "data"
-
-CACHE_DIR = DATA_DIR / "patient_cache"
-PATIENT_CACHE_DIR = CACHE_DIR / "sessions"
-
-PATIENT_CACHE_DIR.mkdir(
-    parents=True,
-    exist_ok=True
-)
 
 
 # ============================================================
 # PYTHON PATHS
 # ============================================================
 
-sys.path.append(str(PROCESSING_DIR))
-sys.path.append(str(RETRIEVAL_DIR))
-sys.path.append(str(GENERATION_DIR))
+for path in [
+    PROCESSING_DIR,
+    RETRIEVAL_DIR,
+    GENERATION_DIR,
+]:
+    path_string = str(path)
+
+    if path_string not in sys.path:
+        sys.path.append(path_string)
 
 
 # ============================================================
 # EXISTING MODULES
 # ============================================================
 
-from safety import safety_check
-from refusal import check_refusal
-from citation import build_citation
-from grounded_prompt import build_grounded_prompt
-from generator import generate_answer
-
 from retrieval import hybrid_search
+from generator import generate_answer
+from grounded_prompt import build_grounded_prompt
+from citation import build_citation
+from refusal import check_refusal
+from safety import safety_check
+
+
+# ============================================================
+# CACHE
+# ============================================================
+
+CACHE_DIR = DATA_DIR / "patient_cache"
+
+PATIENT_CACHE_DIR = (
+    CACHE_DIR / "sessions"
+)
+
+PATIENT_CACHE_DIR.mkdir(
+    parents=True,
+    exist_ok=True
+)
 
 
 # ============================================================
@@ -125,38 +153,91 @@ SOURCE_BOTH = "core+patient"
 
 
 # ============================================================
+# GLOBAL EMBEDDING MODEL
+# ============================================================
+
+_EMBEDDING_MODEL = None
+
+
+def get_embedding_model():
+    """
+    Load embedding model once and reuse it.
+    """
+
+    global _EMBEDDING_MODEL
+
+    if _EMBEDDING_MODEL is None:
+
+        print(
+            "\nLoading embedding model..."
+        )
+
+        _EMBEDDING_MODEL = SentenceTransformer(
+            EMBEDDING_MODEL_NAME
+        )
+
+        print(
+            "Embedding model loaded."
+        )
+
+    return _EMBEDDING_MODEL
+
+
+# ============================================================
 # PATIENT QUERY KEYWORDS
 # ============================================================
 
 PATIENT_KEYWORDS = {
 
+    # English
     "my",
-    "me",
-    "patient",
     "my report",
+    "my result",
     "my results",
     "my test",
+    "my tests",
     "my scan",
     "my biopsy",
     "my pathology",
     "my molecular",
     "my imaging",
     "my diagnosis",
+    "my finding",
     "my findings",
     "my report says",
+    "my result says",
 
-    "المريض",
-    "تقريبي",
+    "in my report",
+    "in my results",
+    "according to my report",
+
+    "what does my report",
+    "what does my scan",
+    "what does my test",
+    "what does my biopsy",
+
+    # Arabic
+    "تقريري",
     "تقاريري",
-    "تحاليل",
-    "تحليلي",
-    "اشعتي",
-    "الأشعة",
-    "الخزعة",
     "نتيجتي",
     "نتائجي",
+    "تحليلي",
+    "تحاليل",
+    "أشعتي",
+    "اشعتي",
+    "الأشعة",
+    "الاشعة",
+    "الخزعة",
     "تشخيصي",
-    "تقريري",
+    "نتيجة التحليل",
+    "نتيجة الأشعة",
+    "نتيجة الخزعة",
+    "في تقريري",
+    "في تحليلي",
+    "في الأشعة",
+    "حسب تقريري",
+    "ماذا يعني تقريري",
+    "ماذا تعني نتيجتي",
 }
 
 
@@ -166,6 +247,7 @@ PATIENT_KEYWORDS = {
 
 CORE_KEYWORDS = {
 
+    # English
     "what is",
     "what are",
     "symptoms",
@@ -181,16 +263,27 @@ CORE_KEYWORDS = {
     "sclc",
     "lung cancer",
     "recommendation",
+    "recommendations",
     "should be offered",
     "according to",
+    "nice guideline",
+    "nice",
+    "ng122",
 
-    "اعراض",
+    # Arabic
     "أعراض",
+    "اعراض",
+    "أسباب",
+    "اسباب",
     "علاج",
     "تشخيص",
     "مراحل",
     "سرطان الرئة",
     "التوصيات",
+    "التوصية",
+    "الفحص",
+    "إرشادات",
+    "ارشادات",
 }
 
 
@@ -198,10 +291,14 @@ CORE_KEYWORDS = {
 # QUERY NORMALIZATION
 # ============================================================
 
-def normalize_query(query: str) -> str:
+def normalize_query(
+    query: str
+) -> str:
 
     return " ".join(
-        query.lower().strip().split()
+        query.lower()
+        .strip()
+        .split()
     )
 
 
@@ -209,7 +306,9 @@ def normalize_query(query: str) -> str:
 # FILE HASH
 # ============================================================
 
-def file_hash(file_path: Path) -> str:
+def file_hash(
+    file_path: Path
+) -> str:
 
     sha256 = hashlib.sha256()
 
@@ -255,12 +354,12 @@ def get_patient_cache_dir(
     )
 
     cache_id = (
-        f"{session_id}_{document_hash[:16]}"
+        f"{session_id}_"
+        f"{document_hash[:16]}"
     )
 
     cache_dir = (
-        PATIENT_CACHE_DIR /
-        cache_id
+        PATIENT_CACHE_DIR / cache_id
     )
 
     cache_dir.mkdir(
@@ -280,11 +379,17 @@ def cache_is_valid(
 ) -> bool:
 
     metadata_path = (
-        cache_dir /
-        "cache_metadata.json"
+        cache_dir / "cache_metadata.json"
+    )
+
+    chunks_path = (
+        cache_dir / "patient_chunks.json"
     )
 
     if not metadata_path.exists():
+        return False
+
+    if not chunks_path.exists():
         return False
 
     try:
@@ -309,10 +414,7 @@ def cache_is_valid(
     if not created_at:
         return False
 
-    age = (
-        time.time()
-        - created_at
-    )
+    age = time.time() - created_at
 
     return age <= CACHE_TTL_SECONDS
 
@@ -347,11 +449,16 @@ def save_cache_metadata(
 
         "source_type":
             SOURCE_PATIENT,
+
+        "embedding_model":
+            EMBEDDING_MODEL_NAME,
+
+        "cache_ttl_seconds":
+            CACHE_TTL_SECONDS,
     }
 
     metadata_path = (
-        cache_dir /
-        "cache_metadata.json"
+        cache_dir / "cache_metadata.json"
     )
 
     with open(
@@ -378,12 +485,9 @@ def determine_source_mode(
 ) -> str:
 
     if patient_pdf is None:
-
         return SOURCE_CORE
 
-    normalized = normalize_query(
-        query
-    )
+    normalized = normalize_query(query)
 
     patient_related = any(
         keyword in normalized
@@ -391,7 +495,6 @@ def determine_source_mode(
     )
 
     if patient_related:
-
         return SOURCE_BOTH
 
     core_related = any(
@@ -400,7 +503,6 @@ def determine_source_mode(
     )
 
     if core_related:
-
         return SOURCE_CORE
 
     return SOURCE_BOTH
@@ -429,9 +531,7 @@ def retrieve_core(
             result.get("metadata") or {}
         )
 
-        metadata["source_type"] = (
-            SOURCE_CORE
-        )
+        metadata["source_type"] = SOURCE_CORE
 
         result["metadata"] = metadata
         result["source_type"] = SOURCE_CORE
@@ -452,14 +552,12 @@ def process_patient_report(
     session_id: str
 ) -> Dict[str, Any]:
 
-    patient_pdf = Path(
-        patient_pdf
-    )
+    patient_pdf = Path(patient_pdf)
 
     if not patient_pdf.exists():
 
         raise FileNotFoundError(
-            f"Patient report not found: "
+            "Patient report not found: "
             f"{patient_pdf}"
         )
 
@@ -469,18 +567,14 @@ def process_patient_report(
     )
 
     chunks_path = (
-        cache_dir /
-        "patient_chunks.json"
+        cache_dir / "patient_chunks.json"
     )
 
-    # --------------------------------------------------------
+    # ========================================================
     # CACHE HIT
-    # --------------------------------------------------------
+    # ========================================================
 
-    if (
-        cache_is_valid(cache_dir)
-        and chunks_path.exists()
-    ):
+    if cache_is_valid(cache_dir):
 
         print(
             "\nPatient cache HIT."
@@ -495,23 +589,15 @@ def process_patient_report(
             chunks = json.load(file)
 
         return {
-
-            "session_id":
-                session_id,
-
-            "cache_hit":
-                True,
-
-            "cache_dir":
-                cache_dir,
-
-            "chunks":
-                chunks,
+            "session_id": session_id,
+            "cache_hit": True,
+            "cache_dir": cache_dir,
+            "chunks": chunks,
         }
 
-    # --------------------------------------------------------
+    # ========================================================
     # CACHE MISS
-    # --------------------------------------------------------
+    # ========================================================
 
     print(
         "\nPatient cache MISS."
@@ -526,60 +612,116 @@ def process_patient_report(
     from section_detection import process_patient
     from chunking import process_document
 
-    # --------------------------------------------------------
+    # ========================================================
     # 1. INGESTION
-    # --------------------------------------------------------
+    # ========================================================
 
     print(
-        "1. Patient ingestion..."
+        "\n1. Patient ingestion..."
     )
 
     elements = parse_patient(
         patient_pdf
     )
 
-    # --------------------------------------------------------
-    # 2. CLEANING
-    # --------------------------------------------------------
+    if not elements:
+
+        raise ValueError(
+            "Patient PDF produced no "
+            "parsed elements."
+        )
 
     print(
-        "2. Patient cleaning..."
+        f"   Parsed elements: {len(elements)}"
+    )
+
+    # ========================================================
+    # 2. CLEANING
+    # ========================================================
+
+    print(
+        "\n2. Patient cleaning..."
     )
 
     cleaned_elements = clean_patient(
         elements
     )
 
-    # --------------------------------------------------------
-    # 3. SECTION DETECTION
-    # --------------------------------------------------------
+    if not cleaned_elements:
+
+        raise ValueError(
+            "Patient cleaning produced "
+            "no elements."
+        )
 
     print(
-        "3. Patient section detection..."
+        f"   Cleaned elements: "
+        f"{len(cleaned_elements)}"
+    )
+
+    # ========================================================
+    # 3. SECTION DETECTION
+    # ========================================================
+
+    print(
+        "\n3. Patient section detection..."
     )
 
     sectioned_elements = process_patient(
         cleaned_elements
     )
 
-    # --------------------------------------------------------
-    # 4. CHUNKING
-    # --------------------------------------------------------
+    if not sectioned_elements:
+
+        raise ValueError(
+            "Patient section detection "
+            "produced no elements."
+        )
 
     print(
-        "4. Patient chunking..."
+        f"   Sectioned elements: "
+        f"{len(sectioned_elements)}"
+    )
+
+    # ========================================================
+    # 4. SEMANTIC MODEL
+    # ========================================================
+
+    print(
+        "\n4. Loading semantic model..."
+    )
+
+    model = get_embedding_model()
+
+    # ========================================================
+    # 5. CHUNKING
+    # ========================================================
+
+    print(
+        "\n5. Patient semantic chunking..."
     )
 
     chunks = process_document(
         sectioned_elements,
         SOURCE_PATIENT,
-        model=None,
+        model=model,
         session_id=session_id
     )
 
-    # --------------------------------------------------------
-    # 5. NORMALIZE METADATA
-    # --------------------------------------------------------
+    if not chunks:
+
+        raise ValueError(
+            "Patient chunking produced "
+            "no chunks."
+        )
+
+    print(
+        f"   Created chunks: {len(chunks)}"
+    )
+
+    # ========================================================
+    # 6. NORMALIZE METADATA
+    # ========================================================
 
     normalized_chunks = []
 
@@ -591,13 +733,8 @@ def process_patient_report(
             chunk.get("metadata") or {}
         )
 
-        metadata["source_type"] = (
-            SOURCE_PATIENT
-        )
-
-        metadata["session_id"] = (
-            session_id
-        )
+        metadata["source_type"] = SOURCE_PATIENT
+        metadata["session_id"] = session_id
 
         metadata.setdefault(
             "document_name",
@@ -605,20 +742,19 @@ def process_patient_report(
         )
 
         chunk["metadata"] = metadata
+        chunk["source_type"] = SOURCE_PATIENT
 
-        chunk["source_type"] = (
-            SOURCE_PATIENT
-        )
-
-        normalized_chunks.append(
-            chunk
-        )
+        normalized_chunks.append(chunk)
 
     chunks = normalized_chunks
 
-    # --------------------------------------------------------
-    # 6. SAVE CACHE
-    # --------------------------------------------------------
+    # ========================================================
+    # 7. SAVE CACHE
+    # ========================================================
+
+    print(
+        "\n6. Saving patient cache..."
+    )
 
     with open(
         chunks_path,
@@ -644,19 +780,39 @@ def process_patient_report(
     )
 
     return {
-
-        "session_id":
-            session_id,
-
-        "cache_hit":
-            False,
-
-        "cache_dir":
-            cache_dir,
-
-        "chunks":
-            chunks,
+        "session_id": session_id,
+        "cache_hit": False,
+        "cache_dir": cache_dir,
+        "chunks": chunks,
     }
+
+
+# ============================================================
+# SCORE NORMALIZATION
+# ============================================================
+
+def normalize_scores(
+    scores
+) -> np.ndarray:
+
+    scores = np.asarray(
+        scores,
+        dtype=float
+    )
+
+    if scores.size == 0:
+        return scores
+
+    minimum = scores.min()
+    maximum = scores.max()
+
+    if maximum == minimum:
+        return np.ones_like(scores)
+
+    return (
+        (scores - minimum)
+        / (maximum - minimum)
+    )
 
 
 # ============================================================
@@ -668,39 +824,43 @@ def patient_hybrid_search(
     chunks: List[Dict[str, Any]],
     final_top_k: int = PATIENT_TOP_K
 ) -> List[Dict[str, Any]]:
-    """
-    Hybrid retrieval directly over temporary
-    patient chunks.
-
-    No ChromaDB.
-
-    Semantic 70%
-    BM25 30%
-    """
 
     if not chunks:
         return []
 
-    texts = []
+    # ========================================================
+    # DOCUMENT TEXTS
+    # ========================================================
 
-    for chunk in chunks:
+    texts = [
+        chunk.get("text", "")
+        for chunk in chunks
+    ]
 
-        text = chunk.get(
-            "text",
-            ""
-        )
+    valid_indices = [
+        index
+        for index, text in enumerate(texts)
+        if text and text.strip()
+    ]
 
-        texts.append(
-            text
-        )
+    if not valid_indices:
+        return []
 
-    # --------------------------------------------------------
-    # Embedding model
-    # --------------------------------------------------------
+    texts = [
+        texts[index]
+        for index in valid_indices
+    ]
 
-    model = SentenceTransformer(
-        EMBEDDING_MODEL_NAME
-    )
+    valid_chunks = [
+        chunks[index]
+        for index in valid_indices
+    ]
+
+    # ========================================================
+    # EMBEDDINGS
+    # ========================================================
+
+    model = get_embedding_model()
 
     query_embedding = model.encode(
         query,
@@ -709,7 +869,8 @@ def patient_hybrid_search(
 
     document_embeddings = model.encode(
         texts,
-        normalize_embeddings=True
+        normalize_embeddings=True,
+        show_progress_bar=False
     )
 
     semantic_scores = np.dot(
@@ -717,16 +878,13 @@ def patient_hybrid_search(
         query_embedding
     )
 
-    # --------------------------------------------------------
+    # ========================================================
     # BM25
-    # --------------------------------------------------------
+    # ========================================================
 
     tokenized_documents = [
-
         text.lower().split()
-
         for text in texts
-
     ]
 
     bm25 = BM25Okapi(
@@ -741,64 +899,40 @@ def patient_hybrid_search(
         query_tokens
     )
 
-    # --------------------------------------------------------
-    # Normalize
-    # --------------------------------------------------------
+    # ========================================================
+    # NORMALIZE
+    # ========================================================
 
-    def normalize(scores):
-
-        scores = np.asarray(
-            scores,
-            dtype=float
-        )
-
-        minimum = scores.min()
-        maximum = scores.max()
-
-        if maximum == minimum:
-
-            return np.zeros_like(
-                scores
-            )
-
-        return (
-            (scores - minimum)
-            /
-            (maximum - minimum)
-        )
-
-    semantic_normalized = normalize(
+    semantic_normalized = normalize_scores(
         semantic_scores
     )
 
-    bm25_normalized = normalize(
+    bm25_normalized = normalize_scores(
         bm25_scores
     )
 
-    # --------------------------------------------------------
-    # Hybrid score
-    # --------------------------------------------------------
+    # ========================================================
+    # HYBRID
+    # ========================================================
 
     hybrid_scores = (
-
-        SEMANTIC_WEIGHT
-        * semantic_normalized
-
+        SEMANTIC_WEIGHT * semantic_normalized
         +
-
-        BM25_WEIGHT
-        * bm25_normalized
+        BM25_WEIGHT * bm25_normalized
     )
 
-    # --------------------------------------------------------
-    # Top K
-    # --------------------------------------------------------
+    # ========================================================
+    # TOP K
+    # ========================================================
+
+    top_k = min(
+        final_top_k,
+        len(valid_chunks)
+    )
 
     indices = np.argsort(
         hybrid_scores
-    )[::-1][
-        :final_top_k
-    ]
+    )[::-1][:top_k]
 
     results = []
 
@@ -808,64 +942,53 @@ def patient_hybrid_search(
     ):
 
         chunk = dict(
-            chunks[index]
+            valid_chunks[index]
         )
 
         metadata = dict(
             chunk.get("metadata") or {}
         )
 
-        metadata["source_type"] = (
-            SOURCE_PATIENT
-        )
+        metadata["source_type"] = SOURCE_PATIENT
 
         chunk["metadata"] = metadata
         chunk["source_type"] = SOURCE_PATIENT
 
         results.append({
 
-            "hybrid_rank":
-                rank,
+            "hybrid_rank": rank,
 
-            "chunk_id":
-                chunk.get(
-                    "chunk_id",
-                    f"patient_{index}"
-                ),
+            "chunk_id": chunk.get(
+                "chunk_id",
+                f"patient_{index}"
+            ),
 
-            "text":
-                chunk.get(
-                    "text",
-                    ""
-                ),
+            "text": chunk.get(
+                "text",
+                ""
+            ),
 
-            "metadata":
-                metadata,
+            "metadata": metadata,
 
-            "semantic_score":
-                float(
-                    semantic_scores[index]
-                ),
+            "semantic_score": float(
+                semantic_scores[index]
+            ),
 
-            "semantic_normalized":
-                float(
-                    semantic_normalized[index]
-                ),
+            "semantic_normalized": float(
+                semantic_normalized[index]
+            ),
 
-            "bm25_score":
-                float(
-                    bm25_scores[index]
-                ),
+            "bm25_score": float(
+                bm25_scores[index]
+            ),
 
-            "bm25_normalized":
-                float(
-                    bm25_normalized[index]
-                ),
+            "bm25_normalized": float(
+                bm25_normalized[index]
+            ),
 
-            "hybrid_score":
-                float(
-                    hybrid_scores[index]
-                )
+            "hybrid_score": float(
+                hybrid_scores[index]
+            ),
         })
 
     return results
@@ -886,9 +1009,7 @@ def retrieve_patient(
         session_id
     )
 
-    chunks = patient_data[
-        "chunks"
-    ]
+    chunks = patient_data["chunks"]
 
     if not chunks:
         return []
@@ -909,13 +1030,8 @@ def retrieve_patient(
             result.get("metadata") or {}
         )
 
-        metadata["source_type"] = (
-            SOURCE_PATIENT
-        )
-
-        metadata["session_id"] = (
-            session_id
-        )
+        metadata["source_type"] = SOURCE_PATIENT
+        metadata["session_id"] = session_id
 
         metadata.setdefault(
             "document_name",
@@ -925,11 +1041,47 @@ def retrieve_patient(
         result["metadata"] = metadata
         result["source_type"] = SOURCE_PATIENT
 
-        normalized_results.append(
-            result
-        )
+        normalized_results.append(result)
 
     return normalized_results
+
+
+# ============================================================
+# PATIENT EVIDENCE PRIORITY
+# ============================================================
+
+def build_generation_results(
+    source_mode: str,
+    core_results: List[Dict[str, Any]],
+    patient_results: List[Dict[str, Any]]
+) -> List[Dict[str, Any]]:
+    """
+    IMPORTANT:
+
+    Patient-specific queries:
+        Patient evidence comes FIRST.
+
+    Core evidence is kept only as secondary
+    medical context.
+
+    This prevents the LLM from answering a
+    personal question using NICE instead of
+    the uploaded report.
+    """
+
+    if source_mode == SOURCE_BOTH:
+
+        return (
+            patient_results
+            +
+            core_results
+        )
+
+    if source_mode == SOURCE_PATIENT:
+
+        return patient_results
+
+    return core_results
 
 
 # ============================================================
@@ -950,22 +1102,26 @@ def retrieve_evidence(
     core_results = []
     patient_results = []
 
-    # --------------------------------------------------------
+    # ========================================================
     # CORE
-    # --------------------------------------------------------
+    # ========================================================
 
     if source_mode in (
         SOURCE_CORE,
         SOURCE_BOTH
     ):
 
+        print(
+            "\nRetrieving from CORE..."
+        )
+
         core_results = retrieve_core(
             query
         )
 
-    # --------------------------------------------------------
+    # ========================================================
     # PATIENT
-    # --------------------------------------------------------
+    # ========================================================
 
     if (
         source_mode == SOURCE_BOTH
@@ -979,15 +1135,29 @@ def retrieve_evidence(
                 "for Patient retrieval."
             )
 
+        print(
+            "\nRetrieving from PATIENT..."
+        )
+
         patient_results = retrieve_patient(
             query=query,
             patient_pdf=patient_pdf,
             session_id=session_id
         )
 
-    # --------------------------------------------------------
-    # COMBINE
-    # --------------------------------------------------------
+    # ========================================================
+    # GENERATION ORDER
+    # ========================================================
+
+    generation_results = build_generation_results(
+        source_mode=source_mode,
+        core_results=core_results,
+        patient_results=patient_results
+    )
+
+    # ========================================================
+    # RAW COMBINED RESULTS
+    # ========================================================
 
     combined_results = (
         core_results
@@ -1008,6 +1178,9 @@ def retrieve_evidence(
 
         "combined_results":
             combined_results,
+
+        "generation_results":
+            generation_results,
     }
 
 
@@ -1016,9 +1189,8 @@ def retrieve_evidence(
 # ============================================================
 
 def attach_citations(
-    retrieved_results:
-        List[Dict[str, Any]]
-):
+    retrieved_results: List[Dict[str, Any]]
+) -> List[str]:
 
     citations = []
 
@@ -1033,15 +1205,10 @@ def attach_citations(
             metadata
         )
 
-        result["citation"] = (
-            citation
-        )
+        result["citation"] = citation
 
         if citation not in citations:
-
-            citations.append(
-                citation
-            )
+            citations.append(citation)
 
     return citations
 
@@ -1057,10 +1224,8 @@ def cleanup_patient_session(
     if not session_id:
         return
 
-    for cache_dir in (
-        PATIENT_CACHE_DIR.glob(
-            f"{session_id}_*"
-        )
+    for cache_dir in PATIENT_CACHE_DIR.glob(
+        f"{session_id}_*"
     ):
 
         if cache_dir.exists():
@@ -1089,9 +1254,9 @@ def run_pipeline(
 
     patient_path = None
 
-    # --------------------------------------------------------
-    # Patient PDF
-    # --------------------------------------------------------
+    # ========================================================
+    # PATIENT PDF
+    # ========================================================
 
     if patient_pdf:
 
@@ -1107,15 +1272,30 @@ def run_pipeline(
             )
 
         if session_id is None:
-
             session_id = create_session_id()
 
     # ========================================================
     # 1. SAFETY
     # ========================================================
 
+    print(
+        "\n"
+        + "=" * 75
+    )
+
+    print(
+        "1. SAFETY CHECK"
+    )
+
+    print(
+        "=" * 75
+    )
+
     safety_result = safety_check(
-        query
+        query=query,
+        patient_pdf=(
+            patient_path is not None
+        )
     )
 
     if not safety_result[
@@ -1124,113 +1304,192 @@ def run_pipeline(
 
         return {
 
-            "status":
-                "refused",
-
-            "stage":
-                "safety",
-
-            "query":
-                query,
-
-            "session_id":
-                session_id,
-
-            "source_mode":
-                None,
-
-            "safety":
-                safety_result,
-
-            "evidence":
-                None,
-
-            "citations":
-                [],
-
-            "retrieved_results":
-                [],
-
-            "answer":
-                safety_result[
-                    "message"
-                ],
+            "status": "refused",
+            "stage": "safety",
+            "query": query,
+            "session_id": session_id,
+            "source_mode": None,
+            "safety": safety_result,
+            "evidence": None,
+            "citations": [],
+            "retrieved_results": [],
+            "answer": safety_result["message"],
         }
 
     # ========================================================
-    # 2. RETRIEVAL
+    # 2. SOURCE ROUTING + RETRIEVAL
     # ========================================================
 
+    print(
+        "\n"
+        + "=" * 75
+    )
+
+    print(
+        "2. SOURCE ROUTING + RETRIEVAL"
+    )
+
+    print(
+        "=" * 75
+    )
+
     retrieval_data = retrieve_evidence(
-
         query=query,
-
         patient_pdf=patient_path,
-
         session_id=session_id,
     )
 
-    retrieved_results = (
-        retrieval_data[
-            "combined_results"
-        ]
+    source_mode = retrieval_data[
+        "source_mode"
+    ]
+
+    core_results = retrieval_data[
+        "core_results"
+    ]
+
+    patient_results = retrieval_data[
+        "patient_results"
+    ]
+
+    # ========================================================
+    # IMPORTANT:
+    # Use patient-first ordering for generation.
+    # ========================================================
+
+    generation_results = retrieval_data[
+        "generation_results"
+    ]
+
+    print(
+        f"\nSource mode: {source_mode}"
     )
+
+    print(
+        f"Core results: {len(core_results)}"
+    )
+
+    print(
+        f"Patient results: {len(patient_results)}"
+    )
+
+    # ========================================================
+    # SHOW PATIENT EVIDENCE
+    # ========================================================
+
+    if patient_results:
+
+        print(
+            "\n"
+            + "-" * 75
+        )
+
+        print(
+            "PATIENT EVIDENCE USED FOR GENERATION"
+        )
+
+        print(
+            "-" * 75
+        )
+
+        for index, item in enumerate(
+            patient_results,
+            start=1
+        ):
+
+            metadata = (
+                item.get("metadata")
+                or {}
+            )
+
+            print(
+                f"\n[{index}] "
+                f"{item.get('chunk_id')}"
+            )
+
+            print(
+                "Section:",
+                metadata.get(
+                    "section",
+                    ""
+                )
+            )
+
+            print(
+                "Page:",
+                metadata.get(
+                    "page_start",
+                    metadata.get(
+                        "page",
+                        ""
+                    )
+                )
+            )
+
+            print(
+                "Score:",
+                item.get(
+                    "hybrid_score",
+                    ""
+                )
+            )
+
+            print(
+                "Text:"
+            )
+
+            print(
+                item.get(
+                    "text",
+                    ""
+                )
+            )
 
     # ========================================================
     # 3. NO EVIDENCE
     # ========================================================
 
-    if not retrieved_results:
+    if not generation_results:
 
         return {
 
-            "status":
-                "refused",
-
-            "stage":
-                "retrieval",
-
-            "query":
-                query,
-
-            "session_id":
-                session_id,
-
-            "source_mode":
-                retrieval_data[
-                    "source_mode"
-                ],
-
-            "safety":
-                safety_result,
-
-            "evidence":
-                None,
-
-            "citations":
-                [],
-
-            "retrieved_results":
-                [],
-
-            "answer":
-                (
-                    "I couldn't find enough "
-                    "relevant evidence to answer "
-                    "this question confidently."
-                ),
+            "status": "refused",
+            "stage": "retrieval",
+            "query": query,
+            "session_id": session_id,
+            "source_mode": source_mode,
+            "safety": safety_result,
+            "evidence": None,
+            "citations": [],
+            "core_results": core_results,
+            "patient_results": patient_results,
+            "retrieved_results": [],
+            "answer": (
+                "I couldn't find enough relevant "
+                "evidence to answer this question "
+                "confidently."
+            ),
         }
 
     # ========================================================
     # 4. EVIDENCE CHECK
     # ========================================================
 
+    print(
+        "\n"
+        + "=" * 75
+    )
+
+    print(
+        "3. EVIDENCE CHECK"
+    )
+
+    print(
+        "=" * 75
+    )
+
     evidence_result = check_refusal(
-
         query=query,
-
-        retrieved_results=
-            retrieved_results,
+        retrieved_results=generation_results,
     )
 
     if (
@@ -1240,80 +1499,153 @@ def run_pipeline(
 
         return {
 
-            "status":
-                "refused",
-
-            "stage":
-                "evidence",
-
-            "query":
-                query,
-
-            "session_id":
-                session_id,
-
-            "source_mode":
-                retrieval_data[
-                    "source_mode"
-                ],
-
-            "safety":
-                safety_result,
-
-            "evidence":
-                evidence_result,
-
-            "citations":
-                [],
-
-            "retrieved_results":
-                retrieved_results,
-
-            "answer":
-                (
-                    "I couldn't find enough "
-                    "relevant evidence to answer "
-                    "this question confidently."
-                ),
+            "status": "refused",
+            "stage": "evidence",
+            "query": query,
+            "session_id": session_id,
+            "source_mode": source_mode,
+            "safety": safety_result,
+            "evidence": evidence_result,
+            "citations": [],
+            "core_results": core_results,
+            "patient_results": patient_results,
+            "retrieved_results": generation_results,
+            "answer": (
+                "I couldn't find enough relevant "
+                "evidence to answer this question "
+                "confidently."
+            ),
         }
 
     # ========================================================
     # 5. CITATIONS
     # ========================================================
 
+    print(
+        "\n"
+        + "=" * 75
+    )
+
+    print(
+        "4. CITATIONS"
+    )
+
+    print(
+        "=" * 75
+    )
+
     citations = attach_citations(
-        retrieved_results
+        generation_results
     )
 
     # ========================================================
     # 6. GROUNDED PROMPT
     # ========================================================
 
+    print(
+        "\n"
+        + "=" * 75
+    )
+
+    print(
+        "5. GROUNDED PROMPT"
+    )
+
+    print(
+        "=" * 75
+    )
+
+    persona = safety_result[
+        "persona"
+    ]
+
+    if hasattr(
+        persona,
+        "value"
+    ):
+
+        persona = persona.value
+
+    # ========================================================
+    # PATIENT PRIORITY INSTRUCTION
+    # ========================================================
+
+    patient_priority_instruction = ""
+
+    if source_mode == SOURCE_BOTH:
+
+        patient_priority_instruction = """
+IMPORTANT PATIENT-SPECIFIC RULE:
+
+The user has uploaded a patient report and is
+asking about their personal result.
+
+PATIENT evidence has the highest priority.
+
+If the patient's uploaded report contains the
+requested measurement, value, result, finding,
+or interpretation, answer from the PATIENT
+evidence.
+
+DO NOT replace the patient's actual value with
+a general NICE guideline definition.
+
+CORE/NICE evidence may be used only as secondary
+context or explanation.
+
+If the requested patient value is not present
+in the patient evidence, explicitly say that the
+specific value was not found.
+
+Never invent or estimate a patient value.
+"""
+
+    # ========================================================
+    # BUILD GROUNDED PROMPT
+    # ========================================================
+
     grounded_prompt = build_grounded_prompt(
-
         query=query,
-
-        retrieved_results=
-            retrieved_results,
-
-        persona=safety_result[
-            "persona"
-        ].value,
-
-        evidence_level=
+        retrieved_results=generation_results,
+        persona=persona,
+        evidence_level=(
             evidence_result[
                 "evidence_level"
-            ],
+            ]
+        ),
     )
+
+    # Add patient-priority instruction AFTER
+    # the generated grounded prompt so it cannot
+    # be ignored by the generic prompt.
+
+    if patient_priority_instruction:
+
+        grounded_prompt = (
+            grounded_prompt
+            + "\n\n"
+            + patient_priority_instruction
+        )
 
     # ========================================================
     # 7. GENERATION
     # ========================================================
 
-    generation_result = generate_answer(
+    print(
+        "\n"
+        + "=" * 75
+    )
 
-        grounded_prompt=
-            grounded_prompt
+    print(
+        "6. LLM GENERATION"
+    )
+
+    print(
+        "=" * 75
+    )
+
+    generation_result = generate_answer(
+        grounded_prompt=grounded_prompt
     )
 
     # ========================================================
@@ -1322,44 +1654,32 @@ def run_pipeline(
 
     return {
 
-        "status":
-            "success",
+        "status": "success",
 
-        "stage":
-            "generation",
+        "stage": "generation",
 
-        "query":
-            query,
+        "query": query,
 
-        "session_id":
-            session_id,
+        "session_id": session_id,
 
-        "source_mode":
-            retrieval_data[
-                "source_mode"
-            ],
+        "source_mode": source_mode,
 
-        "safety":
-            safety_result,
+        "safety": safety_result,
 
-        "evidence":
-            evidence_result,
+        "evidence": evidence_result,
 
-        "core_results":
-            retrieval_data[
-                "core_results"
-            ],
+        "core_results": core_results,
 
-        "patient_results":
-            retrieval_data[
-                "patient_results"
-            ],
+        "patient_results": patient_results,
+
+        # Patient-first results used by LLM
+        "generation_results":
+            generation_results,
 
         "retrieved_results":
-            retrieved_results,
+            generation_results,
 
-        "citations":
-            citations,
+        "citations": citations,
 
         "grounded_prompt":
             grounded_prompt,
@@ -1396,22 +1716,28 @@ def print_pipeline_result(
     )
 
     print(
-        "\nSource Mode:",
-        result.get(
-            "source_mode"
-        )
+        "\nStatus:",
+        result.get("status")
+    )
+
+    print(
+        "Stage:",
+        result.get("stage")
+    )
+
+    print(
+        "Source Mode:",
+        result.get("source_mode")
     )
 
     print(
         "Session ID:",
-        result.get(
-            "session_id"
-        )
+        result.get("session_id")
     )
 
-    # --------------------------------------------------------
+    # ========================================================
     # CORE
-    # --------------------------------------------------------
+    # ========================================================
 
     print(
         "\n"
@@ -1426,22 +1752,23 @@ def print_pipeline_result(
         "-" * 75
     )
 
-    for item in result.get(
+    core_results = result.get(
         "core_results",
         []
-    ):
+    )
+
+    if not core_results:
+        print("No Core results.")
+
+    for item in core_results:
 
         metadata = (
-            item.get(
-                "metadata"
-            )
+            item.get("metadata")
             or {}
         )
 
         print(
-            item.get(
-                "chunk_id"
-            ),
+            item.get("chunk_id"),
             "|",
             metadata.get(
                 "section",
@@ -1454,12 +1781,17 @@ def print_pipeline_result(
                     "page",
                     ""
                 )
+            ),
+            "| score:",
+            item.get(
+                "hybrid_score",
+                ""
             )
         )
 
-    # --------------------------------------------------------
+    # ========================================================
     # PATIENT
-    # --------------------------------------------------------
+    # ========================================================
 
     print(
         "\n"
@@ -1474,22 +1806,23 @@ def print_pipeline_result(
         "-" * 75
     )
 
-    for item in result.get(
+    patient_results = result.get(
         "patient_results",
         []
-    ):
+    )
+
+    if not patient_results:
+        print("No Patient results.")
+
+    for item in patient_results:
 
         metadata = (
-            item.get(
-                "metadata"
-            )
+            item.get("metadata")
             or {}
         )
 
         print(
-            item.get(
-                "chunk_id"
-            ),
+            item.get("chunk_id"),
             "|",
             metadata.get(
                 "section",
@@ -1502,12 +1835,17 @@ def print_pipeline_result(
                     "page",
                     ""
                 )
+            ),
+            "| score:",
+            item.get(
+                "hybrid_score",
+                ""
             )
         )
 
-    # --------------------------------------------------------
+    # ========================================================
     # CITATIONS
-    # --------------------------------------------------------
+    # ========================================================
 
     print(
         "\n"
@@ -1522,18 +1860,20 @@ def print_pipeline_result(
         "-" * 75
     )
 
-    for citation in result.get(
+    citations = result.get(
         "citations",
         []
-    ):
+    )
 
-        print(
-            citation
-        )
+    if not citations:
+        print("No citations.")
 
-    # --------------------------------------------------------
+    for citation in citations:
+        print(citation)
+
+    # ========================================================
     # ANSWER
-    # --------------------------------------------------------
+    # ========================================================
 
     print(
         "\n"
@@ -1579,9 +1919,9 @@ if __name__ == "__main__":
         "=" * 75
     )
 
-    # --------------------------------------------------------
-    # CORE TEST
-    # --------------------------------------------------------
+    # ========================================================
+    # TEST 1 - CORE
+    # ========================================================
 
     test_query = (
         "What imaging should be offered to people "
@@ -1590,7 +1930,24 @@ if __name__ == "__main__":
     )
 
     print(
-        "\nTEST - CORE"
+        "\n"
+        + "=" * 75
+    )
+
+    print(
+        "TEST 1 - CORE"
+    )
+
+    print(
+        "=" * 75
+    )
+
+    print(
+        "\nQuery:"
+    )
+
+    print(
+        test_query
     )
 
     try:
@@ -1607,7 +1964,7 @@ if __name__ == "__main__":
     except Exception as error:
 
         print(
-            "\nPIPELINE ERROR:"
+            "\nCORE PIPELINE ERROR:"
         )
 
         print(
@@ -1616,13 +1973,106 @@ if __name__ == "__main__":
             str(error)
         )
 
+    # ========================================================
+    # TEST 2 - PATIENT
+    # ========================================================
+
+    patient_pdf = (
+        PROJECT_ROOT
+        / "data"
+        / "raw"
+        / "patient"
+        / "pulmonary_function_report.pdf"
+    )
+
+    patient_query = (
+        "What is my FEV1?"
+    )
+
     print(
         "\n"
         + "=" * 75
     )
 
     print(
-        "PATIENT TEST"
+        "TEST 2 - PATIENT"
+    )
+
+    print(
+        "=" * 75
+    )
+
+    print(
+        "\nPatient PDF:"
+    )
+
+    print(
+        patient_pdf
+    )
+
+    print(
+        "\nPatient Query:"
+    )
+
+    print(
+        patient_query
+    )
+
+    if patient_pdf.exists():
+
+        try:
+
+            result = run_pipeline(
+                query=patient_query,
+                patient_pdf=str(
+                    patient_pdf
+                ),
+                session_id=(
+                    "test_patient_001"
+                )
+            )
+
+            print_pipeline_result(
+                result
+            )
+
+        except Exception as error:
+
+            print(
+                "\nPATIENT PIPELINE ERROR:"
+            )
+
+            print(
+                type(error).__name__,
+                ":",
+                str(error)
+            )
+
+    else:
+
+        print(
+            "\nPatient test skipped."
+        )
+
+        print(
+            "PDF not found:"
+        )
+
+        print(
+            patient_pdf
+        )
+
+    # ========================================================
+    # TEST INFORMATION
+    # ========================================================
+
+    print(
+        "\n"
+        + "=" * 75
+    )
+
+    print(
+        "TEST COMPLETED"
     )
 
     print(
@@ -1631,18 +2081,33 @@ if __name__ == "__main__":
 
     print(
         """
-Example:
+Patient PDF filename can be anything.
 
-result = run_pipeline(
-    query="What is my FEV1?",
-    patient_pdf="ANY_FILENAME.pdf",
-    session_id="session_123"
-)
+The pipeline identifies the document using:
 
-print_pipeline_result(result)
+    session_id
+        +
+    document hash
 
-The patient PDF filename does not matter.
 Patient data is cached temporarily.
-Patient data is NOT inserted into Core ChromaDB.
+
+Patient data is NEVER inserted
+into Core ChromaDB.
+
+Core:
+    NICE NG122
+    ChromaDB
+
+Patient:
+    Uploaded PDF
+    Temporary cache
+    Direct hybrid retrieval
+
+Patient retrieval:
+    Semantic 70%
+    BM25 30%
+
+For patient-specific questions:
+    PATIENT evidence has priority.
 """
     )
