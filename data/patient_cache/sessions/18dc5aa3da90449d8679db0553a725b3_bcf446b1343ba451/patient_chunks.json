@@ -1,0 +1,158 @@
+[
+  {
+    "chunk_id": "patient_0001_27314c2b",
+    "text": "Cairo University Hospital - Pulmonary Function Laboratory PULMONARY FUNCTION TEST REPORT (MOCK / SAMPLE DATA - NOT A REAL PATIENT) Patient Name:",
+    "source_type": "patient",
+    "session_id": "18dc5aa3da90449d8679db0553a725b3",
+    "section": "Document information",
+    "headings": [],
+    "pages": [
+      1
+    ],
+    "citation": "pulmonary_function_report.pdf, p. 1",
+    "source": {
+      "document": "pulmonary_function_report.pdf",
+      "pages": [
+        1
+      ],
+      "element_ids": [],
+      "bboxes": []
+    },
+    "metadata": {
+      "source_type": "patient",
+      "session_id": "18dc5aa3da90449d8679db0553a725b3",
+      "section": "Document information",
+      "chunk_index": 1,
+      "word_count": 22,
+      "page_start": 1,
+      "page_end": 1,
+      "document_name": "pulmonary_function_report.pdf"
+    }
+  },
+  {
+    "chunk_id": "patient_0002_42cecda3",
+    "text": "Cairo University Hospital - Pulmonary Function Laboratory PULMONARY FUNCTION TEST REPORT (MOCK / SAMPLE DATA - NOT A REAL PATIENT) Patient Name: Mona Ahmed Farouk Patient ID: MRN-2026-08841 Test Date: 22-Aug-2026 Age / Sex: 58 / Female Height: 162 cm Weight: 68 kg Referring Physician: Dr. Hassan El-Sayed",
+    "source_type": "patient",
+    "session_id": "18dc5aa3da90449d8679db0553a725b3",
+    "section": "Document information",
+    "headings": [],
+    "pages": [
+      1
+    ],
+    "citation": "pulmonary_function_report.pdf, p. 1",
+    "source": {
+      "document": "pulmonary_function_report.pdf",
+      "pages": [
+        1
+      ],
+      "element_ids": [],
+      "bboxes": []
+    },
+    "metadata": {
+      "source_type": "patient",
+      "session_id": "18dc5aa3da90449d8679db0553a725b3",
+      "section": "Document information",
+      "chunk_index": 2,
+      "word_count": 48,
+      "page_start": 1,
+      "page_end": 1,
+      "document_name": "pulmonary_function_report.pdf"
+    }
+  },
+  {
+    "chunk_id": "patient_0003_1c428e8c",
+    "text": "Indication: Pre-treatment assessment, NSCLC",
+    "source_type": "patient",
+    "session_id": "18dc5aa3da90449d8679db0553a725b3",
+    "section": "INDICATION",
+    "headings": [
+      "Indication:"
+    ],
+    "pages": [
+      1
+    ],
+    "citation": "pulmonary_function_report.pdf, p. 1",
+    "source": {
+      "document": "pulmonary_function_report.pdf",
+      "pages": [
+        1
+      ],
+      "element_ids": [],
+      "bboxes": []
+    },
+    "metadata": {
+      "source_type": "patient",
+      "session_id": "18dc5aa3da90449d8679db0553a725b3",
+      "section": "INDICATION",
+      "chunk_index": 3,
+      "word_count": 4,
+      "page_start": 1,
+      "page_end": 1,
+      "document_name": "pulmonary_function_report.pdf"
+    }
+  },
+  {
+    "chunk_id": "patient_0004_553d6f16",
+    "text": "SPIROMETRY Parameter Predicted Measured (Pre) % Predicted FVC (L) 3.10 2.55 82% FEV1 (L) 2.45 1.86 76% FEV1/FVC (%) 79% 73% - PEF (L/s) 6.20 4.75 77% DIFFUSION CAPACITY (TLCO) Parameter Predicted Measured % Predicted TLCO (mL/min/mmHg) 22.1 16.8 76% KCO 4.85 4.20 87%",
+    "source_type": "patient",
+    "session_id": "18dc5aa3da90449d8679db0553a725b3",
+    "section": "SPIROMETRY",
+    "headings": [
+      "SPIROMETRY"
+    ],
+    "pages": [
+      1
+    ],
+    "citation": "pulmonary_function_report.pdf, p. 1",
+    "source": {
+      "document": "pulmonary_function_report.pdf",
+      "pages": [
+        1
+      ],
+      "element_ids": [],
+      "bboxes": []
+    },
+    "metadata": {
+      "source_type": "patient",
+      "session_id": "18dc5aa3da90449d8679db0553a725b3",
+      "section": "SPIROMETRY",
+      "chunk_index": 4,
+      "word_count": 44,
+      "page_start": 1,
+      "page_end": 1,
+      "document_name": "pulmonary_function_report.pdf"
+    }
+  },
+  {
+    "chunk_id": "patient_0005_f811a46b",
+    "text": "INTERPRETATION Mild restrictive ventilatory pattern with mildly reduced diffusion capacity (TLCO 76% predicted). FEV1 76% predicted and TLCO 76% predicted are both above the 30% threshold of concern for treatment-related respiratory complications. Findings do not preclude consideration of treatment with curative intent, though further functional assessment (e.g. shuttle walk test) may be considered given borderline-moderate risk of postoperative dyspnoea. Performed by: Respiratory Technologist S. Adel | Reviewed by: Dr. Omar Fathy, Pulmonology This is a fictional, computer-generated sample document created for software testing purposes only.",
+    "source_type": "patient",
+    "session_id": "18dc5aa3da90449d8679db0553a725b3",
+    "section": "INTERPRETATION",
+    "headings": [
+      "INTERPRETATION"
+    ],
+    "pages": [
+      1
+    ],
+    "citation": "pulmonary_function_report.pdf, p. 1",
+    "source": {
+      "document": "pulmonary_function_report.pdf",
+      "pages": [
+        1
+      ],
+      "element_ids": [],
+      "bboxes": []
+    },
+    "metadata": {
+      "source_type": "patient",
+      "session_id": "18dc5aa3da90449d8679db0553a725b3",
+      "section": "INTERPRETATION",
+      "chunk_index": 5,
+      "word_count": 85,
+      "page_start": 1,
+      "page_end": 1,
+      "document_name": "pulmonary_function_report.pdf"
+    }
+  }
+]

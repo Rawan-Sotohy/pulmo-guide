@@ -1,0 +1,9 @@
+{
+  "session_id": "668bde57346341138eddf9b2c60ec399",
+  "document_name": "pulmonary_function_report.pdf",
+  "document_hash": "bcf446b1343ba451a1faa18942d3a835a71c37a5875419ffab6e35a0347e2762",
+  "created_at": 1787236243.514037,
+  "source_type": "patient",
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "cache_ttl_seconds": 14400
+}
