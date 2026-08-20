@@ -1,0 +1,88 @@
+PULMO GUIDE — DAY 4
+CONFIDENCE GATE REPORT
+======================================================================
+
+Generated at: 2026-08-20T05:25:22.124320+00:00
+Confidence threshold: 0.55
+
+SUMMARY
+----------------------------------------------------------------------
+Total tests: 8
+Executed: 8
+Passed: 8
+Failed: 0
+Skipped: 0
+Accuracy: 100.00%
+
+TEST DETAILS
+----------------------------------------------------------------------
+
+CG-01 — Core guideline question
+Status: PASS
+Query: What are the symptoms of lung cancer?
+Source: core
+Confidence: 0.8723
+Top score: 0.8615
+Average score: 0.8053
+Reason: Confidence gate passed.
+
+CG-02 — Core treatment question
+Status: PASS
+Query: What treatment options are recommended for people with lung cancer?
+Source: core
+Confidence: 0.9888
+Top score: 1.0
+Average score: 0.9626
+Reason: Confidence gate passed.
+
+CG-03 — Core staging question
+Status: PASS
+Query: What imaging should be offered to people with stage 3 NSCLC?
+Source: core
+Confidence: 0.9215
+Top score: 0.912
+Average score: 0.8849
+Reason: Confidence gate passed.
+
+CG-04 — Patient FEV1 value
+Status: PASS
+Query: What is my FEV1?
+Source: core+patient
+Confidence: 0.6581
+Top score: 0.8153
+Average score: 0.5015
+Reason: Confidence gate passed.
+
+CG-05 — Patient follow-up
+Status: PASS
+Query: What does this result mean?
+Source: core+patient
+Confidence: 0.5826
+Top score: 0.7359
+Average score: 0.5489
+Reason: Confidence gate passed.
+
+CG-06 — Patient result interpretation
+Status: PASS
+Query: Is this result normal?
+Source: core+patient
+Confidence: 0.8696
+Top score: 1.0
+Average score: 0.5652
+Reason: Confidence gate passed.
+
+CG-07 — Explicit out-of-scope
+Status: PASS
+Query: What is the recommended treatment for pancreatic cancer?
+Source: core
+Confidence: 0.0
+Reason: Correctly refused an out-of-scope question.
+
+CG-08 — Unsupported topic
+Status: PASS
+Query: What is the recommended treatment for pancreatic cancer according to this guideline?
+Source: core
+Confidence: 0.0
+Reason: Correctly refused an out-of-scope question.
+
+======================================================================

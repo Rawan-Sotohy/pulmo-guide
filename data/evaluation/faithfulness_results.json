@@ -1,0 +1,178 @@
+{
+  "project": "Pulmo Guide",
+  "day": 4,
+  "evaluation": "faithfulness",
+  "method": "deterministic",
+  "langchain_used": false,
+  "llm_required": false,
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "evidence_sources": {
+    "core": "ChromaDB",
+    "patient": "data/processed/patient/"
+  },
+  "thresholds": {
+    "semantic_similarity": 0.55,
+    "token_overlap": 0.2,
+    "faithfulness_score": 0.55
+  },
+  "evidence_counts": {
+    "core": 210,
+    "patient": 90,
+    "combined": 300
+  },
+  "summary": {
+    "total_tests": 8,
+    "faithful": 7,
+    "partially_faithful": 1,
+    "unfaithful": 0,
+    "faithfulness_accuracy": 87.5
+  },
+  "results": [
+    {
+      "id": "FA-01",
+      "source": "core",
+      "question": "What are the symptoms of lung cancer?",
+      "answer": "Common symptoms of lung cancer can include a persistent cough, coughing up blood, chest pain, and breathlessness.",
+      "result": "FAITHFUL",
+      "score": 0.5995,
+      "semantic_similarity": 0.7149,
+      "token_overlap": 0.2353,
+      "numeric_match": true,
+      "evidence": {
+        "chunk_id": "core_0055_05b5bf15",
+        "source": "core",
+        "page": null,
+        "section": "1.3 Stop smoking interventions and services",
+        "text": "1.3.1 Inform people that smoking increases the risk of pulmonary complications after lung cancer surgery. [2011] 1.3.2 Advise people to stop smoking as soon as the diagnosis of lung cancer is suspected and tell them why this is important. [2011]"
+      },
+      "reason": "Answer is sufficiently grounded in the available evidence."
+    },
+    {
+      "id": "FA-02",
+      "source": "core",
+      "question": "What treatment options are recommended for people with lung cancer?",
+      "answer": "Treatment options depend on the type and stage of lung cancer and may include surgery, radiotherapy, systemic anticancer treatment, or combinations of these approaches.",
+      "result": "FAITHFUL",
+      "score": 0.7021,
+      "semantic_similarity": 0.7892,
+      "token_overlap": 0.4286,
+      "numeric_match": true,
+      "evidence": {
+        "chunk_id": "core_0083_17cfb1ee",
+        "source": "core",
+        "page": null,
+        "section": "1.6 Multimodality treatment for NSCLC with curative intent",
+        "text": "1.6.1 Ensure that all people whose condition is potentially suitable for multimodality treatment (surgery, radiotherapy and systemic anticancer therapy in any combination) are assessed by a thoracic oncologist and by a thoracic surgeon. [2011] 1.6.2 Treat Pancoast tumours in the same way as other types of NSCLC. Offer multimodality treatment according to resectability, stage of the tumour and"
+      },
+      "reason": "Answer is sufficiently grounded in the available evidence."
+    },
+    {
+      "id": "FA-03",
+      "source": "core",
+      "question": "What imaging should be offered to people with stage 3 NSCLC?",
+      "answer": "Imaging recommendations for people with stage 3 NSCLC depend on the clinical situation and the extent of disease.",
+      "result": "FAITHFUL",
+      "score": 0.8174,
+      "semantic_similarity": 0.8133,
+      "token_overlap": 0.7647,
+      "numeric_match": true,
+      "evidence": {
+        "chunk_id": "core_0043_4796207f",
+        "source": "core",
+        "page": null,
+        "section": "Further staging",
+        "text": "Why the committee made the recommendations Brain imaging is helpful before starting treatment with curative intent, because if brain metastases are detected then the treatment plan is likely to change. However, routine brain imaging is expensive, and the evidence showed that it does not always offer a good balance of benefits and costs. In people with stage 2 and 3a disease, the benefits of brain imaging outweigh the costs because: • brain metastases are more common than in stage 1 disease • people can start early treatment for metastases if they are identified, which improves prognosis • some people with brain metastases will not have radical treatment (depending on factors such as the number of metastases, prognosis and patient preference), and this reduces costs. In people with clinical stage 1 non-small-cell lung cancer (NSCLC) and no neurological symptoms, the prevalence of detectable brain metastases is fairly low (around 4%) compared with people with stage 2 or 3a disease. People with stage 1 NSCLC who do have brain metastases often still have radical lung treatment, which is much more rarely the case for people with stage 3a NSCLC. Overall, the lower prevalence of metastases and smaller reduction in numbers of people having radical treatment mean that the benefits of brain imaging in this population are too low to justify the costs. The 2018 review only examined the clinical and cost effectiveness of imaging after the treatment plan has been decided, but the committee noted that it could be more efficient to conduct CT brain imaging alongside initial staging CT. With this in mind, the committee made a recommendation for research on routine brain imaging with CT at initial diagnosis and/or staging. How the recommendations might affect practice Practice in this area is variable."
+      },
+      "reason": "Answer is sufficiently grounded in the available evidence."
+    },
+    {
+      "id": "FA-04",
+      "source": "patient",
+      "question": "What is my FEV1?",
+      "answer": "Your report records an FEV1 of 1.86 L, which is 76% of the predicted value.",
+      "result": "FAITHFUL",
+      "score": 0.6714,
+      "semantic_similarity": 0.7737,
+      "token_overlap": 0.3571,
+      "numeric_match": true,
+      "evidence": {
+        "chunk_id": "unknown",
+        "source": "patient",
+        "page": 1,
+        "section": null,
+        "text": "Parameter Predicted Measured (Pre) % Predicted\n     FVC (L)      3.10           2.55         82%\n    FEV1 (L)      2.45           1.86         76%\nFEV1/FVC (%)       79%            73%           -\n   PEF (L/s)      6.20           4.75         77%"
+      },
+      "reason": "Answer is sufficiently grounded in the available evidence."
+    },
+    {
+      "id": "FA-05",
+      "source": "core+patient",
+      "question": "What does this result mean?",
+      "answer": "The report describes a mild restrictive ventilatory pattern with mildly reduced diffusion capacity. FEV1 is 76% predicted and TLCO is also 76% predicted.",
+      "result": "FAITHFUL",
+      "score": 0.8645,
+      "semantic_similarity": 0.9409,
+      "token_overlap": 0.6667,
+      "numeric_match": true,
+      "evidence": {
+        "chunk_id": "unknown",
+        "source": "patient",
+        "page": 1,
+        "section": null,
+        "text": "Mild restrictive ventilatory pattern with mildly reduced diffusion capacity (TLCO 76% predicted). FEV1 76% predicted and TLCO 76% predicted are both above the 30% threshold of concern for treatment-related respiratory complications. Findings do not preclude consideration of treatment with curative intent, though further functional assessment (e.g. shuttle walk test) may be considered given borderline-moderate risk of postoperative dyspnoea."
+      },
+      "reason": "Answer is sufficiently grounded in the available evidence."
+    },
+    {
+      "id": "FA-06",
+      "source": "core+patient",
+      "question": "Is this result normal?",
+      "answer": "The report does not describe the result as completely normal. It describes a mild restrictive ventilatory pattern and mildly reduced diffusion capacity.",
+      "result": "FAITHFUL",
+      "score": 0.7388,
+      "semantic_similarity": 0.8266,
+      "token_overlap": 0.4762,
+      "numeric_match": true,
+      "evidence": {
+        "chunk_id": "unknown",
+        "source": "patient",
+        "page": 1,
+        "section": null,
+        "text": "Mild restrictive ventilatory pattern with mildly reduced diffusion capacity (TLCO 76% predicted). FEV1 76% predicted and TLCO 76% predicted are both above the 30% threshold of concern for treatment-related respiratory complications. Findings do not preclude consideration of treatment with curative intent, though further functional assessment (e.g. shuttle walk test) may be considered given borderline-moderate risk of postoperative dyspnoea."
+      },
+      "reason": "Answer is sufficiently grounded in the available evidence."
+    },
+    {
+      "id": "FA-07",
+      "source": "core",
+      "question": "What is the recommended treatment for pancreatic cancer?",
+      "answer": "I cannot provide a recommendation for pancreatic cancer because the available guideline is focused on lung cancer.",
+      "result": "FAITHFUL",
+      "score": 1.0,
+      "semantic_similarity": 1.0,
+      "token_overlap": 1.0,
+      "numeric_match": true,
+      "evidence": null,
+      "reason": "Scope-safe refusal."
+    },
+    {
+      "id": "FA-08",
+      "source": "core+patient",
+      "question": "What does my result mean?",
+      "answer": "The available report provides findings that can be described from the supplied document, but interpretation should remain limited to the available evidence.",
+      "result": "PARTIALLY_FAITHFUL",
+      "score": 0.5102,
+      "semantic_similarity": 0.6311,
+      "token_overlap": 0.1053,
+      "numeric_match": true,
+      "evidence": {
+        "chunk_id": "core_0149_419b9596",
+        "source": "core",
+        "page": null,
+        "section": "1.11 First-line treatment for extensive-stage SCLC",
+        "text": "Thoracic radiotherapy There was some uncertainty in the evidence."
+      },
+      "reason": "Answer has partial grounding in the available evidence."
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+======================================================================
+PULMO GUIDE — DAY 4
+CITATION CHECK REPORT
+======================================================================
+
+Total tests: 8
+Passed: 8
+Failed: 0
+Accuracy: 100.00%
+
+CC-01 — PASS
+Question: What are the symptoms of lung cancer?
+Chunk ID: core_0165_c695e51a
+Source: core
+Page: N/A
+Section: 1.15 Other palliative treatments
+
+CC-02 — PASS
+Question: What treatment options are recommended for people with lung cancer?
+Chunk ID: core_0044_bdb15bf6
+Source: core
+Page: N/A
+Section: Further staging
+
+CC-03 — PASS
+Question: What imaging should be offered to people with stage 3 NSCLC?
+Chunk ID: core_0038_ead593b6
+Source: core
+Page: N/A
+Section: Further staging
+
+CC-04 — PASS
+Question: What is my FEV1?
+Chunk ID: patient_0004_650601c9
+Source: patient
+Page: N/A
+Section: SPIROMETRY
+
+CC-05 — PASS
+Question: What does this result mean?
+Chunk ID: patient_0005_60dfed5a
+Source: patient
+Page: N/A
+Section: INTERPRETATION
+
+CC-06 — PASS
+Question: Is this result normal?
+Chunk ID: patient_0005_60dfed5a
+Source: patient
+Page: N/A
+Section: INTERPRETATION
+
+CC-07 — PASS
+Question: What is the recommended treatment for pancreatic cancer?
+
+CC-08 — PASS
+Question: What does my result mean?
+Chunk ID: core_0003_27e08b22
+Source: core
+Page: N/A
+Section: Guideline responsibility

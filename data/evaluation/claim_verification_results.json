@@ -1,0 +1,360 @@
+{
+  "project": "Pulmo Guide",
+  "day": 4,
+  "evaluation": "claim_verification",
+  "method": "deterministic",
+  "langchain_used": false,
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "thresholds": {
+    "semantic_similarity": 0.55,
+    "token_overlap": 0.2,
+    "support_score": 0.55
+  },
+  "evidence": {
+    "core_chunks": 2606,
+    "patient_chunks": 90,
+    "total_chunks": 2696
+  },
+  "summary": {
+    "total_tests": 8,
+    "passed_tests": 7,
+    "failed_tests": 1,
+    "test_accuracy": 87.5,
+    "total_claims": 13,
+    "supported_claims": 12,
+    "partially_supported_claims": 1,
+    "unsupported_claims": 0,
+    "claim_support_rate": 92.31
+  },
+  "results": [
+    {
+      "id": "CE-01",
+      "source": "core",
+      "question": "What are the symptoms of lung cancer?",
+      "claims": [
+        {
+          "claim_id": "CE-01-CLM-01",
+          "claim": "Common symptoms of lung cancer can include a persistent cough, coughing up blood, chest pain, and breathlessness.",
+          "status": "SUPPORTED",
+          "score": 0.6346,
+          "semantic_similarity": 0.7146,
+          "token_overlap": 0.3529,
+          "numeric_match": true,
+          "evidence": {
+            "chunk_id": "core_0014_521a2862",
+            "source": "{'document': 'nice-lung-cancer-diagnosis-and-management.pdf', 'pages': [8], 'element_ids': [], 'bboxes': [[40.0, 290.056396484375, 62.36470031738281, 302.1463928222656], [91.52760314941406, 288.8476867675781, 553.0768432617188, 339.3556823730469], [40.0, 362.0563659667969, 64.62870025634766, 374.1463623046875], [91.52760314941406, 360.8476867675781, 557.6731567382812, 429.3556823730469], [91.52760314941406, 360.8476867675781, 557.6731567382812, 429.3556823730469], [91.52760314941406, 360.8476867675781, 557.6731567382812, 429.3556823730469], [40.0, 452.0563659667969, 64.6812973022461, 464.1463623046875], [91.52760314941406, 450.8476867675781, 392.57647705078125, 465.3556823730469], [100.11609649658203, 486.8476867675781, 361.7295227050781, 501.3556823730469], [100.11609649658203, 516.84765625, 470.0244445800781, 531.355712890625], [100.11609649658203, 546.84765625, 504.3172302246094, 561.355712890625], [114.86609649658203, 564.84765625, 333.5555419921875, 579.355712890625], [40.0, 596.056396484375, 64.99869537353516, 608.1463623046875], [91.52760314941406, 594.84765625, 555.9000244140625, 645.355712890625]]}",
+            "page": null,
+            "section": "1.2 Effectiveness of diagnostic and staging investigations",
+            "text": "1.2.1 Only use sputum cytology for investigation in people with suspected lung cancer who have centrally placed nodules or masses and who decline or cannot tolerate bronchoscopy or other invasive tests. [2005] 1.2.2 Offer people with known or suspected lung cancer a contrast-enhanced chest CT scan to further the diagnosis and stage the disease. Include the liver, adrenals and lower neck in the scan. Use contrast medium with caution in people with known renal impairment. [2005, amended 2019] 1.2.3 When assessing mediastinal and chest wall invasion: • be aware that CT alone may not be reliable • consider other techniques such as ultrasound if there is doubt • be aware that surgical assessment may be necessary if there are no contraindications to resection. [2005] 1.2.4 Ensure that all people with lung cancer who could potentially have treatment with curative intent are offered positron emission tomography CT (PET-CT) before treatment. [2011]",
+            "file": "data\\processed\\core\\nice-lung-cancer-diagnosis-and-management_cleaned_chunks.json"
+          },
+          "reason": "Claim is supported by evidence using semantic similarity, token overlap and numeric consistency."
+        },
+        {
+          "claim_id": "CE-01-CLM-02",
+          "claim": "The guideline should be consulted for the complete list and clinical context.",
+          "status": "SUPPORTED",
+          "score": 0.6795,
+          "semantic_similarity": 0.6932,
+          "token_overlap": 0.5455,
+          "numeric_match": true,
+          "evidence": {
+            "chunk_id": "core_0003_27e08b22",
+            "source": "{'document': 'nice-lung-cancer-diagnosis-and-management.pdf', 'pages': [2], 'element_ids': [], 'bboxes': [[40.0, 140.34768676757812, 557.214599609375, 262.8556823730469], [40.0, 140.34768676757812, 557.214599609375, 262.8556823730469], [40.0, 140.34768676757812, 557.214599609375, 262.8556823730469], [40.0, 284.3476867675781, 557.6576538085938, 334.8556823730469], [40.0, 356.3476867675781, 556.0775756835938, 478.8556823730469], [40.0, 356.3476867675781, 556.0775756835938, 478.8556823730469], [40.0, 356.3476867675781, 556.0775756835938, 478.8556823730469]]}",
+            "page": null,
+            "section": "Guideline responsibility",
+            "text": "The recommendations in this guideline represent the view of NICE, arrived at after careful consideration of the evidence available. When exercising their judgement, professionals and practitioners are expected to take this guideline fully into account, alongside the individual needs, preferences and values of their patients or the people using their service. It is not mandatory to apply the recommendations, and the guideline does not override the responsibility to make decisions appropriate to the circumstances of the individual, in consultation with them and their families and carers or guardian. All problems (adverse events) related to a medicine or medical device used for treatment or in a procedure should be reported to the Medicines and Healthcare products Regulatory Agency using the Yellow Card Scheme. Local commissioners and providers of healthcare have a responsibility to enable the guideline to be applied when individual professionals and people using services wish to use it. They should do so in the context of local and national priorities for funding and developing services, and in light of their duties to have due regard to the need to eliminate unlawful discrimination, to advance equality of opportunity and to reduce health inequalities. Nothing in this guideline should be interpreted in a way that would be inconsistent with complying with those duties.",
+            "file": "data\\processed\\core\\nice-lung-cancer-diagnosis-and-management_cleaned_chunks.json"
+          },
+          "reason": "Claim is supported by evidence using semantic similarity, token overlap and numeric consistency."
+        }
+      ],
+      "overall": "SUPPORTED",
+      "claim_count": 2,
+      "supported_claims": 2,
+      "partially_supported_claims": 0,
+      "unsupported_claims": 0
+    },
+    {
+      "id": "CE-02",
+      "source": "core",
+      "question": "What treatment options are recommended for people with lung cancer?",
+      "claims": [
+        {
+          "claim_id": "CE-02-CLM-01",
+          "claim": "Treatment options depend on the type and stage of lung cancer and may include surgery, radiotherapy, systemic anticancer treatment, or combinations of these approaches.",
+          "status": "SUPPORTED",
+          "score": 0.7397,
+          "semantic_similarity": 0.7805,
+          "token_overlap": 0.5714,
+          "numeric_match": true,
+          "evidence": {
+            "chunk_id": "core_0103_bcb8b33c",
+            "source": "{'document': 'nice-lung-cancer-diagnosis-and-management.pdf', 'pages': [29], 'element_ids': [], 'bboxes': [[40.0, 203.68496704101562, 539.1910400390625, 256.8149719238281], [40.0, 270.2476501464844, 547.3267822265625, 320.7556457519531], [40.0, 270.2476501464844, 547.3267822265625, 320.7556457519531], [40.0, 324.2476806640625, 417.8901062011719, 338.75567626953125], [40.0, 360.2476806640625, 556.5025634765625, 410.75567626953125], [40.0, 432.2476806640625, 488.0469970703125, 446.75567626953125], [40.0, 468.2476806640625, 492.6152038574219, 482.75567626953125]]}",
+            "page": null,
+            "section": "1.7 Systemic anticancer therapy for advanced non- small-cell lung cancer",
+            "text": "1.7 Systemic anticancer therapy for advanced non- small-cell lung cancer We have produced treatment pathways bringing together NICE-recommended treatment options from this guideline and relevant technology appraisal guidance on advanced non- small-cell lung cancer (NSCLC; squamous and non-squamous). The treatment pathways cover the recommended treatment options at each decision point. These are available to view as individual pathways (linked below), or grouped together in a single interactive PDF of all treatment pathways for squamous and non-squamous advanced non-small-cell lung cancer. We have also produced fully accessible summaries of the treatment pathways. Also see the section on multimodality treatment for NSCLC with curative intent.",
+            "file": "data\\processed\\core\\nice-lung-cancer-diagnosis-and-management_cleaned_chunks.json"
+          },
+          "reason": "Claim is supported by evidence using semantic similarity, token overlap and numeric consistency."
+        },
+        {
+          "claim_id": "CE-02-CLM-02",
+          "claim": "The appropriate option depends on the patient's clinical assessment.",
+          "status": "SUPPORTED",
+          "score": 0.6659,
+          "semantic_similarity": 0.7209,
+          "token_overlap": 0.4444,
+          "numeric_match": true,
+          "evidence": {
+            "chunk_id": "core_0044_bdb15bf6",
+            "source": "{'document': 'nice-lung-cancer-diagnosis-and-management.pdf', 'pages': [15, 16], 'element_ids': [], 'bboxes': [[52.75, 562.8976440429688, 541.89990234375, 649.4057006835938], [52.75, 562.8976440429688, 541.89990234375, 649.4057006835938], [54.25, 86.19766235351562, 337.7793273925781, 100.70565795898438], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562]]}",
+            "page": null,
+            "section": "Further staging",
+            "text": "The 2018 review only examined the clinical and cost effectiveness of imaging after the treatment plan has been decided, but the committee noted that it could be more efficient to conduct CT brain imaging alongside initial staging CT. With this in mind, the committee made a recommendation for research on routine brain imaging with CT at initial diagnosis and/or staging. How the recommendations might affect practice Practice in this area is variable. The committee estimated that the recommendations will increase the number of people who have brain imaging. In turn, they thought this should prevent the use of treatment options (such as lobectomy and sublobar resection) in some patients for whom it is not expected to be beneficial. The recommendations may also lead to an increase in radical radiotherapy, stereotactic radiosurgery and brain surgery. These treatments would be expected to improve the person's prognosis, although each treatment would carry its own risks and side effects.",
+            "file": "data\\processed\\core\\nice-lung-cancer-diagnosis-and-management_cleaned_chunks.json"
+          },
+          "reason": "Claim is supported by evidence using semantic similarity, token overlap and numeric consistency."
+        }
+      ],
+      "overall": "SUPPORTED",
+      "claim_count": 2,
+      "supported_claims": 2,
+      "partially_supported_claims": 0,
+      "unsupported_claims": 0
+    },
+    {
+      "id": "CE-03",
+      "source": "core",
+      "question": "What imaging should be offered to people with stage 3 NSCLC?",
+      "claims": [
+        {
+          "claim_id": "CE-03-CLM-01",
+          "claim": "Imaging recommendations for people with stage 3 NSCLC depend on the clinical situation and the extent of disease.",
+          "status": "SUPPORTED",
+          "score": 0.8174,
+          "semantic_similarity": 0.8133,
+          "token_overlap": 0.7647,
+          "numeric_match": true,
+          "evidence": {
+            "chunk_id": "core_0043_4796207f",
+            "source": "{'document': 'nice-lung-cancer-diagnosis-and-management.pdf', 'pages': [15, 16], 'element_ids': [], 'bboxes': [[52.75, 84.69766235351562, 334.6077575683594, 99.20565795898438], [52.75, 112.89767456054688, 543.2237548828125, 181.40567016601562], [52.75, 112.89767456054688, 543.2237548828125, 181.40567016601562], [52.75, 202.89767456054688, 518.0382690429688, 235.40567016601562], [61.338600158691406, 256.8976745605469, 415.6923522949219, 271.4056701660156], [61.338600158691406, 286.8976745605469, 506.9031677246094, 301.4056701660156], [76.0886001586914, 304.8976745605469, 189.8908233642578, 319.4056701660156], [61.338600158691406, 334.8976745605469, 540.2787475585938, 349.4056701660156], [76.0886001586914, 352.8976745605469, 545.6860961914062, 385.4056701660156], [52.75, 400.8976745605469, 542.5587768554688, 541.4057006835938], [52.75, 400.8976745605469, 542.5587768554688, 541.4057006835938], [52.75, 400.8976745605469, 542.5587768554688, 541.4057006835938], [52.75, 562.8976440429688, 541.89990234375, 649.4057006835938], [52.75, 562.8976440429688, 541.89990234375, 649.4057006835938], [54.25, 86.19766235351562, 337.7793273925781, 100.70565795898438], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562]]}",
+            "page": null,
+            "section": "Further staging",
+            "text": "Why the committee made the recommendations Brain imaging is helpful before starting treatment with curative intent, because if brain metastases are detected then the treatment plan is likely to change. However, routine brain imaging is expensive, and the evidence showed that it does not always offer a good balance of benefits and costs. In people with stage 2 and 3a disease, the benefits of brain imaging outweigh the costs because: • brain metastases are more common than in stage 1 disease • people can start early treatment for metastases if they are identified, which improves prognosis • some people with brain metastases will not have radical treatment (depending on factors such as the number of metastases, prognosis and patient preference), and this reduces costs. In people with clinical stage 1 non-small-cell lung cancer (NSCLC) and no neurological symptoms, the prevalence of detectable brain metastases is fairly low (around 4%) compared with people with stage 2 or 3a disease. People with stage 1 NSCLC who do have brain metastases often still have radical lung treatment, which is much more rarely the case for people with stage 3a NSCLC. Overall, the lower prevalence of metastases and smaller reduction in numbers of people having radical treatment mean that the benefits of brain imaging in this population are too low to justify the costs. The 2018 review only examined the clinical and cost effectiveness of imaging after the treatment plan has been decided, but the committee noted that it could be more efficient to conduct CT brain imaging alongside initial staging CT. With this in mind, the committee made a recommendation for research on routine brain imaging with CT at initial diagnosis and/or staging. How the recommendations might affect practice Practice in this area is variable.",
+            "file": "data\\processed\\core\\nice-lung-cancer-diagnosis-and-management_cleaned_chunks.json"
+          },
+          "reason": "Claim is supported by evidence using semantic similarity, token overlap and numeric consistency."
+        },
+        {
+          "claim_id": "CE-03-CLM-02",
+          "claim": "The relevant guideline recommendations should be followed for selecting appropriate imaging.",
+          "status": "SUPPORTED",
+          "score": 0.7432,
+          "semantic_similarity": 0.7538,
+          "token_overlap": 0.6364,
+          "numeric_match": true,
+          "evidence": {
+            "chunk_id": "core_0003_27e08b22",
+            "source": "{'document': 'nice-lung-cancer-diagnosis-and-management.pdf', 'pages': [2], 'element_ids': [], 'bboxes': [[40.0, 140.34768676757812, 557.214599609375, 262.8556823730469], [40.0, 140.34768676757812, 557.214599609375, 262.8556823730469], [40.0, 140.34768676757812, 557.214599609375, 262.8556823730469], [40.0, 284.3476867675781, 557.6576538085938, 334.8556823730469], [40.0, 356.3476867675781, 556.0775756835938, 478.8556823730469], [40.0, 356.3476867675781, 556.0775756835938, 478.8556823730469], [40.0, 356.3476867675781, 556.0775756835938, 478.8556823730469]]}",
+            "page": null,
+            "section": "Guideline responsibility",
+            "text": "The recommendations in this guideline represent the view of NICE, arrived at after careful consideration of the evidence available. When exercising their judgement, professionals and practitioners are expected to take this guideline fully into account, alongside the individual needs, preferences and values of their patients or the people using their service. It is not mandatory to apply the recommendations, and the guideline does not override the responsibility to make decisions appropriate to the circumstances of the individual, in consultation with them and their families and carers or guardian. All problems (adverse events) related to a medicine or medical device used for treatment or in a procedure should be reported to the Medicines and Healthcare products Regulatory Agency using the Yellow Card Scheme. Local commissioners and providers of healthcare have a responsibility to enable the guideline to be applied when individual professionals and people using services wish to use it. They should do so in the context of local and national priorities for funding and developing services, and in light of their duties to have due regard to the need to eliminate unlawful discrimination, to advance equality of opportunity and to reduce health inequalities. Nothing in this guideline should be interpreted in a way that would be inconsistent with complying with those duties.",
+            "file": "data\\processed\\core\\nice-lung-cancer-diagnosis-and-management_cleaned_chunks.json"
+          },
+          "reason": "Claim is supported by evidence using semantic similarity, token overlap and numeric consistency."
+        }
+      ],
+      "overall": "SUPPORTED",
+      "claim_count": 2,
+      "supported_claims": 2,
+      "partially_supported_claims": 0,
+      "unsupported_claims": 0
+    },
+    {
+      "id": "CE-04",
+      "source": "patient",
+      "question": "What is my FEV1?",
+      "claims": [
+        {
+          "claim_id": "CE-04-CLM-01",
+          "claim": "Your report records an FEV1 of 1.86 L, which is 76% of the predicted value.",
+          "status": "SUPPORTED",
+          "score": 0.6714,
+          "semantic_similarity": 0.7737,
+          "token_overlap": 0.3571,
+          "numeric_match": true,
+          "evidence": {
+            "chunk_id": "unknown",
+            "source": "patient",
+            "page": 1,
+            "section": null,
+            "text": "Parameter Predicted Measured (Pre) % Predicted\n     FVC (L)      3.10           2.55         82%\n    FEV1 (L)      2.45           1.86         76%\nFEV1/FVC (%)       79%            73%           -\n   PEF (L/s)      6.20           4.75         77%",
+            "file": "data\\processed\\patient\\pulmonary_function_report.json"
+          },
+          "reason": "Claim is supported by evidence using semantic similarity, token overlap and numeric consistency."
+        }
+      ],
+      "overall": "SUPPORTED",
+      "claim_count": 1,
+      "supported_claims": 1,
+      "partially_supported_claims": 0,
+      "unsupported_claims": 0
+    },
+    {
+      "id": "CE-05",
+      "source": "core+patient",
+      "question": "What does this result mean?",
+      "claims": [
+        {
+          "claim_id": "CE-05-CLM-01",
+          "claim": "The report describes a mild restrictive ventilatory pattern with mildly reduced diffusion capacity.",
+          "status": "SUPPORTED",
+          "score": 0.7899,
+          "semantic_similarity": 0.8037,
+          "token_overlap": 0.6923,
+          "numeric_match": true,
+          "evidence": {
+            "chunk_id": "unknown",
+            "source": "patient",
+            "page": 1,
+            "section": null,
+            "text": "Mild restrictive ventilatory pattern with mildly reduced diffusion capacity (TLCO 76% predicted). FEV1 76% predicted and TLCO 76% predicted are both above the 30% threshold of concern for treatment-related respiratory complications. Findings do not preclude consideration of treatment with curative intent, though further functional assessment (e.g. shuttle walk test) may be considered given borderline-moderate risk of postoperative dyspnoea.",
+            "file": "data\\processed\\patient\\pulmonary_function_report.json"
+          },
+          "reason": "Claim is supported by evidence using semantic similarity, token overlap and numeric consistency."
+        },
+        {
+          "claim_id": "CE-05-CLM-02",
+          "claim": "The measured FEV1 is 76% of predicted and TLCO is also 76% of predicted.",
+          "status": "SUPPORTED",
+          "score": 0.7167,
+          "semantic_similarity": 0.7096,
+          "token_overlap": 0.6364,
+          "numeric_match": true,
+          "evidence": {
+            "chunk_id": "unknown",
+            "source": "patient",
+            "page": 1,
+            "section": null,
+            "text": "Mild restrictive ventilatory pattern with mildly reduced diffusion capacity (TLCO 76% predicted). FEV1 76% predicted and TLCO 76% predicted are both above the 30% threshold of concern for treatment-related respiratory complications. Findings do not preclude consideration of treatment with curative intent, though further functional assessment (e.g. shuttle walk test) may be considered given borderline-moderate risk of postoperative dyspnoea.",
+            "file": "data\\processed\\patient\\pulmonary_function_report.json"
+          },
+          "reason": "Claim is supported by evidence using semantic similarity, token overlap and numeric consistency."
+        },
+        {
+          "claim_id": "CE-05-CLM-03",
+          "claim": "The report states that these findings do not preclude consideration of treatment with curative intent.",
+          "status": "SUPPORTED",
+          "score": 0.6551,
+          "semantic_similarity": 0.6251,
+          "token_overlap": 0.6,
+          "numeric_match": true,
+          "evidence": {
+            "chunk_id": "core_0045_8bdece8a",
+            "source": "{'document': 'nice-lung-cancer-diagnosis-and-management.pdf', 'pages': [16], 'element_ids': [], 'bboxes': [[54.25, 114.39767456054688, 537.0712890625, 254.90567016601562], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562], [40.0, 302.6476745605469, 554.0010986328125, 335.1556701660156]]}",
+            "page": null,
+            "section": "Further staging",
+            "text": "The committee estimated that the recommendations will increase the number of people who have brain imaging. In turn, they thought this should prevent the use of treatment options (such as lobectomy and sublobar resection) in some patients for whom it is not expected to be beneficial. The recommendations may also lead to an increase in radical radiotherapy, stereotactic radiosurgery and brain surgery. These treatments would be expected to improve the person's prognosis, although each treatment would carry its own risks and side effects. Full details of the evidence and the committee's discussion are in evidence review B: brain imaging for people with NSCLC selected for treatment with curative intent.",
+            "file": "data\\processed\\core\\nice-lung-cancer-diagnosis-and-management_cleaned_chunks.json"
+          },
+          "reason": "Claim is supported by evidence using semantic similarity, token overlap and numeric consistency."
+        }
+      ],
+      "overall": "SUPPORTED",
+      "claim_count": 3,
+      "supported_claims": 3,
+      "partially_supported_claims": 0,
+      "unsupported_claims": 0
+    },
+    {
+      "id": "CE-06",
+      "source": "core+patient",
+      "question": "Is this result normal?",
+      "claims": [
+        {
+          "claim_id": "CE-06-CLM-01",
+          "claim": "The report does not describe the result as completely normal.",
+          "status": "SUPPORTED",
+          "score": 0.5667,
+          "semantic_similarity": 0.6667,
+          "token_overlap": 0.2222,
+          "numeric_match": true,
+          "evidence": {
+            "chunk_id": "unknown",
+            "source": "patient",
+            "page": 1,
+            "section": null,
+            "text": "PULMONARY FUNCTION TEST REPORT (MOCK / SAMPLE DATA - NOT A REAL PATIENT)",
+            "file": "data\\processed\\patient\\pulmonary_function_report.json"
+          },
+          "reason": "Claim is supported by evidence using semantic similarity, token overlap and numeric consistency."
+        },
+        {
+          "claim_id": "CE-06-CLM-02",
+          "claim": "It describes a mild restrictive ventilatory pattern and mildly reduced diffusion capacity.",
+          "status": "SUPPORTED",
+          "score": 0.7834,
+          "semantic_similarity": 0.8057,
+          "token_overlap": 0.6667,
+          "numeric_match": true,
+          "evidence": {
+            "chunk_id": "unknown",
+            "source": "patient",
+            "page": 1,
+            "section": null,
+            "text": "Mild restrictive ventilatory pattern with mildly reduced diffusion capacity (TLCO 76% predicted). FEV1 76% predicted and TLCO 76% predicted are both above the 30% threshold of concern for treatment-related respiratory complications. Findings do not preclude consideration of treatment with curative intent, though further functional assessment (e.g. shuttle walk test) may be considered given borderline-moderate risk of postoperative dyspnoea.",
+            "file": "data\\processed\\patient\\pulmonary_function_report.json"
+          },
+          "reason": "Claim is supported by evidence using semantic similarity, token overlap and numeric consistency."
+        }
+      ],
+      "overall": "SUPPORTED",
+      "claim_count": 2,
+      "supported_claims": 2,
+      "partially_supported_claims": 0,
+      "unsupported_claims": 0
+    },
+    {
+      "id": "CE-07",
+      "source": "core",
+      "question": "What is the recommended treatment for pancreatic cancer?",
+      "claims": [],
+      "overall": "NO_CLAIMS",
+      "claim_count": 0,
+      "supported_claims": 0,
+      "partially_supported_claims": 0,
+      "unsupported_claims": 0
+    },
+    {
+      "id": "CE-08",
+      "source": "core+patient",
+      "question": "What does my result mean?",
+      "claims": [
+        {
+          "claim_id": "CE-08-CLM-01",
+          "claim": "The available report provides findings that can be described from the document, but interpretation should remain limited to the supplied evidence.",
+          "status": "PARTIALLY_SUPPORTED",
+          "score": 0.5492,
+          "semantic_similarity": 0.5907,
+          "token_overlap": 0.3158,
+          "numeric_match": true,
+          "evidence": {
+            "chunk_id": "core_0044_bdb15bf6",
+            "source": "{'document': 'nice-lung-cancer-diagnosis-and-management.pdf', 'pages': [15, 16], 'element_ids': [], 'bboxes': [[52.75, 562.8976440429688, 541.89990234375, 649.4057006835938], [52.75, 562.8976440429688, 541.89990234375, 649.4057006835938], [54.25, 86.19766235351562, 337.7793273925781, 100.70565795898438], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562]]}",
+            "page": null,
+            "section": "Further staging",
+            "text": "The 2018 review only examined the clinical and cost effectiveness of imaging after the treatment plan has been decided, but the committee noted that it could be more efficient to conduct CT brain imaging alongside initial staging CT. With this in mind, the committee made a recommendation for research on routine brain imaging with CT at initial diagnosis and/or staging. How the recommendations might affect practice Practice in this area is variable. The committee estimated that the recommendations will increase the number of people who have brain imaging. In turn, they thought this should prevent the use of treatment options (such as lobectomy and sublobar resection) in some patients for whom it is not expected to be beneficial. The recommendations may also lead to an increase in radical radiotherapy, stereotactic radiosurgery and brain surgery. These treatments would be expected to improve the person's prognosis, although each treatment would carry its own risks and side effects.",
+            "file": "data\\processed\\core\\nice-lung-cancer-diagnosis-and-management_cleaned_chunks.json"
+          },
+          "reason": "Evidence has partial semantic or lexical support but does not fully satisfy the support threshold."
+        }
+      ],
+      "overall": "PARTIALLY_SUPPORTED",
+      "claim_count": 1,
+      "supported_claims": 0,
+      "partially_supported_claims": 1,
+      "unsupported_claims": 0
+    }
+  ]
+}

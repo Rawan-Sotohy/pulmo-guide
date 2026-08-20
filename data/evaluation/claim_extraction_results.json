@@ -1,0 +1,173 @@
+{
+  "project": "Pulmo Guide",
+  "day": 4,
+  "component": "automatic_claim_extraction",
+  "generated_at": "2026-08-20T05:29:12.223436+00:00",
+  "configuration": {
+    "min_claim_words": 5,
+    "max_claims_per_answer": 20,
+    "llm_enabled": true,
+    "llm_model": "gemini-2.5-flash",
+    "fallback_enabled": true,
+    "supports_core": true,
+    "supports_patient": true,
+    "supports_core_patient": true
+  },
+  "results": [
+    {
+      "test_id": "CE-01",
+      "source": "core",
+      "question": "What are the symptoms of lung cancer?",
+      "answer": "Common symptoms of lung cancer can include a persistent cough, coughing up blood, chest pain, and breathlessness. The guideline should be consulted for the complete list and clinical context.",
+      "status": "unknown",
+      "confidence": null,
+      "extraction_method": "deterministic",
+      "claim_count": 2,
+      "claims": [
+        {
+          "claim_id": "CE-01-CLM-01",
+          "text": "Common symptoms of lung cancer can include a persistent cough, coughing up blood, chest pain, and breathlessness."
+        },
+        {
+          "claim_id": "CE-01-CLM-02",
+          "text": "The guideline should be consulted for the complete list and clinical context."
+        }
+      ],
+      "error": null
+    },
+    {
+      "test_id": "CE-02",
+      "source": "core",
+      "question": "What treatment options are recommended for people with lung cancer?",
+      "answer": "Treatment options depend on the type and stage of lung cancer and may include surgery, radiotherapy, systemic anticancer treatment, or combinations of these approaches. The appropriate option depends on the patient's clinical assessment.",
+      "status": "unknown",
+      "confidence": null,
+      "extraction_method": "deterministic",
+      "claim_count": 2,
+      "claims": [
+        {
+          "claim_id": "CE-02-CLM-01",
+          "text": "Treatment options depend on the type and stage of lung cancer and may include surgery, radiotherapy, systemic anticancer treatment, or combinations of these approaches."
+        },
+        {
+          "claim_id": "CE-02-CLM-02",
+          "text": "The appropriate option depends on the patient's clinical assessment."
+        }
+      ],
+      "error": null
+    },
+    {
+      "test_id": "CE-03",
+      "source": "core",
+      "question": "What imaging should be offered to people with stage 3 NSCLC?",
+      "answer": "Imaging recommendations for people with stage 3 NSCLC depend on the clinical situation and the extent of disease. The relevant guideline recommendations should be followed for selecting appropriate imaging.",
+      "status": "unknown",
+      "confidence": null,
+      "extraction_method": "deterministic",
+      "claim_count": 2,
+      "claims": [
+        {
+          "claim_id": "CE-03-CLM-01",
+          "text": "Imaging recommendations for people with stage 3 NSCLC depend on the clinical situation and the extent of disease."
+        },
+        {
+          "claim_id": "CE-03-CLM-02",
+          "text": "The relevant guideline recommendations should be followed for selecting appropriate imaging."
+        }
+      ],
+      "error": null
+    },
+    {
+      "test_id": "CE-04",
+      "source": "patient",
+      "question": "What is my FEV1?",
+      "answer": "Your report records an FEV1 of 1.86 L, which is 76% of the predicted value.",
+      "status": "unknown",
+      "confidence": null,
+      "extraction_method": "deterministic",
+      "claim_count": 1,
+      "claims": [
+        {
+          "claim_id": "CE-04-CLM-01",
+          "text": "Your report records an FEV1 of 1.86 L, which is 76% of the predicted value."
+        }
+      ],
+      "error": null
+    },
+    {
+      "test_id": "CE-05",
+      "source": "core+patient",
+      "question": "What does this result mean?",
+      "answer": "The report describes a mild restrictive ventilatory pattern with mildly reduced diffusion capacity. The measured FEV1 is 76% of predicted and TLCO is also 76% of predicted. The report states that these findings do not preclude consideration of treatment with curative intent.",
+      "status": "unknown",
+      "confidence": null,
+      "extraction_method": "deterministic",
+      "claim_count": 3,
+      "claims": [
+        {
+          "claim_id": "CE-05-CLM-01",
+          "text": "The report describes a mild restrictive ventilatory pattern with mildly reduced diffusion capacity."
+        },
+        {
+          "claim_id": "CE-05-CLM-02",
+          "text": "The measured FEV1 is 76% of predicted and TLCO is also 76% of predicted."
+        },
+        {
+          "claim_id": "CE-05-CLM-03",
+          "text": "The report states that these findings do not preclude consideration of treatment with curative intent."
+        }
+      ],
+      "error": null
+    },
+    {
+      "test_id": "CE-06",
+      "source": "core+patient",
+      "question": "Is this result normal?",
+      "answer": "The report does not describe the result as completely normal. It describes a mild restrictive ventilatory pattern and mildly reduced diffusion capacity.",
+      "status": "unknown",
+      "confidence": null,
+      "extraction_method": "deterministic",
+      "claim_count": 2,
+      "claims": [
+        {
+          "claim_id": "CE-06-CLM-01",
+          "text": "The report does not describe the result as completely normal."
+        },
+        {
+          "claim_id": "CE-06-CLM-02",
+          "text": "It describes a mild restrictive ventilatory pattern and mildly reduced diffusion capacity."
+        }
+      ],
+      "error": null
+    },
+    {
+      "test_id": "CE-07",
+      "source": "core",
+      "question": "What is the recommended treatment for pancreatic cancer?",
+      "answer": "I couldn't answer this question because the indexed guideline covers lung cancer and does not provide evidence about the condition mentioned in your question.",
+      "status": "unknown",
+      "confidence": null,
+      "extraction_method": "refusal",
+      "claim_count": 0,
+      "claims": [],
+      "error": null
+    },
+    {
+      "test_id": "CE-08",
+      "source": "core+patient",
+      "question": "What does my result mean?",
+      "answer": "The available report provides findings that can be described from the document, but interpretation should remain limited to the supplied evidence.",
+      "status": "unknown",
+      "confidence": null,
+      "extraction_method": "deterministic",
+      "claim_count": 1,
+      "claims": [
+        {
+          "claim_id": "CE-08-CLM-01",
+          "text": "The available report provides findings that can be described from the document, but interpretation should remain limited to the supplied evidence."
+        }
+      ],
+      "error": null
+    }
+  ]
+}

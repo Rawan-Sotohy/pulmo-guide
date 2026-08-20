@@ -1,0 +1,126 @@
+======================================================================
+PULMO GUIDE — DAY 4
+FAITHFULNESS EVALUATION
+======================================================================
+
+Total tests: 8
+Faithful: 7
+Partially faithful: 1
+Unfaithful: 0
+Faithfulness accuracy: 87.50%
+
+----------------------------------------------------------------------
+FA-01 — core
+Question: What are the symptoms of lung cancer?
+Answer: Common symptoms of lung cancer can include a persistent cough, coughing up blood, chest pain, and breathlessness.
+Result: FAITHFUL
+Score: 0.5995
+Semantic similarity: 0.7149
+Token overlap: 0.2353
+Numeric match: True
+Reason: Answer is sufficiently grounded in the available evidence.
+Evidence: core_0055_05b5bf15
+Source: core
+Page: None
+Section: 1.3 Stop smoking interventions and services
+
+----------------------------------------------------------------------
+FA-02 — core
+Question: What treatment options are recommended for people with lung cancer?
+Answer: Treatment options depend on the type and stage of lung cancer and may include surgery, radiotherapy, systemic anticancer treatment, or combinations of these approaches.
+Result: FAITHFUL
+Score: 0.7021
+Semantic similarity: 0.7892
+Token overlap: 0.4286
+Numeric match: True
+Reason: Answer is sufficiently grounded in the available evidence.
+Evidence: core_0083_17cfb1ee
+Source: core
+Page: None
+Section: 1.6 Multimodality treatment for NSCLC with curative intent
+
+----------------------------------------------------------------------
+FA-03 — core
+Question: What imaging should be offered to people with stage 3 NSCLC?
+Answer: Imaging recommendations for people with stage 3 NSCLC depend on the clinical situation and the extent of disease.
+Result: FAITHFUL
+Score: 0.8174
+Semantic similarity: 0.8133
+Token overlap: 0.7647
+Numeric match: True
+Reason: Answer is sufficiently grounded in the available evidence.
+Evidence: core_0043_4796207f
+Source: core
+Page: None
+Section: Further staging
+
+----------------------------------------------------------------------
+FA-04 — patient
+Question: What is my FEV1?
+Answer: Your report records an FEV1 of 1.86 L, which is 76% of the predicted value.
+Result: FAITHFUL
+Score: 0.6714
+Semantic similarity: 0.7737
+Token overlap: 0.3571
+Numeric match: True
+Reason: Answer is sufficiently grounded in the available evidence.
+Evidence: unknown
+Source: patient
+Page: 1
+Section: None
+
+----------------------------------------------------------------------
+FA-05 — core+patient
+Question: What does this result mean?
+Answer: The report describes a mild restrictive ventilatory pattern with mildly reduced diffusion capacity. FEV1 is 76% predicted and TLCO is also 76% predicted.
+Result: FAITHFUL
+Score: 0.8645
+Semantic similarity: 0.9409
+Token overlap: 0.6667
+Numeric match: True
+Reason: Answer is sufficiently grounded in the available evidence.
+Evidence: unknown
+Source: patient
+Page: 1
+Section: None
+
+----------------------------------------------------------------------
+FA-06 — core+patient
+Question: Is this result normal?
+Answer: The report does not describe the result as completely normal. It describes a mild restrictive ventilatory pattern and mildly reduced diffusion capacity.
+Result: FAITHFUL
+Score: 0.7388
+Semantic similarity: 0.8266
+Token overlap: 0.4762
+Numeric match: True
+Reason: Answer is sufficiently grounded in the available evidence.
+Evidence: unknown
+Source: patient
+Page: 1
+Section: None
+
+----------------------------------------------------------------------
+FA-07 — core
+Question: What is the recommended treatment for pancreatic cancer?
+Answer: I cannot provide a recommendation for pancreatic cancer because the available guideline is focused on lung cancer.
+Result: FAITHFUL
+Score: 1.0
+Semantic similarity: 1.0
+Token overlap: 1.0
+Numeric match: True
+Reason: Scope-safe refusal.
+
+----------------------------------------------------------------------
+FA-08 — core+patient
+Question: What does my result mean?
+Answer: The available report provides findings that can be described from the supplied document, but interpretation should remain limited to the available evidence.
+Result: PARTIALLY_FAITHFUL
+Score: 0.5102
+Semantic similarity: 0.6311
+Token overlap: 0.1053
+Numeric match: True
+Reason: Answer has partial grounding in the available evidence.
+Evidence: core_0149_419b9596
+Source: core
+Page: None
+Section: 1.11 First-line treatment for extensive-stage SCLC

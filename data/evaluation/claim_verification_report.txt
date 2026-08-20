@@ -1,0 +1,147 @@
+======================================================================
+PULMO GUIDE — DAY 4
+CLAIM VERIFICATION
+======================================================================
+
+Total tests: 8
+Passed: 7
+Failed: 1
+Test accuracy: 87.50%
+
+Total claims: 13
+Supported claims: 12
+Partially supported claims: 1
+Unsupported claims: 0
+Claim support rate: 92.31%
+
+----------------------------------------------------------------------
+CE-01 — core
+Question: What are the symptoms of lung cancer?
+Claims: 2
+Overall: SUPPORTED
+  CE-01-CLM-01: SUPPORTED
+    Score: 0.6346
+    Semantic similarity: 0.7146
+    Token overlap: 0.3529
+    Numeric match: True
+    Evidence: core_0014_521a2862
+    Reason: Claim is supported by evidence using semantic similarity, token overlap and numeric consistency.
+  CE-01-CLM-02: SUPPORTED
+    Score: 0.6795
+    Semantic similarity: 0.6932
+    Token overlap: 0.5455
+    Numeric match: True
+    Evidence: core_0003_27e08b22
+    Reason: Claim is supported by evidence using semantic similarity, token overlap and numeric consistency.
+----------------------------------------------------------------------
+CE-02 — core
+Question: What treatment options are recommended for people with lung cancer?
+Claims: 2
+Overall: SUPPORTED
+  CE-02-CLM-01: SUPPORTED
+    Score: 0.7397
+    Semantic similarity: 0.7805
+    Token overlap: 0.5714
+    Numeric match: True
+    Evidence: core_0103_bcb8b33c
+    Reason: Claim is supported by evidence using semantic similarity, token overlap and numeric consistency.
+  CE-02-CLM-02: SUPPORTED
+    Score: 0.6659
+    Semantic similarity: 0.7209
+    Token overlap: 0.4444
+    Numeric match: True
+    Evidence: core_0044_bdb15bf6
+    Reason: Claim is supported by evidence using semantic similarity, token overlap and numeric consistency.
+----------------------------------------------------------------------
+CE-03 — core
+Question: What imaging should be offered to people with stage 3 NSCLC?
+Claims: 2
+Overall: SUPPORTED
+  CE-03-CLM-01: SUPPORTED
+    Score: 0.8174
+    Semantic similarity: 0.8133
+    Token overlap: 0.7647
+    Numeric match: True
+    Evidence: core_0043_4796207f
+    Reason: Claim is supported by evidence using semantic similarity, token overlap and numeric consistency.
+  CE-03-CLM-02: SUPPORTED
+    Score: 0.7432
+    Semantic similarity: 0.7538
+    Token overlap: 0.6364
+    Numeric match: True
+    Evidence: core_0003_27e08b22
+    Reason: Claim is supported by evidence using semantic similarity, token overlap and numeric consistency.
+----------------------------------------------------------------------
+CE-04 — patient
+Question: What is my FEV1?
+Claims: 1
+Overall: SUPPORTED
+  CE-04-CLM-01: SUPPORTED
+    Score: 0.6714
+    Semantic similarity: 0.7737
+    Token overlap: 0.3571
+    Numeric match: True
+    Evidence: unknown
+    Reason: Claim is supported by evidence using semantic similarity, token overlap and numeric consistency.
+----------------------------------------------------------------------
+CE-05 — core+patient
+Question: What does this result mean?
+Claims: 3
+Overall: SUPPORTED
+  CE-05-CLM-01: SUPPORTED
+    Score: 0.7899
+    Semantic similarity: 0.8037
+    Token overlap: 0.6923
+    Numeric match: True
+    Evidence: unknown
+    Reason: Claim is supported by evidence using semantic similarity, token overlap and numeric consistency.
+  CE-05-CLM-02: SUPPORTED
+    Score: 0.7167
+    Semantic similarity: 0.7096
+    Token overlap: 0.6364
+    Numeric match: True
+    Evidence: unknown
+    Reason: Claim is supported by evidence using semantic similarity, token overlap and numeric consistency.
+  CE-05-CLM-03: SUPPORTED
+    Score: 0.6551
+    Semantic similarity: 0.6251
+    Token overlap: 0.6
+    Numeric match: True
+    Evidence: core_0045_8bdece8a
+    Reason: Claim is supported by evidence using semantic similarity, token overlap and numeric consistency.
+----------------------------------------------------------------------
+CE-06 — core+patient
+Question: Is this result normal?
+Claims: 2
+Overall: SUPPORTED
+  CE-06-CLM-01: SUPPORTED
+    Score: 0.5667
+    Semantic similarity: 0.6667
+    Token overlap: 0.2222
+    Numeric match: True
+    Evidence: unknown
+    Reason: Claim is supported by evidence using semantic similarity, token overlap and numeric consistency.
+  CE-06-CLM-02: SUPPORTED
+    Score: 0.7834
+    Semantic similarity: 0.8057
+    Token overlap: 0.6667
+    Numeric match: True
+    Evidence: unknown
+    Reason: Claim is supported by evidence using semantic similarity, token overlap and numeric consistency.
+----------------------------------------------------------------------
+CE-07 — core
+Question: What is the recommended treatment for pancreatic cancer?
+Claims: 0
+Overall: NO_CLAIMS
+----------------------------------------------------------------------
+CE-08 — core+patient
+Question: What does my result mean?
+Claims: 1
+Overall: PARTIALLY_SUPPORTED
+  CE-08-CLM-01: PARTIALLY_SUPPORTED
+    Score: 0.5492
+    Semantic similarity: 0.5907
+    Token overlap: 0.3158
+    Numeric match: True
+    Evidence: core_0044_bdb15bf6
+    Reason: Evidence has partial semantic or lexical support but does not fully satisfy the support threshold.

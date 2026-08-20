@@ -1,0 +1,350 @@
+{
+  "project": "Pulmo Guide",
+  "evaluation": "comprehensive_final_evaluation",
+  "day": 4,
+  "method": "deterministic",
+  "langchain_used": false,
+  "llm_required": false,
+  "metrics": {
+    "claim_verification": {
+      "available": true,
+      "total_tests": 8,
+      "passed_tests": 7,
+      "test_accuracy": 87.5,
+      "total_claims": 13,
+      "supported_claims": 12,
+      "partially_supported_claims": 1,
+      "unsupported_claims": 0,
+      "claim_support_rate": 92.31,
+      "claim_coverage_rate": 100.0
+    },
+    "claim_extraction": {
+      "available": true,
+      "test_cases": 8,
+      "claims_extracted": 13
+    },
+    "citation_check": {
+      "available": true,
+      "total_tests": 8,
+      "passed": 8,
+      "failed": 0,
+      "citation_accuracy": 100.0
+    },
+    "faithfulness": {
+      "available": true,
+      "total_tests": 8,
+      "faithful": 7,
+      "partially_faithful": 1,
+      "unfaithful": 0,
+      "strict_rate": 87.5,
+      "broad_rate": 100.0
+    },
+    "confidence_gate": {
+      "available": true,
+      "total_tests": 8,
+      "passed": 8,
+      "failed": 0,
+      "accuracy": 100.0
+    },
+    "retrieval": {
+      "available": true,
+      "test_cases": 32,
+      "configs": {
+        "semantic": {
+          "precision": 33.75,
+          "recall": 86.98,
+          "hit_rate": 93.75,
+          "mrr": 86.04,
+          "score": 75.13
+        },
+        "bm25": {
+          "precision": 32.5,
+          "recall": 86.2,
+          "hit_rate": 90.62,
+          "mrr": 83.85,
+          "score": 73.29
+        },
+        "hybrid": {
+          "precision": 35.62,
+          "recall": 92.19,
+          "hit_rate": 96.88,
+          "mrr": 89.06,
+          "score": 78.44
+        },
+        "hybrid_rerank": {
+          "precision": 34.38,
+          "recall": 89.06,
+          "hit_rate": 93.75,
+          "mrr": 87.5,
+          "score": 76.17
+        }
+      },
+      "best_config": "hybrid",
+      "retrieval_score": 78.44
+    },
+    "hybrid_retrieval": {
+      "available": true,
+      "test_cases": 32,
+      "metrics": {
+        "precision": 35.62,
+        "recall": 92.19,
+        "hit_rate": 96.88,
+        "mrr": 89.06
+      },
+      "score": 78.44,
+      "reranker_used": false
+    },
+    "safety": {
+      "available": true,
+      "test_cases": 16,
+      "passed": 16,
+      "failed": 0,
+      "accuracy": 100.0
+    },
+    "refusal": {
+      "available": true,
+      "test_cases": 30,
+      "selected_threshold": 0.8,
+      "accuracy": 56.67,
+      "precision": 53.57,
+      "recall": 100.0,
+      "correct_accept": 15,
+      "correct_refuse": 2,
+      "false_accept": 13,
+      "false_reject": 0,
+      "thresholds_tested": 7
+    },
+    "threshold_experiment": {
+      "available": true,
+      "test_cases": 32,
+      "selected_threshold": 0.2,
+      "accept_precision": 96.88,
+      "relevant_recall": 100.0,
+      "acceptance_rate": 100.0,
+      "thresholds_tested": 11,
+      "all_thresholds_identical": true
+    },
+    "day3_test_suite": {
+      "available": true,
+      "total_tests": 8,
+      "passed": 7,
+      "failed": 1,
+      "pass_rate": 87.5
+    },
+    "latency": {
+      "available": true,
+      "test_cases": 32,
+      "average_ms": 42.95,
+      "median_ms": 40.35,
+      "p95_ms": null,
+      "min_ms": 29.66,
+      "max_ms": 78.29
+    }
+  },
+  "aggregated_scores": {
+    "grounding": {
+      "available": true,
+      "score": 0.9418,
+      "percentage": 94.18,
+      "components": {
+        "claim_support": {
+          "value": 92.31,
+          "weight": 0.35
+        },
+        "citation_accuracy": {
+          "value": 100.0,
+          "weight": 0.3
+        },
+        "strict_faithfulness": {
+          "value": 87.5,
+          "weight": 0.25
+        },
+        "confidence_gate": {
+          "value": 100.0,
+          "weight": 0.1
+        }
+      }
+    },
+    "retrieval_quality": {
+      "available": true,
+      "score": 78.44,
+      "selected_config": "hybrid",
+      "configs": {
+        "semantic": {
+          "precision": 33.75,
+          "recall": 86.98,
+          "hit_rate": 93.75,
+          "mrr": 86.04,
+          "score": 75.13
+        },
+        "bm25": {
+          "precision": 32.5,
+          "recall": 86.2,
+          "hit_rate": 90.62,
+          "mrr": 83.85,
+          "score": 73.29
+        },
+        "hybrid": {
+          "precision": 35.62,
+          "recall": 92.19,
+          "hit_rate": 96.88,
+          "mrr": 89.06,
+          "score": 78.44
+        },
+        "hybrid_rerank": {
+          "precision": 34.38,
+          "recall": 89.06,
+          "hit_rate": 93.75,
+          "mrr": 87.5,
+          "score": 76.17
+        }
+      }
+    },
+    "safety_ux": {
+      "available": true,
+      "score": 78.34
+    },
+    "measurable_project_indicator": {
+      "available": true,
+      "score": 86.86,
+      "weighted_points": 73.83,
+      "max_available_weight": 85,
+      "official_architecture_weight": 15,
+      "note": "Project-level measurable indicator only; not the official hackathon score."
+    }
+  },
+  "judge_rubric": {
+    "retrieval_quality_30_percent": {
+      "weight": 30,
+      "measured_score": 78.44,
+      "status": "MEASURED",
+      "selected_configuration": "hybrid",
+      "components": [
+        "Semantic retrieval",
+        "BM25 retrieval",
+        "Hybrid 70/30",
+        "Hybrid + Reranking",
+        "Precision@5",
+        "Recall@5",
+        "Hit Rate@5",
+        "MRR@5"
+      ]
+    },
+    "grounding_citation_25_percent": {
+      "weight": 25,
+      "measured_score": 94.18,
+      "status": "MEASURED",
+      "components": [
+        "Claim support",
+        "Citation accuracy",
+        "Faithfulness",
+        "Confidence gate"
+      ]
+    },
+    "system_architecture_15_percent": {
+      "weight": 15,
+      "measured_score": null,
+      "status": "JUDGE_REVIEW_REQUIRED",
+      "note": "Requires human inspection of architecture, modularity, separation of components, diagrams, and code organization."
+    },
+    "evaluation_depth_15_percent": {
+      "weight": 15,
+      "measured_score": 100.0,
+      "status": "MEETS_TARGET",
+      "test_cases": 32,
+      "recommended_minimum": 20
+    },
+    "safety_ux_15_percent": {
+      "weight": 15,
+      "measured_score": 78.34,
+      "status": "MEASURED",
+      "components": [
+        "Safety tests",
+        "Refusal evaluation (best threshold)",
+        "Confidence gate evidence (see grounding)",
+        "Threshold experiment (supplementary)",
+        "Latency evidence"
+      ]
+    },
+    "judge_note": "These are quantitative evidence summaries and not official hackathon judge scores. Architecture, live UX, clinical disclaimer, citation display, and demo quality require human inspection."
+  },
+  "failure_analysis": {
+    "claim_failures": [
+      {
+        "type": "claim_verification",
+        "id": "CE-08",
+        "question": "What does my result mean?",
+        "status": "PARTIALLY_SUPPORTED"
+      },
+      {
+        "type": "claim",
+        "id": "CE-08-CLM-01",
+        "question": "What does my result mean?",
+        "status": "PARTIALLY_SUPPORTED",
+        "evidence": {
+          "chunk_id": "core_0044_bdb15bf6",
+          "source": "{'document': 'nice-lung-cancer-diagnosis-and-management.pdf', 'pages': [15, 16], 'element_ids': [], 'bboxes': [[52.75, 562.8976440429688, 541.89990234375, 649.4057006835938], [52.75, 562.8976440429688, 541.89990234375, 649.4057006835938], [54.25, 86.19766235351562, 337.7793273925781, 100.70565795898438], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562], [54.25, 114.39767456054688, 537.0712890625, 254.90567016601562]]}",
+          "page": null,
+          "section": "Further staging",
+          "text": "The 2018 review only examined the clinical and cost effectiveness of imaging after the treatment plan has been decided, but the committee noted that it could be more efficient to conduct CT brain imaging alongside initial staging CT. With this in mind, the committee made a recommendation for research on routine brain imaging with CT at initial diagnosis and/or staging. How the recommendations might affect practice Practice in this area is variable. The committee estimated that the recommendations will increase the number of people who have brain imaging. In turn, they thought this should prevent the use of treatment options (such as lobectomy and sublobar resection) in some patients for whom it is not expected to be beneficial. The recommendations may also lead to an increase in radical radiotherapy, stereotactic radiosurgery and brain surgery. These treatments would be expected to improve the person's prognosis, although each treatment would carry its own risks and side effects.",
+          "file": "data\\processed\\core\\nice-lung-cancer-diagnosis-and-management_cleaned_chunks.json"
+        }
+      }
+    ],
+    "faithfulness_failures": [
+      {
+        "type": "faithfulness",
+        "id": "FA-08",
+        "question": "What does my result mean?",
+        "status": "PARTIALLY_FAITHFUL",
+        "score": 0.5102,
+        "evidence": {
+          "chunk_id": "core_0149_419b9596",
+          "source": "core",
+          "page": null,
+          "section": "1.11 First-line treatment for extensive-stage SCLC",
+          "text": "Thoracic radiotherapy There was some uncertainty in the evidence."
+        }
+      }
+    ],
+    "retrieval_failures": [
+      {
+        "type": "retrieval",
+        "id": "Q23",
+        "question": "What first-line chemotherapy regimen and radiotherapy schedule are recommended for people with limited-stage SCLC?",
+        "status": "MISS_HYBRID_CONFIG"
+      }
+    ],
+    "citation_failures": [],
+    "safety_failures": []
+  },
+  "evaluation_depth": {
+    "available": true,
+    "test_cases": 32,
+    "recommended_minimum": 20,
+    "meets_20_question_target": true,
+    "completion_percentage": 100.0
+  },
+  "available_evaluation_files": {
+    "claim_verification": true,
+    "claim_extraction": true,
+    "citation_check": true,
+    "faithfulness": true,
+    "confidence_gate": true,
+    "retrieval": true,
+    "hybrid_retrieval": true,
+    "day3_safety": true,
+    "day3_test": true,
+    "refusal_threshold": true,
+    "refusal_evaluation": true,
+    "threshold_experiment": true,
+    "latency": true,
+    "evaluation_set": true
+  },
+  "architecture_evaluation": {
+    "automated_score": null,
+    "status": "JUDGE_REVIEW_REQUIRED",
+    "reason": "System architecture quality requires human inspection of modularity, pipeline separation, architecture diagram, code organization, and implementation structure."
+  },
+  "note": "This report aggregates quantitative evaluation evidence. It does not represent the official hackathon judge score."
+}

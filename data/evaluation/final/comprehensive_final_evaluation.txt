@@ -1,0 +1,184 @@
+==========================================================================================
+PULMO GUIDE — COMPREHENSIVE FINAL EVALUATION
+==========================================================================================
+
+METHOD
+------------------------------------------------------------------------------------------
+Deterministic evaluation aggregation
+LLM required for report aggregation: NO
+Official hackathon score: NO
+
+1. EXECUTIVE SUMMARY
+------------------------------------------------------------------------------------------
+Overall Grounding Score: 89.91%
+Retrieval Quality Score: N/A
+Safety / Refusal Evidence Score: N/A
+Measurable Project Indicator: 93.69%
+Evaluation Cases: 32
+20+ Evaluation Target: MET
+
+2. RETRIEVAL EVALUATION
+------------------------------------------------------------------------------------------
+No retrieval metrics available.
+
+Selected Retrieval Configuration: N/A
+Retrieval Quality Score: N/A
+
+3. GROUNDING & CITATION
+------------------------------------------------------------------------------------------
+Claim Verification Accuracy: 75.00%
+Claim Support Rate: 92.31%
+Claim Coverage Rate: 100.00%
+Citation Accuracy: N/A
+Strict Faithfulness: 87.50%
+Broad Faithfulness: 100.00%
+Confidence Gate Accuracy: N/A
+
+Overall Grounding Score: 89.91%
+
+4. CLAIM STATISTICS
+------------------------------------------------------------------------------------------
+Total Tests: 8
+Passed Tests: 6
+Total Claims: 13
+Supported Claims: 12
+Partially Supported Claims: 1
+Unsupported Claims: 0
+Claims Extracted: 13
+
+5. SAFETY & REFUSAL
+------------------------------------------------------------------------------------------
+Safety Accuracy: N/A
+Safety Tests: 0
+Refusal Accuracy: N/A
+Refusal Tests: 0
+Safety / Refusal Evidence Score: N/A
+
+6. PERFORMANCE / LATENCY
+------------------------------------------------------------------------------------------
+Average: N/A ms
+Median: N/A ms
+P95: N/A ms
+Minimum: N/A ms
+Maximum: N/A ms
+
+7. EVALUATION DEPTH
+------------------------------------------------------------------------------------------
+Evaluation Cases: 32
+Recommended Minimum: 20
+Completion: 100.00%
+20+ Target: MET
+
+8. FAILURE ANALYSIS
+------------------------------------------------------------------------------------------
+Claim failures: 2
+Faithfulness failures: 1
+Retrieval failures: 0
+Citation failures: 0
+Safety failures: 0
+Refusal failures: 0
+
+CLAIM FAILURES
+  - CE-08: PARTIALLY_SUPPORTED — What does my result mean?
+  - CE-08-CLM-01: PARTIALLY_SUPPORTED — What does my result mean?
+
+FAITHFULNESS FAILURES
+  - FA-08: PARTIALLY_FAITHFUL — What does my result mean?
+
+9. JUDGE-ORIENTED RUBRIC EVIDENCE
+------------------------------------------------------------------------------------------
+Retrieval Quality — 30%
+  Score: N/A
+  Status: NOT_AVAILABLE
+  Evidence:
+    - Semantic Retrieval
+    - BM25 / Keyword Retrieval
+    - Hybrid Retrieval 70/30
+    - Hybrid + Reranking
+    - Precision@3
+    - Precision@5
+    - Precision@10
+    - Recall@3
+    - Recall@5
+    - Recall@10
+    - Hit Rate@K
+    - MRR@K
+    - NDCG@K
+    - MAP@K when available
+
+Grounding & Citation — 25%
+  Score: 89.91%
+  Status: MEASURED
+  Evidence:
+    - Claim Verification
+    - Claim Support Rate
+    - Claim Coverage Rate
+    - Citation Accuracy
+    - Strict Faithfulness
+    - Broad Faithfulness
+    - Confidence Gate Accuracy
+
+System Architecture — 15%
+  Score: N/A
+  Status: JUDGE_REVIEW_REQUIRED
+  Evidence:
+    - Pipeline separation
+    - Global NICE vs Patient isolation
+    - Document processing architecture
+    - Retrieval architecture
+    - Modularity
+    - Metadata / citation preservation
+    - Code organization
+    - Architecture diagram
+    - Live demonstration
+
+Evaluation Depth — 15%
+  Score: 100.00%
+  Status: MEETS_TARGET
+
+Safety & UX — 15%
+  Score: N/A
+  Status: NOT_AVAILABLE
+  Evidence:
+    - Safety Accuracy
+    - Refusal Accuracy
+    - Confidence Gate
+    - Latency
+    - Clinical safety behavior
+    - Failure analysis
+
+10. MEASURABLE PROJECT INDICATOR
+------------------------------------------------------------------------------------------
+Score: 93.69%
+Available Weight: 40%
+Architecture Weight Excluded: 15%
+
+retrieval_30: N/A
+grounding_25: 89.91%
+evaluation_depth_15: 100.00%
+safety_15: N/A
+
+11. EVALUATION ARTIFACT AVAILABILITY
+------------------------------------------------------------------------------------------
+evaluation_set: AVAILABLE
+retrieval: MISSING
+hybrid_retrieval: MISSING
+claim_verification: AVAILABLE
+claim_extraction: AVAILABLE
+citation_check: MISSING
+faithfulness: AVAILABLE
+confidence_gate: AVAILABLE
+day3_safety: MISSING
+refusal: MISSING
+latency: AVAILABLE
+
+12. IMPORTANT JUDGING NOTE
+------------------------------------------------------------------------------------------
+This report is quantitative evidence for the project.
+It is NOT the official hackathon judge score.
+Architecture quality requires human/judge inspection.
+Live UX, clinical disclaimer, citation display, patient-data isolation, architecture diagram, modularity, and demo quality should be demonstrated separately.
+
+==========================================================================================
+END OF PULMO GUIDE COMPREHENSIVE FINAL EVALUATION
+==========================================================================================

@@ -1,0 +1,80 @@
+======================================================================
+PULMO GUIDE — DAY 4
+AUTOMATIC CLAIM EXTRACTION
+======================================================================
+
+Generated at: 2026-08-20T05:29:12.247718+00:00
+LLM available: False
+LLM model: gemini-2.5-flash
+
+----------------------------------------------------------------------
+SUMMARY
+----------------------------------------------------------------------
+Total tests: 8
+Valid tests: 8
+Failed tests: 0
+Validation accuracy: 100.00%
+Total extracted claims: 13
+LLM extraction: 0
+Deterministic/fallback extraction: 7
+Refusal cases: 1
+Empty cases: 0
+
+----------------------------------------------------------------------
+CE-01 — core
+Question: What are the symptoms of lung cancer?
+Method: deterministic
+Claims: 2
+  CE-01-CLM-01: Common symptoms of lung cancer can include a persistent cough, coughing up blood, chest pain, and breathlessness.
+  CE-01-CLM-02: The guideline should be consulted for the complete list and clinical context.
+----------------------------------------------------------------------
+CE-02 — core
+Question: What treatment options are recommended for people with lung cancer?
+Method: deterministic
+Claims: 2
+  CE-02-CLM-01: Treatment options depend on the type and stage of lung cancer and may include surgery, radiotherapy, systemic anticancer treatment, or combinations of these approaches.
+  CE-02-CLM-02: The appropriate option depends on the patient's clinical assessment.
+----------------------------------------------------------------------
+CE-03 — core
+Question: What imaging should be offered to people with stage 3 NSCLC?
+Method: deterministic
+Claims: 2
+  CE-03-CLM-01: Imaging recommendations for people with stage 3 NSCLC depend on the clinical situation and the extent of disease.
+  CE-03-CLM-02: The relevant guideline recommendations should be followed for selecting appropriate imaging.
+----------------------------------------------------------------------
+CE-04 — patient
+Question: What is my FEV1?
+Method: deterministic
+Claims: 1
+  CE-04-CLM-01: Your report records an FEV1 of 1.86 L, which is 76% of the predicted value.
+----------------------------------------------------------------------
+CE-05 — core+patient
+Question: What does this result mean?
+Method: deterministic
+Claims: 3
+  CE-05-CLM-01: The report describes a mild restrictive ventilatory pattern with mildly reduced diffusion capacity.
+  CE-05-CLM-02: The measured FEV1 is 76% of predicted and TLCO is also 76% of predicted.
+  CE-05-CLM-03: The report states that these findings do not preclude consideration of treatment with curative intent.
+----------------------------------------------------------------------
+CE-06 — core+patient
+Question: Is this result normal?
+Method: deterministic
+Claims: 2
+  CE-06-CLM-01: The report does not describe the result as completely normal.
+  CE-06-CLM-02: It describes a mild restrictive ventilatory pattern and mildly reduced diffusion capacity.
+----------------------------------------------------------------------
+CE-07 — core
+Question: What is the recommended treatment for pancreatic cancer?
+Method: refusal
+Claims: 0
+  No factual claims extracted.
+----------------------------------------------------------------------
+CE-08 — core+patient
+Question: What does my result mean?
+Method: deterministic
+Claims: 1
+  CE-08-CLM-01: The available report provides findings that can be described from the document, but interpretation should remain limited to the supplied evidence.
+
+======================================================================
+CLAIM EXTRACTION TEST COMPLETED
+======================================================================

@@ -1,0 +1,208 @@
+==============================================================================
+PULMO GUIDE — COMPREHENSIVE FINAL EVALUATION
+==============================================================================
+
+Deterministic evaluation — No LLM required
+
+1. EXECUTIVE SUMMARY
+------------------------------------------------------------------------------
+Overall Grounding Score: 94.18%
+Retrieval Quality Score: 78.44%
+Safety / Refusal Score: 78.34%
+Measurable Project Indicator: 86.86%
+Evaluation Cases: 32
+20+ Dataset Target: MET
+
+2. RETRIEVAL EVALUATION
+------------------------------------------------------------------------------
+Test cases: 32
+
+Selected Retrieval Configuration: hybrid
+
+  [semantic]
+    Precision@5: 33.75%
+    Recall@5: 86.98%
+    Hit Rate@5: 93.75%
+    MRR@5: 86.04%
+    NDCG@5: N/A
+    MAP@5: N/A
+    Config Score: 75.13%
+
+  [bm25]
+    Precision@5: 32.50%
+    Recall@5: 86.20%
+    Hit Rate@5: 90.62%
+    MRR@5: 83.85%
+    NDCG@5: N/A
+    MAP@5: N/A
+    Config Score: 73.29%
+
+  [hybrid] <== SELECTED / BEST
+    Precision@5: 35.62%
+    Recall@5: 92.19%
+    Hit Rate@5: 96.88%
+    MRR@5: 89.06%
+    NDCG@5: N/A
+    MAP@5: N/A
+    Config Score: 78.44%
+
+  [hybrid_rerank]
+    Precision@5: 34.38%
+    Recall@5: 89.06%
+    Hit Rate@5: 93.75%
+    MRR@5: 87.50%
+    NDCG@5: N/A
+    MAP@5: N/A
+    Config Score: 76.17%
+
+Final Retrieval Quality Score: 78.44%
+
+Hybrid 70/30 — cross-validation (hybrid_retrieval_evaluation_results.json)
+  Test cases: 32
+  Reranker used: False
+  precision: 35.62%
+  recall: 92.19%
+  hit_rate: 96.88%
+  mrr: 89.06%
+  Cross-check score: 78.44%
+  (Not included in the main retrieval score to avoid double-counting)
+
+3. GROUNDING & CITATION
+------------------------------------------------------------------------------
+Claim Verification Accuracy: 87.50%
+Claim Support Rate: 92.31%
+Claim Coverage Rate: 100.00%
+Citation Accuracy: 100.00%
+Strict Faithfulness: 87.50%
+Broad Faithfulness: 100.00%
+Confidence Gate Accuracy: 100.00%
+
+Overall Grounding Score: 94.18%
+
+4. CLAIM STATISTICS
+------------------------------------------------------------------------------
+Total tests: 8
+Passed tests: 7
+Total claims: 13
+Supported claims: 12
+Partially supported: 1
+Unsupported: 0
+Claims extracted: 13
+
+5. SAFETY & REFUSAL
+------------------------------------------------------------------------------
+Safety Accuracy: 100.00%
+Safety Test Cases: 16
+
+Refusal Accuracy: 56.67%
+Refusal Test Cases: 30
+Selected Refusal Threshold: 0.80
+  Precision: 53.57%
+  Recall: 100.00%
+  Correct accepts: 15
+  Correct refusals: 2
+  False accepts: 13
+  False rejects: 0
+
+Confidence Gate Accuracy: 100.00%
+
+Threshold Experiment (confidence-gate acceptance, supplementary):
+  Test cases: 32
+  Selected threshold: 0.20
+  Accept precision: 96.88%
+  Relevant recall: 100.00%
+  Acceptance rate: 100.00%
+  Note: all tested thresholds produced identical accept/reject outcomes.
+
+Day 3 Comprehensive Test Suite (supplementary, not double-counted):
+  Total tests: 8
+  Passed: 7
+  Failed: 1
+  Pass rate: 87.50%
+
+6. PERFORMANCE / LATENCY
+------------------------------------------------------------------------------
+Test cases: 32
+Average: 42.95 ms
+Median: 40.35 ms
+P95: N/A ms
+Min: 29.66 ms
+Max: 78.29 ms
+
+7. EVALUATION DEPTH
+------------------------------------------------------------------------------
+Evaluation Cases: 32
+Recommended Minimum: 20
+Completion: 100.00%
+Target: MET
+
+8. FAILURE ANALYSIS
+------------------------------------------------------------------------------
+Claim-related issues: 2
+Faithfulness issues: 1
+Retrieval issues: 1
+Citation issues: 0
+Safety issues: 0
+
+Claim failures:
+  - CE-08: PARTIALLY_SUPPORTED — What does my result mean?
+  - CE-08-CLM-01: PARTIALLY_SUPPORTED — What does my result mean?
+
+Faithfulness failures:
+  - FA-08: PARTIALLY_FAITHFUL — What does my result mean? — Score=0.5102
+
+Retrieval failures:
+  - Q23: MISS_HYBRID_CONFIG — What first-line chemotherapy regimen and radiotherapy schedule are recommended for people with limited-stage SCLC?
+
+9. JUDGE-ORIENTED RUBRIC EVIDENCE
+------------------------------------------------------------------------------
+Retrieval Quality — 30%
+  Score: 78.44%
+  Status: MEASURED
+Grounding & Citation — 25%
+  Score: 94.18%
+  Status: MEASURED
+System Architecture — 15%
+  Score: N/A
+  Status: JUDGE_REVIEW_REQUIRED
+Evaluation Depth — 15%
+  Score: 100.00%
+  Status: MEETS_TARGET
+Safety & UX — 15%
+  Score: 78.34%
+  Status: MEASURED
+
+10. MEASURABLE PROJECT INDICATOR
+------------------------------------------------------------------------------
+Score: 86.86%
+Available Weight: 85
+Excluded Weight (Architecture, judge-reviewed): 15
+Note: Project-level measurable indicator only; not the official hackathon score.
+
+11. EVALUATION ARTIFACT AVAILABILITY
+------------------------------------------------------------------------------
+claim_verification: AVAILABLE
+claim_extraction: AVAILABLE
+citation_check: AVAILABLE
+faithfulness: AVAILABLE
+confidence_gate: AVAILABLE
+retrieval: AVAILABLE
+hybrid_retrieval: AVAILABLE
+day3_safety: AVAILABLE
+day3_test: AVAILABLE
+refusal_threshold: AVAILABLE
+refusal_evaluation: AVAILABLE
+threshold_experiment: AVAILABLE
+latency: AVAILABLE
+evaluation_set: AVAILABLE
+
+12. IMPORTANT JUDGING NOTE
+------------------------------------------------------------------------------
+This report provides quantitative evidence for the judging rubric.
+It is NOT the official hackathon score.
+System Architecture (15%) requires judge review.
+Live UX, clinical disclaimer, citation display, pipeline architecture, modularity, and demo quality must be demonstrated separately.
+
+==============================================================================
+END OF COMPREHENSIVE FINAL EVALUATION
+==============================================================================
