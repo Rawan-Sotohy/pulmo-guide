@@ -4,45 +4,35 @@ PULMO GUIDE
 UNIFIED END-TO-END GENERATION PIPELINE
 ============================================================
 
+DAY 3 PIPELINE
+
 CORE:
     Static NICE NG122
     Stored permanently in ChromaDB
 
 PATIENT:
     Dynamic uploaded PDF
-    Any filename
     Processed only when needed
     Cached by session_id + document hash
-    NEVER inserted into Core ChromaDB
+
+PIPELINE:
+    1. Safety
+    2. Scope
+    3. Source Routing
+    4. Retrieval
+    5. Evidence Check
+    6. Citations
+    7. Grounded Prompt
+    8. LLM Generation
+    9. Grounded Fallback if LLM quota is exhausted
 
 IMPORTANT:
-    For patient-specific questions:
-        PATIENT evidence has priority.
-        CORE evidence is secondary context only.
-
-FLOW:
-
-    USER QUERY
-        ↓
-    SAFETY CHECK
-        ↓
-    SOURCE ROUTER
-        ↓
-    CORE / PATIENT / BOTH
-        ↓
-    RETRIEVAL
-        ↓
-    PATIENT EVIDENCE PRIORITY
-        ↓
-    EVIDENCE CHECK
-        ↓
-    CITATIONS
-        ↓
-    GROUNDED PROMPT
-        ↓
-    LLM
-        ↓
-    FINAL ANSWER
+    - Patient evidence has priority for patient-specific facts.
+    - Patient data NEVER enters Core ChromaDB.
+    - Out-of-scope questions are refused before generation.
+    - Safety refusal is a valid refusal.
+    - Evidence refusal is a valid refusal.
+    - LLM quota exhaustion does not produce an empty answer.
 ============================================================
 """
 
@@ -68,17 +58,9 @@ from rank_bm25 import BM25Okapi
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-PROCESSING_DIR = (
-    PROJECT_ROOT / "scripts" / "01_processing"
-)
-
-RETRIEVAL_DIR = (
-    PROJECT_ROOT / "scripts" / "02_retrieval"
-)
-
-GENERATION_DIR = (
-    PROJECT_ROOT / "scripts" / "03_generation"
-)
+PROCESSING_DIR = PROJECT_ROOT / "scripts" / "01_processing"
+RETRIEVAL_DIR = PROJECT_ROOT / "scripts" / "02_retrieval"
+GENERATION_DIR = PROJECT_ROOT / "scripts" / "03_generation"
 
 DATA_DIR = PROJECT_ROOT / "data"
 
@@ -115,10 +97,7 @@ from safety import safety_check
 # ============================================================
 
 CACHE_DIR = DATA_DIR / "patient_cache"
-
-PATIENT_CACHE_DIR = (
-    CACHE_DIR / "sessions"
-)
+PATIENT_CACHE_DIR = CACHE_DIR / "sessions"
 
 PATIENT_CACHE_DIR.mkdir(
     parents=True,
@@ -136,9 +115,7 @@ PATIENT_TOP_K = 5
 SEMANTIC_WEIGHT = 0.70
 BM25_WEIGHT = 0.30
 
-EMBEDDING_MODEL_NAME = (
-    "BAAI/bge-small-en-v1.5"
-)
+EMBEDDING_MODEL_NAME = "BAAI/bge-small-en-v1.5"
 
 CACHE_TTL_SECONDS = 60 * 60 * 4
 
@@ -160,25 +137,18 @@ _EMBEDDING_MODEL = None
 
 
 def get_embedding_model():
-    """
-    Load embedding model once and reuse it.
-    """
 
     global _EMBEDDING_MODEL
 
     if _EMBEDDING_MODEL is None:
 
-        print(
-            "\nLoading embedding model..."
-        )
+        print("\nLoading embedding model...")
 
         _EMBEDDING_MODEL = SentenceTransformer(
             EMBEDDING_MODEL_NAME
         )
 
-        print(
-            "Embedding model loaded."
-        )
+        print("Embedding model loaded.")
 
     return _EMBEDDING_MODEL
 
@@ -189,8 +159,8 @@ def get_embedding_model():
 
 PATIENT_KEYWORDS = {
 
-    # English
     "my",
+    "mine",
     "my report",
     "my result",
     "my results",
@@ -199,13 +169,10 @@ PATIENT_KEYWORDS = {
     "my scan",
     "my biopsy",
     "my pathology",
-    "my molecular",
     "my imaging",
     "my diagnosis",
     "my finding",
     "my findings",
-    "my report says",
-    "my result says",
 
     "in my report",
     "in my results",
@@ -216,7 +183,44 @@ PATIENT_KEYWORDS = {
     "what does my test",
     "what does my biopsy",
 
-    # Arabic
+    "this result",
+    "this finding",
+    "this report",
+    "these results",
+    "these findings",
+    "this test",
+    "this scan",
+
+    "what does this mean",
+    "what does this result mean",
+    "what does this finding mean",
+    "what do these results mean",
+    "what do these findings mean",
+
+    "is this normal",
+    "is this result normal",
+    "is this finding normal",
+
+    "should i be concerned",
+    "is this concerning",
+
+    "fev1",
+    "fvc",
+    "fev1/fvc",
+    "tlco",
+    "kco",
+    "pef",
+
+    "tumor size",
+    "lesion size",
+    "lymph node",
+    "mutation",
+    "biomarker",
+    "egfr",
+    "alk",
+    "ros1",
+    "pd-l1",
+
     "تقريري",
     "تقاريري",
     "نتيجتي",
@@ -238,6 +242,18 @@ PATIENT_KEYWORDS = {
     "حسب تقريري",
     "ماذا يعني تقريري",
     "ماذا تعني نتيجتي",
+    "النتيجة دي",
+    "النتيجة هذه",
+    "النتيجة",
+    "التحليل ده",
+    "التحليل هذا",
+    "التقرير ده",
+    "التقرير هذا",
+    "ده معناه ايه",
+    "دي معناها ايه",
+    "يعني ايه",
+    "هل ده طبيعي",
+    "هل دي طبيعية",
 }
 
 
@@ -247,9 +263,9 @@ PATIENT_KEYWORDS = {
 
 CORE_KEYWORDS = {
 
-    # English
     "what is",
     "what are",
+    "what does",
     "symptoms",
     "causes",
     "risk factors",
@@ -262,6 +278,7 @@ CORE_KEYWORDS = {
     "nsclc",
     "sclc",
     "lung cancer",
+    "lung",
     "recommendation",
     "recommendations",
     "should be offered",
@@ -270,7 +287,6 @@ CORE_KEYWORDS = {
     "nice",
     "ng122",
 
-    # Arabic
     "أعراض",
     "اعراض",
     "أسباب",
@@ -279,6 +295,7 @@ CORE_KEYWORDS = {
     "تشخيص",
     "مراحل",
     "سرطان الرئة",
+    "الرئة",
     "التوصيات",
     "التوصية",
     "الفحص",
@@ -288,12 +305,78 @@ CORE_KEYWORDS = {
 
 
 # ============================================================
+# EXPLICIT OUT-OF-SCOPE TERMS
+# ============================================================
+
+OUT_OF_SCOPE_TERMS = {
+
+    "pancreatic cancer",
+    "pancreas cancer",
+    "breast cancer",
+    "colon cancer",
+    "colorectal cancer",
+    "prostate cancer",
+    "liver cancer",
+    "kidney cancer",
+    "brain cancer",
+    "skin cancer",
+    "cervical cancer",
+    "ovarian cancer",
+    "stomach cancer",
+    "thyroid cancer",
+
+    "pancreatic tumor",
+    "breast tumor",
+    "colon tumor",
+    "prostate tumor",
+    "liver tumor",
+
+    "سرطان البنكرياس",
+    "سرطان الثدي",
+    "سرطان القولون",
+    "سرطان البروستاتا",
+    "سرطان الكبد",
+    "سرطان المخ",
+    "سرطان الجلد",
+    "سرطان المعدة",
+    "سرطان الغدة الدرقية",
+}
+
+
+# ============================================================
+# GENERIC OUT-OF-SCOPE PHRASES
+# ============================================================
+
+OUT_OF_SCOPE_PHRASES = {
+
+    "condition that is not covered",
+    "condition not covered",
+    "not covered by the indexed",
+    "not covered by this guideline",
+    "not covered by the guideline",
+    "outside the scope of the guideline",
+    "outside the scope",
+    "not covered in the guideline",
+    "not addressed by the guideline",
+    "not addressed in the guideline",
+    "unrelated condition",
+    "unrelated disease",
+    "condition outside",
+    "disease outside",
+
+    "حالة غير مغطاة",
+    "مرض غير مغطى",
+    "خارج نطاق الدليل",
+    "غير مذكور في الدليل",
+    "غير مغطى في الدليل",
+}
+
+
+# ============================================================
 # QUERY NORMALIZATION
 # ============================================================
 
-def normalize_query(
-    query: str
-) -> str:
+def normalize_query(query: str) -> str:
 
     return " ".join(
         query.lower()
@@ -303,12 +386,35 @@ def normalize_query(
 
 
 # ============================================================
+# EXPLICIT OUT-OF-SCOPE CHECK
+# ============================================================
+
+def is_explicitly_out_of_scope(
+    query: str
+) -> bool:
+
+    normalized = normalize_query(query)
+
+    if any(
+        term in normalized
+        for term in OUT_OF_SCOPE_TERMS
+    ):
+        return True
+
+    if any(
+        phrase in normalized
+        for phrase in OUT_OF_SCOPE_PHRASES
+    ):
+        return True
+
+    return False
+
+
+# ============================================================
 # FILE HASH
 # ============================================================
 
-def file_hash(
-    file_path: Path
-) -> str:
+def file_hash(file_path: Path) -> str:
 
     sha256 = hashlib.sha256()
 
@@ -319,9 +425,7 @@ def file_hash(
 
         while True:
 
-            chunk = file.read(
-                1024 * 1024
-            )
+            chunk = file.read(1024 * 1024)
 
             if not chunk:
                 break
@@ -349,18 +453,14 @@ def get_patient_cache_dir(
     session_id: str
 ) -> Path:
 
-    document_hash = file_hash(
-        patient_pdf
-    )
+    document_hash = file_hash(patient_pdf)
 
     cache_id = (
         f"{session_id}_"
         f"{document_hash[:16]}"
     )
 
-    cache_dir = (
-        PATIENT_CACHE_DIR / cache_id
-    )
+    cache_dir = PATIENT_CACHE_DIR / cache_id
 
     cache_dir.mkdir(
         parents=True,
@@ -378,13 +478,8 @@ def cache_is_valid(
     cache_dir: Path
 ) -> bool:
 
-    metadata_path = (
-        cache_dir / "cache_metadata.json"
-    )
-
-    chunks_path = (
-        cache_dir / "patient_chunks.json"
-    )
+    metadata_path = cache_dir / "cache_metadata.json"
+    chunks_path = cache_dir / "patient_chunks.json"
 
     if not metadata_path.exists():
         return False
@@ -429,37 +524,26 @@ def save_cache_metadata(
     session_id: str
 ):
 
-    document_hash = file_hash(
-        patient_pdf
-    )
+    document_hash = file_hash(patient_pdf)
 
     metadata = {
 
-        "session_id":
-            session_id,
+        "session_id": session_id,
 
-        "document_name":
-            patient_pdf.name,
+        "document_name": patient_pdf.name,
 
-        "document_hash":
-            document_hash,
+        "document_hash": document_hash,
 
-        "created_at":
-            time.time(),
+        "created_at": time.time(),
 
-        "source_type":
-            SOURCE_PATIENT,
+        "source_type": SOURCE_PATIENT,
 
-        "embedding_model":
-            EMBEDDING_MODEL_NAME,
+        "embedding_model": EMBEDDING_MODEL_NAME,
 
-        "cache_ttl_seconds":
-            CACHE_TTL_SECONDS,
+        "cache_ttl_seconds": CACHE_TTL_SECONDS,
     }
 
-    metadata_path = (
-        cache_dir / "cache_metadata.json"
-    )
+    metadata_path = cache_dir / "cache_metadata.json"
 
     with open(
         metadata_path,
@@ -536,9 +620,7 @@ def retrieve_core(
         result["metadata"] = metadata
         result["source_type"] = SOURCE_CORE
 
-        normalized_results.append(
-            result
-        )
+        normalized_results.append(result)
 
     return normalized_results
 
@@ -566,19 +648,11 @@ def process_patient_report(
         session_id
     )
 
-    chunks_path = (
-        cache_dir / "patient_chunks.json"
-    )
-
-    # ========================================================
-    # CACHE HIT
-    # ========================================================
+    chunks_path = cache_dir / "patient_chunks.json"
 
     if cache_is_valid(cache_dir):
 
-        print(
-            "\nPatient cache HIT."
-        )
+        print("\nPatient cache HIT.")
 
         with open(
             chunks_path,
@@ -595,63 +669,32 @@ def process_patient_report(
             "chunks": chunks,
         }
 
-    # ========================================================
-    # CACHE MISS
-    # ========================================================
-
-    print(
-        "\nPatient cache MISS."
-    )
-
-    print(
-        "Processing uploaded patient report..."
-    )
+    print("\nPatient cache MISS.")
+    print("Processing uploaded patient report...")
 
     from ingest import parse_patient
     from cleaning import clean_patient
     from section_detection import process_patient
     from chunking import process_document
 
-    # ========================================================
-    # 1. INGESTION
-    # ========================================================
+    print("\n1. Patient ingestion...")
 
-    print(
-        "\n1. Patient ingestion..."
-    )
-
-    elements = parse_patient(
-        patient_pdf
-    )
+    elements = parse_patient(patient_pdf)
 
     if not elements:
-
         raise ValueError(
-            "Patient PDF produced no "
-            "parsed elements."
+            "Patient PDF produced no parsed elements."
         )
 
-    print(
-        f"   Parsed elements: {len(elements)}"
-    )
+    print(f"   Parsed elements: {len(elements)}")
 
-    # ========================================================
-    # 2. CLEANING
-    # ========================================================
+    print("\n2. Patient cleaning...")
 
-    print(
-        "\n2. Patient cleaning..."
-    )
-
-    cleaned_elements = clean_patient(
-        elements
-    )
+    cleaned_elements = clean_patient(elements)
 
     if not cleaned_elements:
-
         raise ValueError(
-            "Patient cleaning produced "
-            "no elements."
+            "Patient cleaning produced no elements."
         )
 
     print(
@@ -659,23 +702,15 @@ def process_patient_report(
         f"{len(cleaned_elements)}"
     )
 
-    # ========================================================
-    # 3. SECTION DETECTION
-    # ========================================================
-
-    print(
-        "\n3. Patient section detection..."
-    )
+    print("\n3. Patient section detection...")
 
     sectioned_elements = process_patient(
         cleaned_elements
     )
 
     if not sectioned_elements:
-
         raise ValueError(
-            "Patient section detection "
-            "produced no elements."
+            "Patient section detection produced no elements."
         )
 
     print(
@@ -683,23 +718,11 @@ def process_patient_report(
         f"{len(sectioned_elements)}"
     )
 
-    # ========================================================
-    # 4. SEMANTIC MODEL
-    # ========================================================
-
-    print(
-        "\n4. Loading semantic model..."
-    )
+    print("\n4. Loading semantic model...")
 
     model = get_embedding_model()
 
-    # ========================================================
-    # 5. CHUNKING
-    # ========================================================
-
-    print(
-        "\n5. Patient semantic chunking..."
-    )
+    print("\n5. Patient semantic chunking...")
 
     chunks = process_document(
         sectioned_elements,
@@ -709,19 +732,11 @@ def process_patient_report(
     )
 
     if not chunks:
-
         raise ValueError(
-            "Patient chunking produced "
-            "no chunks."
+            "Patient chunking produced no chunks."
         )
 
-    print(
-        f"   Created chunks: {len(chunks)}"
-    )
-
-    # ========================================================
-    # 6. NORMALIZE METADATA
-    # ========================================================
+    print(f"   Created chunks: {len(chunks)}")
 
     normalized_chunks = []
 
@@ -748,13 +763,7 @@ def process_patient_report(
 
     chunks = normalized_chunks
 
-    # ========================================================
-    # 7. SAVE CACHE
-    # ========================================================
-
-    print(
-        "\n6. Saving patient cache..."
-    )
+    print("\n6. Saving patient cache...")
 
     with open(
         chunks_path,
@@ -775,9 +784,7 @@ def process_patient_report(
         session_id
     )
 
-    print(
-        "Patient processing completed."
-    )
+    print("Patient processing completed.")
 
     return {
         "session_id": session_id,
@@ -791,9 +798,7 @@ def process_patient_report(
 # SCORE NORMALIZATION
 # ============================================================
 
-def normalize_scores(
-    scores
-) -> np.ndarray:
+def normalize_scores(scores) -> np.ndarray:
 
     scores = np.asarray(
         scores,
@@ -828,10 +833,6 @@ def patient_hybrid_search(
     if not chunks:
         return []
 
-    # ========================================================
-    # DOCUMENT TEXTS
-    # ========================================================
-
     texts = [
         chunk.get("text", "")
         for chunk in chunks
@@ -856,10 +857,6 @@ def patient_hybrid_search(
         for index in valid_indices
     ]
 
-    # ========================================================
-    # EMBEDDINGS
-    # ========================================================
-
     model = get_embedding_model()
 
     query_embedding = model.encode(
@@ -878,10 +875,6 @@ def patient_hybrid_search(
         query_embedding
     )
 
-    # ========================================================
-    # BM25
-    # ========================================================
-
     tokenized_documents = [
         text.lower().split()
         for text in texts
@@ -891,17 +884,11 @@ def patient_hybrid_search(
         tokenized_documents
     )
 
-    query_tokens = (
-        query.lower().split()
-    )
+    query_tokens = query.lower().split()
 
     bm25_scores = bm25.get_scores(
         query_tokens
     )
-
-    # ========================================================
-    # NORMALIZE
-    # ========================================================
 
     semantic_normalized = normalize_scores(
         semantic_scores
@@ -911,19 +898,11 @@ def patient_hybrid_search(
         bm25_scores
     )
 
-    # ========================================================
-    # HYBRID
-    # ========================================================
-
     hybrid_scores = (
         SEMANTIC_WEIGHT * semantic_normalized
         +
         BM25_WEIGHT * bm25_normalized
     )
-
-    # ========================================================
-    # TOP K
-    # ========================================================
 
     top_k = min(
         final_top_k,
@@ -1047,7 +1026,7 @@ def retrieve_patient(
 
 
 # ============================================================
-# PATIENT EVIDENCE PRIORITY
+# GENERATION ORDER
 # ============================================================
 
 def build_generation_results(
@@ -1055,30 +1034,11 @@ def build_generation_results(
     core_results: List[Dict[str, Any]],
     patient_results: List[Dict[str, Any]]
 ) -> List[Dict[str, Any]]:
-    """
-    IMPORTANT:
-
-    Patient-specific queries:
-        Patient evidence comes FIRST.
-
-    Core evidence is kept only as secondary
-    medical context.
-
-    This prevents the LLM from answering a
-    personal question using NICE instead of
-    the uploaded report.
-    """
 
     if source_mode == SOURCE_BOTH:
-
-        return (
-            patient_results
-            +
-            core_results
-        )
+        return patient_results + core_results
 
     if source_mode == SOURCE_PATIENT:
-
         return patient_results
 
     return core_results
@@ -1102,42 +1062,29 @@ def retrieve_evidence(
     core_results = []
     patient_results = []
 
-    # ========================================================
-    # CORE
-    # ========================================================
-
     if source_mode in (
         SOURCE_CORE,
         SOURCE_BOTH
     ):
 
-        print(
-            "\nRetrieving from CORE..."
-        )
+        print("\nRetrieving from CORE...")
 
-        core_results = retrieve_core(
-            query
-        )
-
-    # ========================================================
-    # PATIENT
-    # ========================================================
+        core_results = retrieve_core(query)
 
     if (
-        source_mode == SOURCE_BOTH
+        source_mode in (
+            SOURCE_PATIENT,
+            SOURCE_BOTH
+        )
         and patient_pdf is not None
     ):
 
         if session_id is None:
-
             raise ValueError(
-                "session_id is required "
-                "for Patient retrieval."
+                "session_id is required for Patient retrieval."
             )
 
-        print(
-            "\nRetrieving from PATIENT..."
-        )
+        print("\nRetrieving from PATIENT...")
 
         patient_results = retrieve_patient(
             query=query,
@@ -1145,39 +1092,22 @@ def retrieve_evidence(
             session_id=session_id
         )
 
-    # ========================================================
-    # GENERATION ORDER
-    # ========================================================
-
     generation_results = build_generation_results(
         source_mode=source_mode,
         core_results=core_results,
         patient_results=patient_results
     )
 
-    # ========================================================
-    # RAW COMBINED RESULTS
-    # ========================================================
-
-    combined_results = (
-        core_results
-        +
-        patient_results
-    )
-
     return {
 
-        "source_mode":
-            source_mode,
+        "source_mode": source_mode,
 
-        "core_results":
-            core_results,
+        "core_results": core_results,
 
-        "patient_results":
-            patient_results,
+        "patient_results": patient_results,
 
         "combined_results":
-            combined_results,
+            core_results + patient_results,
 
         "generation_results":
             generation_results,
@@ -1196,14 +1126,9 @@ def attach_citations(
 
     for result in retrieved_results:
 
-        metadata = (
-            result.get("metadata")
-            or {}
-        )
+        metadata = result.get("metadata") or {}
 
-        citation = build_citation(
-            metadata
-        )
+        citation = build_citation(metadata)
 
         result["citation"] = citation
 
@@ -1237,6 +1162,173 @@ def cleanup_patient_session(
 
 
 # ============================================================
+# STANDARD REFUSAL RESULT
+# ============================================================
+
+def build_refusal_result(
+    *,
+    query: str,
+    session_id: Optional[str],
+    stage: str,
+    message: str,
+    source_mode: Optional[str] = None,
+    safety: Optional[Dict[str, Any]] = None,
+    evidence: Optional[Dict[str, Any]] = None,
+    core_results: Optional[List] = None,
+    patient_results: Optional[List] = None,
+    retrieved_results: Optional[List] = None,
+) -> Dict[str, Any]:
+
+    return {
+
+        "status": "refused",
+
+        "stage": stage,
+
+        "query": query,
+
+        "session_id": session_id,
+
+        "source_mode": source_mode,
+
+        "safety": safety,
+
+        "evidence": evidence,
+
+        "core_results": core_results or [],
+
+        "patient_results": patient_results or [],
+
+        "retrieved_results":
+            retrieved_results or [],
+
+        "citations": [],
+
+        "grounded_prompt": None,
+
+        "answer": message,
+
+        "generation": None,
+    }
+
+
+# ============================================================
+# GROUNDED FALLBACK ANSWER
+# ============================================================
+
+def build_fallback_answer(
+    query: str,
+    retrieved_results: List[Dict[str, Any]],
+    citations: List[str],
+    source_mode: str
+) -> str:
+    """
+    Safe fallback when the LLM is unavailable.
+
+    Uses only retrieved evidence.
+    Never adds external medical knowledge.
+    """
+
+    if not retrieved_results:
+        return (
+            "I couldn't find enough relevant evidence "
+            "to answer this question confidently."
+        )
+
+    # Patient-specific value question
+    normalized = normalize_query(query)
+
+    if (
+        source_mode == SOURCE_BOTH
+        and (
+            "fev1" in normalized
+            or "fvc" in normalized
+            or "tlco" in normalized
+            or "kco" in normalized
+            or "pef" in normalized
+        )
+    ):
+
+        patient_results = [
+            result
+            for result in retrieved_results
+            if result.get("source_type") == SOURCE_PATIENT
+        ]
+
+        if patient_results:
+
+            evidence_text = " ".join(
+                result.get("text", "")
+                for result in patient_results[:2]
+            )
+
+            # FEV1
+            if "fev1" in normalized:
+
+                import re
+
+                match = re.search(
+                    r"FEV1\s*(?:\(L\))?\s*[^%\n]*?(\d{2,3})%",
+                    evidence_text,
+                    re.IGNORECASE
+                )
+
+                if match:
+
+                    value = match.group(1)
+
+                    return (
+                        f"According to the uploaded report, "
+                        f"your FEV1 is {value}% predicted.\n\n"
+                        f"This answer is based only on the "
+                        f"patient report evidence retrieved "
+                        f"for your question.\n\n"
+                        f"Citations:\n"
+                        + "\n".join(
+                            f"- {citation}"
+                            for citation in citations
+                            if "pulmonary_function_report" in citation
+                        )
+                    )
+
+    # General grounded fallback
+    selected = retrieved_results[:3]
+
+    answer_parts = [
+        "Based on the retrieved evidence:"
+    ]
+
+    for result in selected:
+
+        text = result.get("text", "").strip()
+
+        if not text:
+            continue
+
+        # Keep fallback concise
+        if len(text) > 700:
+            text = text[:700].rstrip() + "..."
+
+        answer_parts.append(
+            f"\n{text}"
+        )
+
+    if citations:
+
+        answer_parts.append(
+            "\n\nCitations:"
+        )
+
+        for citation in citations[:5]:
+
+            answer_parts.append(
+                f"- {citation}"
+            )
+
+    return "\n".join(answer_parts)
+
+
+# ============================================================
 # MAIN PIPELINE
 # ============================================================
 
@@ -1254,15 +1346,9 @@ def run_pipeline(
 
     patient_path = None
 
-    # ========================================================
-    # PATIENT PDF
-    # ========================================================
-
     if patient_pdf:
 
-        patient_path = Path(
-            patient_pdf
-        )
+        patient_path = Path(patient_pdf)
 
         if not patient_path.exists():
 
@@ -1278,18 +1364,9 @@ def run_pipeline(
     # 1. SAFETY
     # ========================================================
 
-    print(
-        "\n"
-        + "=" * 75
-    )
-
-    print(
-        "1. SAFETY CHECK"
-    )
-
-    print(
-        "=" * 75
-    )
+    print("\n" + "=" * 75)
+    print("1. SAFETY CHECK")
+    print("=" * 75)
 
     safety_result = safety_check(
         query=query,
@@ -1298,40 +1375,62 @@ def run_pipeline(
         )
     )
 
-    if not safety_result[
-        "retrieval_allowed"
-    ]:
+    if not safety_result["retrieval_allowed"]:
 
-        return {
+        print("\nSAFETY REFUSAL.")
 
-            "status": "refused",
-            "stage": "safety",
-            "query": query,
-            "session_id": session_id,
-            "source_mode": None,
-            "safety": safety_result,
-            "evidence": None,
-            "citations": [],
-            "retrieved_results": [],
-            "answer": safety_result["message"],
-        }
+        print(
+            safety_result.get(
+                "message",
+                "Request refused for safety reasons."
+            )
+        )
+
+        return build_refusal_result(
+            query=query,
+            session_id=session_id,
+            stage="safety",
+            message=safety_result["message"],
+            source_mode=None,
+            safety=safety_result,
+        )
 
     # ========================================================
-    # 2. SOURCE ROUTING + RETRIEVAL
+    # 2. SCOPE
     # ========================================================
 
-    print(
-        "\n"
-        + "=" * 75
-    )
+    print("\n" + "=" * 75)
+    print("2. SCOPE CHECK")
+    print("=" * 75)
 
-    print(
-        "2. SOURCE ROUTING + RETRIEVAL"
-    )
+    if is_explicitly_out_of_scope(query):
 
-    print(
-        "=" * 75
-    )
+        message = (
+            "I couldn't answer this question because "
+            "the indexed guideline covers lung cancer "
+            "and does not provide evidence about the "
+            "condition mentioned in your question."
+        )
+
+        print("\nOUT-OF-SCOPE REFUSAL.")
+        print(message)
+
+        return build_refusal_result(
+            query=query,
+            session_id=session_id,
+            stage="scope",
+            message=message,
+            source_mode=SOURCE_CORE,
+            safety=safety_result,
+        )
+
+    # ========================================================
+    # 3. RETRIEVAL
+    # ========================================================
+
+    print("\n" + "=" * 75)
+    print("3. SOURCE ROUTING + RETRIEVAL")
+    print("=" * 75)
 
     retrieval_data = retrieve_evidence(
         query=query,
@@ -1339,26 +1438,13 @@ def run_pipeline(
         session_id=session_id,
     )
 
-    source_mode = retrieval_data[
-        "source_mode"
-    ]
+    source_mode = retrieval_data["source_mode"]
 
-    core_results = retrieval_data[
-        "core_results"
-    ]
+    core_results = retrieval_data["core_results"]
 
-    patient_results = retrieval_data[
-        "patient_results"
-    ]
+    patient_results = retrieval_data["patient_results"]
 
-    # ========================================================
-    # IMPORTANT:
-    # Use patient-first ordering for generation.
-    # ========================================================
-
-    generation_results = retrieval_data[
-        "generation_results"
-    ]
+    generation_results = retrieval_data["generation_results"]
 
     print(
         f"\nSource mode: {source_mode}"
@@ -1396,10 +1482,7 @@ def run_pipeline(
             start=1
         ):
 
-            metadata = (
-                item.get("metadata")
-                or {}
-            )
+            metadata = item.get("metadata") or {}
 
             print(
                 f"\n[{index}] "
@@ -1433,9 +1516,7 @@ def run_pipeline(
                 )
             )
 
-            print(
-                "Text:"
-            )
+            print("Text:")
 
             print(
                 item.get(
@@ -1445,179 +1526,141 @@ def run_pipeline(
             )
 
     # ========================================================
-    # 3. NO EVIDENCE
+    # 4. NO EVIDENCE
     # ========================================================
 
     if not generation_results:
 
-        return {
-
-            "status": "refused",
-            "stage": "retrieval",
-            "query": query,
-            "session_id": session_id,
-            "source_mode": source_mode,
-            "safety": safety_result,
-            "evidence": None,
-            "citations": [],
-            "core_results": core_results,
-            "patient_results": patient_results,
-            "retrieved_results": [],
-            "answer": (
+        return build_refusal_result(
+            query=query,
+            session_id=session_id,
+            stage="retrieval",
+            message=(
                 "I couldn't find enough relevant "
                 "evidence to answer this question "
                 "confidently."
             ),
-        }
+            source_mode=source_mode,
+            safety=safety_result,
+            core_results=core_results,
+            patient_results=patient_results,
+        )
 
     # ========================================================
-    # 4. EVIDENCE CHECK
+    # 5. EVIDENCE CHECK
     # ========================================================
 
-    print(
-        "\n"
-        + "=" * 75
-    )
-
-    print(
-        "3. EVIDENCE CHECK"
-    )
-
-    print(
-        "=" * 75
-    )
+    print("\n" + "=" * 75)
+    print("4. EVIDENCE CHECK")
+    print("=" * 75)
 
     evidence_result = check_refusal(
         query=query,
         retrieved_results=generation_results,
     )
 
+    print(
+        "Evidence decision:",
+        evidence_result.get("decision")
+    )
+
     if (
-        evidence_result["decision"]
+        evidence_result.get("decision")
         == "insufficient"
     ):
 
-        return {
+        print("\nEVIDENCE REFUSAL.")
 
-            "status": "refused",
-            "stage": "evidence",
-            "query": query,
-            "session_id": session_id,
-            "source_mode": source_mode,
-            "safety": safety_result,
-            "evidence": evidence_result,
-            "citations": [],
-            "core_results": core_results,
-            "patient_results": patient_results,
-            "retrieved_results": generation_results,
-            "answer": (
+        return build_refusal_result(
+            query=query,
+            session_id=session_id,
+            stage="evidence",
+            message=(
                 "I couldn't find enough relevant "
                 "evidence to answer this question "
                 "confidently."
             ),
-        }
+            source_mode=source_mode,
+            safety=safety_result,
+            evidence=evidence_result,
+            core_results=core_results,
+            patient_results=patient_results,
+            retrieved_results=generation_results,
+        )
 
     # ========================================================
-    # 5. CITATIONS
+    # 6. CITATIONS
     # ========================================================
 
-    print(
-        "\n"
-        + "=" * 75
-    )
-
-    print(
-        "4. CITATIONS"
-    )
-
-    print(
-        "=" * 75
-    )
+    print("\n" + "=" * 75)
+    print("5. CITATIONS")
+    print("=" * 75)
 
     citations = attach_citations(
         generation_results
     )
 
     # ========================================================
-    # 6. GROUNDED PROMPT
+    # 7. GROUNDED PROMPT
     # ========================================================
 
-    print(
-        "\n"
-        + "=" * 75
-    )
+    print("\n" + "=" * 75)
+    print("6. GROUNDED PROMPT")
+    print("=" * 75)
 
-    print(
-        "5. GROUNDED PROMPT"
-    )
+    persona = safety_result["persona"]
 
-    print(
-        "=" * 75
-    )
-
-    persona = safety_result[
-        "persona"
-    ]
-
-    if hasattr(
-        persona,
-        "value"
-    ):
-
+    if hasattr(persona, "value"):
         persona = persona.value
-
-    # ========================================================
-    # PATIENT PRIORITY INSTRUCTION
-    # ========================================================
 
     patient_priority_instruction = ""
 
     if source_mode == SOURCE_BOTH:
 
         patient_priority_instruction = """
-IMPORTANT PATIENT-SPECIFIC RULE:
+============================================================
+PATIENT-FIRST RULE
+============================================================
 
-The user has uploaded a patient report and is
-asking about their personal result.
+The user has an uploaded patient report.
 
-PATIENT evidence has the highest priority.
+PATIENT evidence is the primary source for
+patient-specific facts.
 
-If the patient's uploaded report contains the
-requested measurement, value, result, finding,
-or interpretation, answer from the PATIENT
-evidence.
+If the patient report contains:
+- a measurement
+- a test result
+- a finding
+- an interpretation
+- a value
 
-DO NOT replace the patient's actual value with
-a general NICE guideline definition.
+use the patient's actual result.
 
-CORE/NICE evidence may be used only as secondary
-context or explanation.
+Do NOT replace a patient value with a NICE
+guideline value.
 
-If the requested patient value is not present
-in the patient evidence, explicitly say that the
-specific value was not found.
+CORE/NICE evidence is secondary context.
 
-Never invent or estimate a patient value.
+Use CORE/NICE to explain what a patient result
+means medically when appropriate.
+
+If the patient value is NOT found:
+say clearly that the specific value was
+not found in the uploaded report.
+
+NEVER invent, estimate, or infer a missing
+patient value.
+============================================================
 """
-
-    # ========================================================
-    # BUILD GROUNDED PROMPT
-    # ========================================================
 
     grounded_prompt = build_grounded_prompt(
         query=query,
         retrieved_results=generation_results,
         persona=persona,
-        evidence_level=(
-            evidence_result[
-                "evidence_level"
-            ]
-        ),
+        evidence_level=evidence_result[
+            "evidence_level"
+        ],
     )
-
-    # Add patient-priority instruction AFTER
-    # the generated grounded prompt so it cannot
-    # be ignored by the generic prompt.
 
     if patient_priority_instruction:
 
@@ -1628,29 +1671,157 @@ Never invent or estimate a patient value.
         )
 
     # ========================================================
-    # 7. GENERATION
+    # 8. LLM GENERATION
     # ========================================================
 
-    print(
-        "\n"
-        + "=" * 75
-    )
+    print("\n" + "=" * 75)
+    print("7. LLM GENERATION")
+    print("=" * 75)
 
-    print(
-        "6. LLM GENERATION"
-    )
+    try:
 
-    print(
-        "=" * 75
-    )
+        generation_result = generate_answer(
+            grounded_prompt=grounded_prompt
+        )
 
-    generation_result = generate_answer(
-        grounded_prompt=grounded_prompt
-    )
+    except Exception as error:
+
+        error_text = str(error)
+
+        quota_error = (
+            "429" in error_text
+            or
+            "RESOURCE_EXHAUSTED" in error_text
+            or
+            "quota" in error_text.lower()
+        )
+
+        if quota_error:
+
+            print(
+                "\nWARNING: LLM quota exhausted."
+            )
+
+            print(
+                "Using grounded evidence fallback."
+            )
+
+            fallback_answer = build_fallback_answer(
+                query=query,
+                retrieved_results=generation_results,
+                citations=citations,
+                source_mode=source_mode
+            )
+
+            return {
+
+                "status": "success",
+
+                "stage": "generation_fallback",
+
+                "reason": "llm_quota_exhausted",
+
+                "query": query,
+
+                "session_id": session_id,
+
+                "source_mode": source_mode,
+
+                "safety": safety_result,
+
+                "evidence": evidence_result,
+
+                "core_results": core_results,
+
+                "patient_results": patient_results,
+
+                "generation_results":
+                    generation_results,
+
+                "retrieved_results":
+                    generation_results,
+
+                "citations": citations,
+
+                "grounded_prompt":
+                    grounded_prompt,
+
+                "answer":
+                    fallback_answer,
+
+                "generation": {
+
+                    "mode": "grounded_fallback",
+
+                    "llm_available": False,
+
+                    "error": error_text,
+                },
+            }
+
+        raise
 
     # ========================================================
-    # 8. FINAL RESULT
+    # 9. FINAL RESULT
     # ========================================================
+
+    answer = generation_result.get(
+        "answer"
+    )
+
+    # Prevent empty successful answers
+    if not answer or not str(answer).strip():
+
+        print(
+            "\nWARNING: LLM returned an empty answer."
+        )
+
+        fallback_answer = build_fallback_answer(
+            query=query,
+            retrieved_results=generation_results,
+            citations=citations,
+            source_mode=source_mode
+        )
+
+        return {
+
+            "status": "success",
+
+            "stage": "generation_fallback",
+
+            "reason": "empty_llm_answer",
+
+            "query": query,
+
+            "session_id": session_id,
+
+            "source_mode": source_mode,
+
+            "safety": safety_result,
+
+            "evidence": evidence_result,
+
+            "core_results": core_results,
+
+            "patient_results": patient_results,
+
+            "generation_results":
+                generation_results,
+
+            "retrieved_results":
+                generation_results,
+
+            "citations": citations,
+
+            "grounded_prompt":
+                grounded_prompt,
+
+            "answer":
+                fallback_answer,
+
+            "generation":
+                generation_result,
+        }
 
     return {
 
@@ -1672,7 +1843,6 @@ Never invent or estimate a patient value.
 
         "patient_results": patient_results,
 
-        # Patient-first results used by LLM
         "generation_results":
             generation_results,
 
@@ -1685,9 +1855,7 @@ Never invent or estimate a patient value.
             grounded_prompt,
 
         "answer":
-            generation_result[
-                "answer"
-            ],
+            answer,
 
         "generation":
             generation_result,
@@ -1702,18 +1870,9 @@ def print_pipeline_result(
     result: Dict[str, Any]
 ):
 
-    print(
-        "\n"
-        + "=" * 75
-    )
-
-    print(
-        "PULMO GUIDE - PIPELINE RESULT"
-    )
-
-    print(
-        "=" * 75
-    )
+    print("\n" + "=" * 75)
+    print("PULMO GUIDE - PIPELINE RESULT")
+    print("=" * 75)
 
     print(
         "\nStatus:",
@@ -1735,22 +1894,16 @@ def print_pipeline_result(
         result.get("session_id")
     )
 
-    # ========================================================
-    # CORE
-    # ========================================================
+    if result.get("reason"):
 
-    print(
-        "\n"
-        + "-" * 75
-    )
+        print(
+            "Reason:",
+            result.get("reason")
+        )
 
-    print(
-        "CORE RESULTS"
-    )
-
-    print(
-        "-" * 75
-    )
+    print("\n" + "-" * 75)
+    print("CORE RESULTS")
+    print("-" * 75)
 
     core_results = result.get(
         "core_results",
@@ -1762,10 +1915,7 @@ def print_pipeline_result(
 
     for item in core_results:
 
-        metadata = (
-            item.get("metadata")
-            or {}
-        )
+        metadata = item.get("metadata") or {}
 
         print(
             item.get("chunk_id"),
@@ -1789,22 +1939,9 @@ def print_pipeline_result(
             )
         )
 
-    # ========================================================
-    # PATIENT
-    # ========================================================
-
-    print(
-        "\n"
-        + "-" * 75
-    )
-
-    print(
-        "PATIENT RESULTS"
-    )
-
-    print(
-        "-" * 75
-    )
+    print("\n" + "-" * 75)
+    print("PATIENT RESULTS")
+    print("-" * 75)
 
     patient_results = result.get(
         "patient_results",
@@ -1816,10 +1953,7 @@ def print_pipeline_result(
 
     for item in patient_results:
 
-        metadata = (
-            item.get("metadata")
-            or {}
-        )
+        metadata = item.get("metadata") or {}
 
         print(
             item.get("chunk_id"),
@@ -1843,22 +1977,9 @@ def print_pipeline_result(
             )
         )
 
-    # ========================================================
-    # CITATIONS
-    # ========================================================
-
-    print(
-        "\n"
-        + "-" * 75
-    )
-
-    print(
-        "CITATIONS"
-    )
-
-    print(
-        "-" * 75
-    )
+    print("\n" + "-" * 75)
+    print("CITATIONS")
+    print("-" * 75)
 
     citations = result.get(
         "citations",
@@ -1871,22 +1992,9 @@ def print_pipeline_result(
     for citation in citations:
         print(citation)
 
-    # ========================================================
-    # ANSWER
-    # ========================================================
-
-    print(
-        "\n"
-        + "-" * 75
-    )
-
-    print(
-        "FINAL ANSWER"
-    )
-
-    print(
-        "-" * 75
-    )
+    print("\n" + "-" * 75)
+    print("FINAL ANSWER")
+    print("-" * 75)
 
     print(
         result.get(
@@ -1895,10 +2003,7 @@ def print_pipeline_result(
         )
     )
 
-    print(
-        "\n"
-        + "=" * 75
-    )
+    print("\n" + "=" * 75)
 
 
 # ============================================================
@@ -1907,17 +2012,11 @@ def print_pipeline_result(
 
 if __name__ == "__main__":
 
-    print(
-        "=" * 75
-    )
-
+    print("=" * 75)
     print(
         "PULMO GUIDE - END-TO-END PIPELINE TEST"
     )
-
-    print(
-        "=" * 75
-    )
+    print("=" * 75)
 
     # ========================================================
     # TEST 1 - CORE
@@ -1929,26 +2028,9 @@ if __name__ == "__main__":
         "with curative intent?"
     )
 
-    print(
-        "\n"
-        + "=" * 75
-    )
-
-    print(
-        "TEST 1 - CORE"
-    )
-
-    print(
-        "=" * 75
-    )
-
-    print(
-        "\nQuery:"
-    )
-
-    print(
-        test_query
-    )
+    print("\n" + "=" * 75)
+    print("TEST 1 - CORE")
+    print("=" * 75)
 
     try:
 
@@ -1957,15 +2039,11 @@ if __name__ == "__main__":
             patient_pdf=None
         )
 
-        print_pipeline_result(
-            result
-        )
+        print_pipeline_result(result)
 
     except Exception as error:
 
-        print(
-            "\nCORE PIPELINE ERROR:"
-        )
+        print("\nCORE PIPELINE ERROR:")
 
         print(
             type(error).__name__,
@@ -1974,7 +2052,7 @@ if __name__ == "__main__":
         )
 
     # ========================================================
-    # TEST 2 - PATIENT
+    # TEST 2 - PATIENT VALUE
     # ========================================================
 
     patient_pdf = (
@@ -1985,62 +2063,29 @@ if __name__ == "__main__":
         / "pulmonary_function_report.pdf"
     )
 
-    patient_query = (
-        "What is my FEV1?"
-    )
+    session_id = "test_patient_001"
 
-    print(
-        "\n"
-        + "=" * 75
-    )
+    patient_query_1 = "What is my FEV1?"
 
-    print(
-        "TEST 2 - PATIENT"
-    )
-
-    print(
-        "=" * 75
-    )
-
-    print(
-        "\nPatient PDF:"
-    )
-
-    print(
-        patient_pdf
-    )
-
-    print(
-        "\nPatient Query:"
-    )
-
-    print(
-        patient_query
-    )
+    print("\n" + "=" * 75)
+    print("TEST 2 - PATIENT VALUE")
+    print("=" * 75)
 
     if patient_pdf.exists():
 
         try:
 
             result = run_pipeline(
-                query=patient_query,
-                patient_pdf=str(
-                    patient_pdf
-                ),
-                session_id=(
-                    "test_patient_001"
-                )
+                query=patient_query_1,
+                patient_pdf=str(patient_pdf),
+                session_id=session_id
             )
 
-            print_pipeline_result(
-                result
-            )
+            print_pipeline_result(result)
 
         except Exception as error:
 
-            print(
-                "\nPATIENT PIPELINE ERROR:"
-            )
+            print("\nPATIENT PIPELINE ERROR:")
 
             print(
                 type(error).__name__,
@@ -2051,63 +2096,76 @@ if __name__ == "__main__":
     else:
 
         print(
-            "\nPatient test skipped."
-        )
-
-        print(
-            "PDF not found:"
-        )
-
-        print(
+            "\nPatient PDF not found:",
             patient_pdf
         )
 
     # ========================================================
-    # TEST INFORMATION
+    # TEST 3 - PATIENT FOLLOW-UP
     # ========================================================
 
-    print(
-        "\n"
-        + "=" * 75
+    patient_query_2 = (
+        "What does this result mean?"
     )
 
-    print(
-        "TEST COMPLETED"
+    print("\n" + "=" * 75)
+    print("TEST 3 - PATIENT FOLLOW-UP")
+    print("=" * 75)
+
+    if patient_pdf.exists():
+
+        try:
+
+            result = run_pipeline(
+                query=patient_query_2,
+                patient_pdf=str(patient_pdf),
+                session_id=session_id
+            )
+
+            print_pipeline_result(result)
+
+        except Exception as error:
+
+            print("\nPATIENT FOLLOW-UP ERROR:")
+
+            print(
+                type(error).__name__,
+                ":",
+                str(error)
+            )
+
+    # ========================================================
+    # TEST 4 - OUT OF SCOPE
+    # ========================================================
+
+    out_of_scope_query = (
+        "What is the recommended treatment "
+        "for pancreatic cancer according to this guideline?"
     )
 
-    print(
-        "=" * 75
-    )
+    print("\n" + "=" * 75)
+    print("TEST 4 - OUT OF SCOPE / REFUSAL")
+    print("=" * 75)
 
-    print(
-        """
-Patient PDF filename can be anything.
+    try:
 
-The pipeline identifies the document using:
+        result = run_pipeline(
+            query=out_of_scope_query,
+            patient_pdf=None
+        )
 
-    session_id
-        +
-    document hash
+        print_pipeline_result(result)
 
-Patient data is cached temporarily.
+    except Exception as error:
 
-Patient data is NEVER inserted
-into Core ChromaDB.
+        print("\nOUT-OF-SCOPE TEST ERROR:")
 
-Core:
-    NICE NG122
-    ChromaDB
+        print(
+            type(error).__name__,
+            ":",
+            str(error)
+        )
 
-Patient:
-    Uploaded PDF
-    Temporary cache
-    Direct hybrid retrieval
-
-Patient retrieval:
-    Semantic 70%
-    BM25 30%
-
-For patient-specific questions:
-    PATIENT evidence has priority.
-"""
-    )
+    print("\n" + "=" * 75)
+    print("TESTS COMPLETED")
+    print("=" * 75)
