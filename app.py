@@ -72,29 +72,85 @@ st.markdown(
     """
     <style>
 
+    /* Medical color palette: teal / soft blue, calm and clinical */
+    :root {
+        --pulmo-primary: #0f766e;      /* deep teal */
+        --pulmo-primary-light: #14b8a6;/* teal accent */
+        --pulmo-secondary: #2563eb;    /* clinical blue */
+        --pulmo-bg-soft: #ecfeff;      /* pale cyan background */
+        --pulmo-bg-soft-2: #eff6ff;    /* pale blue background */
+        --pulmo-warning-bg: #fff7ed;
+        --pulmo-warning-border: #fb923c;
+        --pulmo-text: #0f172a;
+    }
+
+    .stApp {
+        background: linear-gradient(180deg, #f0fdfa 0%, #ffffff 320px);
+    }
+
     .main-title {
         text-align: center;
         font-size: 42px;
         font-weight: 700;
         margin-bottom: 5px;
+        background: linear-gradient(90deg, var(--pulmo-primary), var(--pulmo-secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 
     .subtitle {
         text-align: center;
         font-size: 17px;
         margin-bottom: 30px;
+        color: #475569;
     }
 
     .source-box {
         padding: 15px;
         border-radius: 10px;
         margin-top: 10px;
+        background-color: var(--pulmo-bg-soft-2);
+        border: 1px solid #bfdbfe;
     }
 
     .warning-box {
         padding: 15px;
         border-radius: 10px;
         margin-top: 15px;
+        background-color: var(--pulmo-warning-bg);
+        border: 1px solid var(--pulmo-warning-border);
+    }
+
+    /* Sidebar styling */
+    section[data-testid="stSidebar"] {
+        background-color: var(--pulmo-bg-soft);
+        border-right: 1px solid #99f6e4;
+    }
+
+    section[data-testid="stSidebar"] h2 {
+        color: var(--pulmo-primary);
+    }
+
+    /* Buttons */
+    .stButton>button, .stFileUploader button, div[data-testid="stChatInput"] button {
+        background-color: var(--pulmo-primary) !important;
+        color: white !important;
+        border: none !important;
+    }
+
+    .stButton>button:hover, .stFileUploader button:hover {
+        background-color: var(--pulmo-primary-light) !important;
+    }
+
+    /* Divider color */
+    hr {
+        border-color: #99f6e4 !important;
+    }
+
+    /* Subheaders */
+    h3 {
+        color: var(--pulmo-primary);
     }
 
     </style>
@@ -108,7 +164,7 @@ st.markdown(
 # ============================================================
 
 st.markdown(
-    '<div class="main-title">🫁 Pulmo Guide</div>',
+    '<div class="main-title">💝 Pulmo Guide</div>',
     unsafe_allow_html=True,
 )
 
