@@ -74,18 +74,22 @@ st.markdown(
 
     /* Medical color palette: teal / soft blue, calm and clinical */
     :root {
-        --pulmo-primary: #0f766e;      /* deep teal */
-        --pulmo-primary-light: #14b8a6;/* teal accent */
-        --pulmo-secondary: #2563eb;    /* clinical blue */
-        --pulmo-bg-soft: #ecfeff;      /* pale cyan background */
-        --pulmo-bg-soft-2: #eff6ff;    /* pale blue background */
+        --pulmo-primary: #0f766e;
+        --pulmo-primary-light: #14b8a6;
+        --pulmo-secondary: #2563eb;
+        --pulmo-bg-soft: #ecfeff;
+        --pulmo-bg-soft-2: #eff6ff;
         --pulmo-warning-bg: #fff7ed;
         --pulmo-warning-border: #fb923c;
         --pulmo-text: #0f172a;
     }
 
     .stApp {
-        background: linear-gradient(180deg, #f0fdfa 0%, #ffffff 320px);
+        background: linear-gradient(
+            180deg,
+            #f0fdfa 0%,
+            #ffffff 320px
+        );
     }
 
     .main-title {
@@ -93,7 +97,11 @@ st.markdown(
         font-size: 42px;
         font-weight: 700;
         margin-bottom: 5px;
-        background: linear-gradient(90deg, var(--pulmo-primary), var(--pulmo-secondary));
+        background: linear-gradient(
+            90deg,
+            var(--pulmo-primary),
+            var(--pulmo-secondary)
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -133,13 +141,16 @@ st.markdown(
     }
 
     /* Buttons */
-    .stButton>button, .stFileUploader button, div[data-testid="stChatInput"] button {
+    .stButton>button,
+    .stFileUploader button,
+    div[data-testid="stChatInput"] button {
         background-color: var(--pulmo-primary) !important;
         color: white !important;
         border: none !important;
     }
 
-    .stButton>button:hover, .stFileUploader button:hover {
+    .stButton>button:hover,
+    .stFileUploader button:hover {
         background-color: var(--pulmo-primary-light) !important;
     }
 
@@ -324,17 +335,56 @@ for message in st.session_state.messages:
             message["content"]
         )
 
-        if message.get("citations"):
+        # ----------------------------------------------------
+        # Only display citations/sources for valid answers.
+        # Refused and out-of-scope messages contain none.
+        # ----------------------------------------------------
 
-            st.markdown(
-                "**Sources**"
+        if message.get("display_evidence", False):
+
+            citations = message.get(
+                "citations",
+                []
             )
 
-            for citation in message["citations"]:
+            sources = message.get(
+                "sources",
+                []
+            )
+
+
+            # ------------------------------------------------
+            # CITATIONS
+            # ------------------------------------------------
+
+            if citations:
 
                 st.markdown(
-                    f"- {citation}"
+                    "**Citations**"
                 )
+
+                for citation in citations:
+
+                    st.markdown(
+                        f"- {citation}"
+                    )
+
+
+            # ------------------------------------------------
+            # SOURCES
+            # ------------------------------------------------
+
+            if sources:
+
+                st.markdown(
+                    "### Sources"
+                )
+
+                for source in sources:
+
+                    st.markdown(
+                        f"- {source}"
+                    )
 
 
 # ============================================================
@@ -414,39 +464,100 @@ if query:
                     []
                 )
 
+                sources = result.get(
+                    "sources",
+                    []
+                )
+
 
                 # ====================================================
-                # DISPLAY ANSWER
+                # REFUSAL / OUT-OF-SCOPE
                 # ====================================================
 
-                if status == "refused":
+                if status in {
+                    "refused",
+                    "out_of_scope",
+                }:
+
+                    # IMPORTANT:
+                    #
+                    # For refused / out-of-scope questions:
+                    #
+                    #     Message ONLY
+                    #
+                    # No citations.
+                    # No sources.
+                    # No retrieved resources.
+                    # No evidence section.
 
                     st.warning(
                         answer
                     )
 
+                    display_evidence = False
+
+                    saved_citations = []
+
+                    saved_sources = []
+
+
+                # ====================================================
+                # VALID LUNG-CANCER ANSWER
+                # ====================================================
+
                 else:
+
+                    # Valid answer:
+                    #
+                    #     Answer
+                    #       ↓
+                    #     Citations
+                    #       ↓
+                    #     Sources
 
                     st.markdown(
                         answer
                     )
 
+                    display_evidence = True
 
-                # ====================================================
-                # DISPLAY SOURCES
-                # ====================================================
+                    saved_citations = citations
 
-                if citations:
+                    saved_sources = sources
 
-                    st.markdown(
-                        "### Sources"
-                    )
 
-                    for citation in citations:
+                    # ====================================================
+                    # DISPLAY CITATIONS
+                    # ====================================================
+
+                    if citations:
 
                         st.markdown(
-                            f"- {citation}"
+                            "**Citations**"
                         )
+
+                        for citation in citations:
+
+                            st.markdown(
+                                f"- {citation}"
+                            )
+
+
+                    # ====================================================
+                    # DISPLAY SOURCES
+                    # ====================================================
+
+                    if sources:
+
+                        st.markdown(
+                            "### Sources"
+                        )
+
+                        for source in sources:
+
+                            st.markdown(
+                                f"- {source}"
+                            )
 
 
                 # ====================================================
@@ -456,8 +567,15 @@ if query:
                 st.session_state.messages.append(
                     {
                         "role": "assistant",
+
                         "content": answer,
-                        "citations": citations,
+
+                        "citations": saved_citations,
+
+                        "sources": saved_sources,
+
+                        "display_evidence":
+                            display_evidence,
                     }
                 )
 
@@ -479,8 +597,14 @@ if query:
                 st.session_state.messages.append(
                     {
                         "role": "assistant",
+
                         "content": error_message,
+
                         "citations": [],
+
+                        "sources": [],
+
+                        "display_evidence": False,
                     }
                 )
 
