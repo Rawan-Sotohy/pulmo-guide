@@ -533,7 +533,7 @@ if query:
                     if citations:
 
                         st.markdown(
-                            "**Citations**"
+                            "**Sources**"
                         )
 
                         for citation in citations:
